@@ -1,53 +1,12 @@
 <!DOCTYPE html><html>
 <head>
-<title>Book Appointment</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#f4f7f6;
-text-align:center;
-}
+<title>Appointment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body><div class="header">Select Slot</div><div class="container"><div class="card">10:00 AM</div>
+<div class="card">12:30 PM</div>
+<div class="card">3:00 PM</div><button onclick="confirmAppointment()">Confirm Booking</button>
 
-.header{
-background:linear-gradient(135deg,#2e7d32,#66bb6a);
-color:white;
-padding:22px;
-font-size:24px;
-border-bottom-left-radius:20px;
-border-bottom-right-radius:20px;
-}
-
-.container{
-padding:20px;
-}
-
-.slot{
-background:white;
-margin:12px;
-padding:18px;
-border-radius:14px;
-box-shadow:0 5px 12px rgba(0,0,0,0.08);
-font-size:18px;
-}
-
-button{
-background:#1565c0;
-color:white;
-border:none;
-padding:16px 25px;
-border-radius:14px;
-font-size:18px;
-margin-top:20px;
-}
-</style></head><body><div class="header">Select Time Slot</div><div class="container"><div class="slot">10:00 AM</div>
-<div class="slot">11:30 AM</div>
-<div class="slot">2:00 PM</div>
-<div class="slot">4:30 PM</div><button onclick="book()">Confirm Booking</button>
-
-</div><script>
-function book(){
-alert("Appointment Booked Successfully");
-}
-</script></body>
+</div><script src="app.js"></script></body>
 </html>
