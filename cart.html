@@ -1,0 +1,10 @@
+<!DOCTYPE html><html>
+<head>
+<title>Cart</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body><div class="header">Cart</div><div class="container" id="cart"></div><script>
+let items = JSON.parse(localStorage.getItem("cart")||"[]")
+cart.innerHTML = items.map(i=>"<div class='card'>"+i+"</div>").join("")
+</script></body>
+</html>
