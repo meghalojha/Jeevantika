@@ -2,61 +2,23 @@
 <head>
 <title>Jeevantika</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-body{
-font-family: Arial;
-background:#e8f5e9;
-text-align:center;
-margin:0;
-}
-
-.container{
-margin-top:60px;
-}
-
-h1{
-color:#2e7d32;
-}
-
-button{
-padding:15px;
-margin:10px;
-font-size:18px;
-border:none;
-background:#43a047;
-color:white;
-border-radius:8px;
-cursor:pointer;
-}
-
-button:hover{
-background:#2e7d32;
-}
-
-#result{
-margin-top:20px;
-font-size:18px;
-}
-</style></head><body><div class="container">
-<h1>Welcome to Jeevantika</h1><button onclick="callEmergency()">🚑 Emergency</button>
-<button onclick="showDoctors()">👨‍⚕ Doctors</button>
-<button onclick="showPharmacy()">💊 Pharmacy</button>
-
-<div id="result"></div>
+body{margin:0;font-family:Arial;background:#f1f8f4;}
+.header{background:#2e7d32;color:white;padding:20px;text-align:center;font-size:24px;}
+.container{padding:15px;}
+.card{background:white;margin-top:15px;padding:20px;border-radius:15px;
+box-shadow:0 5px 12px rgba(0,0,0,0.1);font-size:20px;}
+.navbar{position:fixed;bottom:0;width:100%;background:white;
+display:flex;justify-content:space-around;padding:10px;box-shadow:0 -3px 8px rgba(0,0,0,0.1);}
+</style></head><body><div class="header">🌿 Jeevantika</div><div class="container"><div class="card" onclick="location.href='doctors.html'">👨‍⚕ Find Doctors</div>
+<div class="card" onclick="location.href='pharmacy.html'">💊 Pharmacy</div>
+<div class="card" onclick="callEmergency()">🚑 Emergency</div></div><div class="navbar">
+<div>Home</div>
+<div onclick="location.href='doctors.html'">Doctors</div>
+<div onclick="location.href='pharmacy.html'">Pharmacy</div>
+<div onclick="location.href='profile.html'">Profile</div>
 </div><script>
-
 function callEmergency(){
 window.location.href="tel:108";
 }
-
-function showDoctors(){
-document.getElementById("result").innerHTML =
-"<h3>Available Doctors</h3><p>Dr. Mehta - 9876543210</p><p>Dr. Shah - 9876501234</p>";
-}
-
-function showPharmacy(){
-document.getElementById("result").innerHTML =
-"<h3>Nearby Pharmacy</h3><p>LifeCare Medical - 9898989898</p>";
-}
-
 </script></body>
 </html>
