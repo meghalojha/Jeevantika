@@ -1,25 +1,20 @@
 <!DOCTYPE html><html>
 <head>
 <title>Jeevantika</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="style.css"><script>
-function googleTranslateElementInit() {
-new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css"><script>
+function googleTranslateElementInit(){
+new google.translate.TranslateElement({pageLanguage:'en'},'gt')
 }
-</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></head><body><div class="header">
-🌿 Jeevantika
-<div id="google_translate_element" style="position:absolute;right:15px;top:20px;"></div>
-</div><div class="container"><div class="card" onclick="location.href='doctors.html'">
-👨‍⚕ Find Doctors ➜
-</div><div class="card" onclick="openHospital()">
-📍 Nearby Hospital ➜
-</div><div class="card" onclick="callEmergency()">
-🚑 Emergency ➜
-</div><div class="card" onclick="location.href='pharmacy.html'">
-💊 Order Medicines ➜
-</div></div><div class="navbar">
+</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></head>
+<body><div class="header">🌿 Jeevantika <div id="gt"></div></div><div class="container">
+<div class="card" onclick="location.href='doctors.html'">Find Doctors</div>
+<div class="card" onclick="hospital()">Nearby Hospital</div>
+<div class="card" onclick="emergency()">Emergency</div>
+<div class="card" onclick="location.href='pharmacy.html'">Order Medicine</div>
+</div><div class="navbar">
 <div>Home</div>
-<div onclick="location.href='doctors.html'">Doctors</div>
-<div onclick="location.href='pharmacy.html'">Pharmacy</div>
+<div onclick="location.href='cart.html'">Cart</div>
 <div onclick="location.href='profile.html'">Profile</div>
 </div><script src="app.js"></script></body>
 </html>
