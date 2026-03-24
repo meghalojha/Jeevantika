@@ -2,24 +2,106 @@
 <head>
 <title>Jeevantika</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-<body>
 
-<div style="text-align:right;padding:10px">
-<button onclick="location.href='login.html'">Login</button>
-</div>
+body{
+margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:#f4f7f6;
+}
 
-<div class="header">🌿 Jeevantika</div>
-</style></head><body><div class="header">🌿 Jeevantika</div><div class="container"><div class="card" onclick="location.href='doctors.html'">👨‍⚕ Find Doctors</div>
-<div class="card" onclick="openMap()">📍 Nearby Hospital</div>
-<div class="card" onclick="callEmergency()">🚑 Emergency</div></div><div class="navbar">
-<div>Home</div>
-<div onclick="location.href='doctors.html'">Doctors</div>
-<div onclick="location.href='pharmacy.html'">Pharmacy</div>
-<div onclick="location.href='profile.html'">Profile</div>
+/* Gradient Header */
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+color:white;
+padding:25px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.brand{
+font-size:26px;
+font-weight:bold;
+}
+
+.tagline{
+font-size:14px;
+opacity:0.9;
+margin-top:5px;
+}
+
+/* Cards */
+.container{
+padding:20px;
+margin-top:-20px;
+}
+
+.card{
+background:white;
+padding:22px;
+margin-top:18px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+font-size:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:0.3s;
+}
+
+.card:active{
+transform:scale(0.97);
+}
+
+/* Emergency Highlight */
+.emergency{
+border-left:6px solid #e53935;
+background:#fff5f5;
+}
+
+/* Floating Bottom Nav */
+.navbar{
+position:fixed;
+bottom:15px;
+left:10px;
+right:10px;
+background:white;
+border-radius:25px;
+display:flex;
+justify-content:space-around;
+padding:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+font-size:14px;
+}
+
+.navitem{
+text-align:center;
+color:#2e7d32;
+}
+
+</style></head><body><div class="header">
+<div class="brand">🌿 Jeevantika</div>
+<div class="tagline">Smart Healthcare at Your Fingertips</div>
+</div><div class="container"><div class="card" onclick="location.href='doctors.html'">
+👨‍⚕ Find Doctors
+<span>➜</span>
+</div><div class="card" onclick="openMap()">
+📍 Nearby Hospitals
+<span>➜</span>
+</div><div class="card emergency" onclick="callEmergency()">
+🚑 Emergency Help
+<span>➜</span>
+</div></div><div class="navbar">
+<div class="navitem">🏠<br>Home</div>
+<div class="navitem" onclick="location.href='doctors.html'">👨‍⚕<br>Doctors</div>
+<div class="navitem" onclick="location.href='pharmacy.html'">💊<br>Pharmacy</div>
+<div class="navitem" onclick="location.href='profile.html'">👤<br>Profile</div>
 </div><script>
 function callEmergency(){
 window.location.href="tel:108";
 }
+
 function openMap(){
 window.open("https://www.google.com/maps/search/hospital+near+me");
 }
+</script></body>
+</html>
