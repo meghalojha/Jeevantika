@@ -1,19 +1,15 @@
-<!DOCTYPE html><html>
-<head>
-<title>Doctors</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{font-family:Arial;background:#f1f8f4;margin:0;}
-.header{background:#2e7d32;color:white;padding:18px;text-align:center;font-size:22px;}
-.card{background:white;margin:15px;padding:18px;border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-button{padding:10px;background:#2e7d32;color:white;border:none;border-radius:8px;}
-</style>
-</head><body><div class="header">Doctors</div><div class="card">
-Dr. Mehta (Cardiologist)<br>
-<button onclick="window.location.href='tel:9876543210'">Call</button>
-</div><div class="card">
-Dr. Shah (Dentist)<br>
-<button onclick="window.location.href='tel:9876501234'">Call</button>
-</div></body>
-</html>
+<input type="text" id="search" placeholder="Search doctor..."
+onkeyup="searchDoctor()" style="width:90%;padding:12px;margin:15px;border-radius:8px;border:1px solid grey">
+
+<div class="card doctor">Dr. Mehta (Cardiologist)</div>
+<div class="card doctor">Dr. Shah (Dentist)</div><script>
+function searchDoctor(){
+let input = document.getElementById("search").value.toLowerCase();
+let doctors = document.getElementsByClassName("doctor");
+
+for(let i=0;i<doctors.length;i++){
+let text = doctors[i].innerText.toLowerCase();
+doctors[i].style.display = text.includes(input) ? "block" : "none";
+}
+}
+</script>
