@@ -1,0 +1,39 @@
+body{
+font-family:Segoe UI;
+background:#f4f7f6;
+margin:0;
+}
+
+.center{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:15px;
+width:80%;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+input{
+width:90%;
+padding:12px;
+margin:8px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:12px;
+margin-top:10px;
+font-size:16px;
+}
