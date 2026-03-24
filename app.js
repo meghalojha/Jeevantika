@@ -1,15 +1,18 @@
-function callEmergency(){
-window.location.href="tel:108"
-}
+function emergency(){window.location.href="tel:108"}
 
-function openHospital(){
-window.open("https://www.google.com/maps/search/hospital+near+me")
+function hospital(){window.open("https://www.google.com/maps/search/hospital+near+me")}
+
+function addCart(name){
+let c=JSON.parse(localStorage.getItem("cart")||"[]")
+c.push(name)
+localStorage.setItem("cart",JSON.stringify(c))
+alert("Added to Cart")
 }
 
 function confirmAppointment(){
-alert("Appointment Booked Successfully")
-}
-
-function addMedicine(){
-alert("Medicine Added to Cart")
+db.collection("appointments").add({
+doctor:"Mehta",
+time:"10AM",
+user:auth.currentUser.email
+}).then(()=>alert("Booked"))
 }
