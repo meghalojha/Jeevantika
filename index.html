@@ -1,0 +1,62 @@
+<!DOCTYPE html><html>
+<head>
+<title>Jeevantika</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+body{
+font-family: Arial;
+background:#e8f5e9;
+text-align:center;
+margin:0;
+}
+
+.container{
+margin-top:60px;
+}
+
+h1{
+color:#2e7d32;
+}
+
+button{
+padding:15px;
+margin:10px;
+font-size:18px;
+border:none;
+background:#43a047;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2e7d32;
+}
+
+#result{
+margin-top:20px;
+font-size:18px;
+}
+</style></head><body><div class="container">
+<h1>Welcome to Jeevantika</h1><button onclick="callEmergency()">🚑 Emergency</button>
+<button onclick="showDoctors()">👨‍⚕ Doctors</button>
+<button onclick="showPharmacy()">💊 Pharmacy</button>
+
+<div id="result"></div>
+</div><script>
+
+function callEmergency(){
+window.location.href="tel:108";
+}
+
+function showDoctors(){
+document.getElementById("result").innerHTML =
+"<h3>Available Doctors</h3><p>Dr. Mehta - 9876543210</p><p>Dr. Shah - 9876501234</p>";
+}
+
+function showPharmacy(){
+document.getElementById("result").innerHTML =
+"<h3>Nearby Pharmacy</h3><p>LifeCare Medical - 9898989898</p>";
+}
+
+</script></body>
+</html>
