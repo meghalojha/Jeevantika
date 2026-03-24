@@ -1,14 +1,14 @@
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
-background:#f2f6f5;
+background:#f4f7f6;
 }
 
 .header{
 background:linear-gradient(135deg,#1b5e20,#66bb6a);
 padding:22px;
 color:white;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
 border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
@@ -18,44 +18,47 @@ border-bottom-right-radius:25px;
 margin:15px;
 background:white;
 padding:14px;
-border-radius:14px;
+border-radius:15px;
 box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 .chips{
 display:flex;
-overflow:auto;
-padding:10px;
+overflow-x:auto;
+gap:10px;
+padding:10px 15px;
 }
 
 .chip{
 background:white;
 padding:10px 16px;
-border-radius:25px;
-margin-right:10px;
+border-radius:20px;
 box-shadow:0 3px 10px rgba(0,0,0,0.1);
 white-space:nowrap;
+font-size:14px;
 }
 
 .card{
 background:white;
 margin:15px;
 padding:18px;
-border-radius:18px;
+border-radius:20px;
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
+font-size:16px;
 }
 
 .nav{
 position:fixed;
 bottom:15px;
-left:10px;
-right:10px;
+left:12px;
+right:12px;
 background:white;
 display:flex;
 justify-content:space-around;
 padding:14px;
 border-radius:30px;
 box-shadow:0 12px 25px rgba(0,0,0,0.2);
+font-size:22px;
 }
 
 .emergency{
@@ -66,6 +69,6 @@ background:#e53935;
 color:white;
 padding:16px;
 border-radius:50%;
-font-size:20px;
+font-size:22px;
 box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
