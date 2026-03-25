@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{
 font-family:Arial;
+background:#f4f7f6;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-background:#2e7d32;
 }
+
 .card{
 background:white;
 padding:30px;
 border-radius:20px;
-width:85%;
+width:90%;
+max-width:350px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
+
 input{
 width:100%;
 padding:12px;
 margin-top:10px;
+border-radius:10px;
+border:1px solid #ccc;
 }
+
 button{
 width:100%;
 padding:12px;
@@ -31,9 +37,10 @@ margin-top:15px;
 background:#2e7d32;
 color:white;
 border:none;
+border-radius:12px;
+font-size:16px;
 }
 </style>
-
 </head>
 
 <body>
@@ -42,73 +49,22 @@ border:none;
 
 <h2>Login</h2>
 
-<div id="recaptcha-container"></div>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-<input id="phone" placeholder="+91xxxxxxxxxx">
-<button onclick="sendOtp()">Send OTP</button>
+<button onclick="login()">Login</button>
 
-<input id="otp" placeholder="Enter OTP">
-<button onclick="verifyOtp()">Verify</button>
+<p style="margin-top:10px">
+New user? <a href="signup.html">Signup</a>
+</p>
 
 </div>
 
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const firebaseConfig = {
-apiKey:"AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
-authDomain:"jeevantika-f6972.firebaseapp.com",
-projectId:"jeevantika-f6972",
-storageBucket:"jeevantika-f6972.firebasestorage.app",
-messagingSenderId:"61584268994",
-appId:"1:61584268994:web:faf80613e68b3c0acce55b"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha-container',{});
-
-let confirmationResult;
-
-window.sendOtp = function(){
-
-let phone = document.getElementById("phone").value;
-
-signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-.then(result=>{
-confirmationResult = result;
-alert("OTP Sent");
-});
-
-}
-
-window.verifyOtp = function(){
-
-let code = document.getElementById("otp").value;
-
-confirmationResult.confirm(code)
-.then(()=>{
-alert("Login Success");
-location.href="index.html";
-});
-
-}
-
-</script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="auth.js"></script>
 
 </body>
-</html>
-localStorage.setItem("userLogged","yes");
-alert("Login Successful");
-
-location.href="index.html";
-
-}else{
-alert("Wrong OTP");
-}
+</html>}
 
 }
 
