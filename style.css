@@ -1,39 +1,105 @@
 body{
-font-family:Segoe UI;
-background:#f4f7f6;
 margin:0;
+font-family: 'Segoe UI', sans-serif;
+background:#f4f7f6;
 }
 
-.center{
+/* HEADER */
+.header{
+background:linear-gradient(135deg,#43a047,#2e7d32);
+color:white;
+padding:25px;
+font-size:24px;
+font-weight:600;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+box-shadow:0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* SEARCH */
+.search{
+margin:-20px 15px 10px 15px;
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* CATEGORY CHIPS */
+.chips{
 display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+gap:10px;
+overflow:auto;
+padding:10px 15px;
 }
 
+.chip{
+background:white;
+padding:10px 18px;
+border-radius:30px;
+white-space:nowrap;
+box-shadow:0 3px 10px rgba(0,0,0,0.07);
+}
+
+/* CARD */
 .card{
 background:white;
-padding:30px;
-border-radius:15px;
-width:80%;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-text-align:center;
+margin:15px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.3s;
 }
 
-input{
-width:90%;
-padding:12px;
-margin:8px;
-border-radius:10px;
-border:1px solid #ccc;
+.card:hover{
+transform:translateY(-3px);
 }
 
-button{
+/* BUTTON */
+.btn{
 background:#2e7d32;
 color:white;
 border:none;
-padding:12px 25px;
+padding:12px 20px;
 border-radius:12px;
-margin-top:10px;
 font-size:16px;
+cursor:pointer;
+}
+
+/* FLOAT EMERGENCY */
+.emergency{
+position:fixed;
+right:20px;
+bottom:90px;
+background:#e53935;
+width:65px;
+height:65px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+/* BOTTOM NAV */
+.bottomnav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+box-shadow:0 -5px 20px rgba(0,0,0,0.08);
+border-top-left-radius:20px;
+border-top-right-radius:20px;
 }
