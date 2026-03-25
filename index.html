@@ -2,98 +2,53 @@
 <html>
 <head>
 <title>Jeevantika</title>
-
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <script type="module" src="firebase.js"></script>
 
 <style>
-
-body{
-margin:0;
-font-family:Segoe UI;
-background:#f4f7f6;
-}
-
-.header{
-background:linear-gradient(135deg,#2e7d32,#66bb6a);
-color:white;
-padding:22px;
-font-size:24px;
-font-weight:bold;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.search{
-background:white;
-margin:15px;
-padding:12px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-}
-
-.card{
-background:white;
-margin:15px;
-padding:18px;
-border-radius:16px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-font-size:18px;
-}
-
-.bottom{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:12px;
-box-shadow:0 -5px 15px rgba(0,0,0,.1);
-font-size:22px;
-}
-
+body{font-family:Segoe UI;background:#f4f7f6;margin:0}
+.header{background:#2e7d32;color:white;padding:20px;font-size:24px}
+.card{background:white;margin:15px;padding:15px;border-radius:15px}
+button{background:red;color:white;border:none;padding:12px;border-radius:12px}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-🌿 Jeevantika
-</div>
-
-<div class="search">
-🔎 Search doctors, medicines
-</div>
+<div class="header">🌿 Jeevantika</div>
 
 <div class="card" onclick="location.href='doctors.html'">
-👨‍⚕️ Find Doctors
+Find Doctors
 </div>
 
 <div class="card" onclick="location.href='dashboard.html'">
-📊 My Dashboard
-</div>
-
-<div class="card" onclick="location.href='appointment.html'">
-📅 Book Appointment
+My Dashboard
 </div>
 
 <div class="card" onclick="location.href='pharmacy.html'">
-💊 Medicine Store
+Medicine Store
 </div>
 
-<div class="card" onclick="location.href='tel:108'">
-🚑 Emergency Call
+<div class="card">
+<button onclick="emergency()">Emergency Nearby</button>
 </div>
 
-<div class="bottom">
-🏠
-👨‍⚕️
-💊
-👤
-</div>
+<script>
+function emergency(){
+
+navigator.geolocation.getCurrentPosition(pos=>{
+
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+
+window.open(
+`https://www.google.com/maps/search/hospital/@${lat},${lon},15z`
+);
+
+});
+
+}
+</script>
 
 </body>
 </html>
