@@ -5,37 +5,87 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
 margin:0;
-font-family:Segoe UI;
-background:#f4f7f6;
+font-family:'Segoe UI';
+background:#eef3f2;
 }
 
 .header{
 background:linear-gradient(135deg,#1b5e20,#66bb6a);
 color:white;
-padding:20px;
-text-align:center;
-font-size:22px;
+padding:22px;
+font-size:24px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.search{
+background:white;
+margin:15px;
+padding:14px;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.chips{
+display:flex;
+overflow:auto;
+padding:10px;
+gap:10px;
+}
+
+.chip{
+background:white;
+padding:10px 16px;
+border-radius:20px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+white-space:nowrap;
 }
 
 .card{
 background:white;
 margin:15px;
-padding:18px;
-border-radius:16px;
+padding:20px;
+border-radius:20px;
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
 font-size:18px;
+}
+
+.nav{
+position:fixed;
+bottom:15px;
+left:10px;
+right:10px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:14px;
+border-radius:30px;
+box-shadow:0 12px 25px rgba(0,0,0,0.2);
+font-size:22px;
+}
+
+.emergency{
+position:fixed;
+bottom:90px;
+right:20px;
+background:#e53935;
+color:white;
+padding:18px;
+border-radius:50%;
+font-size:22px;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
 </style>
 
 <script>
-function googleTranslateElementInit() {
-new google.translate.TranslateElement({pageLanguage:'en'}, 'google_translate_element');
+function googleTranslateElementInit(){
+new google.translate.TranslateElement({pageLanguage:'en'},'lang');
 }
 </script>
-
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </head>
@@ -44,19 +94,40 @@ new google.translate.TranslateElement({pageLanguage:'en'}, 'google_translate_ele
 
 <div class="header">
 🌿 Jeevantika
-<div id="google_translate_element"></div>
+<div id="lang"></div>
 </div>
 
-<div class="card" onclick="window.location.href='doctors.html'">
+<div class="search">
+🔍 Search doctors or medicines
+</div>
+
+<div class="chips">
+<div class="chip">Cardiologist</div>
+<div class="chip">Dentist</div>
+<div class="chip">Skin</div>
+<div class="chip">General</div>
+<div class="chip">Ortho</div>
+</div>
+
+<div class="card" onclick="location.href='doctors.html'">
 👨‍⚕ Find Doctors
 </div>
 
-<div class="card" onclick="window.location.href='history.html'">
+<div class="card" onclick="location.href='history.html'">
 📅 My Appointment
 </div>
 
-<div class="card" onclick="window.location.href='tel:108'">
-🚑 Emergency Call
+<div class="card" onclick="location.href='pharmacy.html'">
+💊 Order Medicines
+</div>
+
+<div class="emergency" onclick="location.href='tel:108'">🚑</div>
+
+<div class="nav">
+<div>🏠</div>
+<div onclick="location.href='doctors.html'">👨‍⚕</div>
+<div onclick="location.href='pharmacy.html'">💊</div>
+<div onclick="location.href='history.html'">📅</div>
 </div>
 
 </body>
