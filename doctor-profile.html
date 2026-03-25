@@ -21,17 +21,6 @@ padding:20px;
 box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-h2{
-margin-top:0;
-}
-
-.sub{
-color:#777;
-margin-bottom:10px;
-}
-
-/* DATE ROW */
-
 .dateRow{
 display:flex;
 gap:10px;
@@ -46,7 +35,6 @@ border:2px solid #2e7d32;
 text-align:center;
 font-weight:700;
 color:#2e7d32;
-background:white;
 }
 
 .activeDate{
@@ -61,7 +49,11 @@ justify-content:center;
 gap:6px;
 }
 
-/* SLOT GRID */
+#calendarInput{
+position:absolute;
+opacity:0;
+pointer-events:none;
+}
 
 .slots{
 display:grid;
@@ -76,15 +68,12 @@ border-radius:16px;
 border:2px solid #2e7d32;
 text-align:center;
 font-weight:700;
-background:white;
 }
 
 .slotSelected{
 background:#2e7d32;
 color:white;
 }
-
-/* BOTTOM BAR */
 
 .bottomBar{
 position:fixed;
@@ -106,86 +95,88 @@ border-radius:30px;
 font-weight:700;
 }
 
-#calendarInput{
-position:absolute;
-opacity:0;
-pointer-events:none;
-}
-
 </style></head><body><div class="container"><div class="card"><h2>Dr Mehta</h2>
-<div class="sub">Cardiologist • ⭐ 4.7 • 12 yrs</div><h3>Select Appointment Date</h3><div class="dateRow"><div class="dateBtn activeDate" onclick="changeDate(this,'today')">
-Today
-</div><div class="dateBtn" onclick="changeDate(this,'tomorrow')">
-Tomorrow
-</div><div class="dateBtn calendarBtn" onclick="openCalendar()">
-📅 Pick Date
-</div><input type="date" id="calendarInput"></div><h3>Available Time Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
+<p>Cardiologist • ⭐ 4.7 • 12 yrs</p><h3>Select Appointment Date</h3><div class="dateRow">
+<div class="dateBtn activeDate" onclick="changeDate(this,'today')">Today</div>
+<div class="dateBtn" onclick="changeDate(this,'tomorrow')">Tomorrow</div>
+<div class="dateBtn calendarBtn" onclick="openCalendar()">📅 Pick Date</div>
+<input type="date" id="calendarInput">
+</div><h3>Available Time Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
 <div id="selectedText">No slot selected</div>
 <div class="bookBtn" onclick="bookSlot()">Book Appointment</div>
-</div><script>
+</div><script type="module">
 
-let selectedSlot = null
-let selectedDate = "Today"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* SLOT RENDER */
+/* 🔴 PASTE YOUR REAL FIREBASE CONFIG HERE */
+
+const firebaseConfig = {
+apiKey: "PASTE",
+authDomain: "PASTE",
+projectId: "PASTE",
+storageBucket: "PASTE",
+messagingSenderId: "PASTE",
+appId: "PASTE"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectedSlot = null;
+let selectedDate = "Today";
 
 function renderSlots(arr){
 
-let container = document.getElementById("slotsContainer")
-container.innerHTML=""
+let container = document.getElementById("slotsContainer");
+container.innerHTML="";
 
 arr.forEach(time=>{
 
-let div=document.createElement("div")
-div.className="slot"
-div.innerText=time
+let div=document.createElement("div");
+div.className="slot";
+div.innerText=time;
 
 div.onclick=function(){
 
-document.querySelectorAll(".slot")
-.forEach(s=>s.classList.remove("slotSelected"))
+document.querySelectorAll(".slot").forEach(s=>s.classList.remove("slotSelected"));
 
-div.classList.add("slotSelected")
+div.classList.add("slotSelected");
 
-selectedSlot=time
+selectedSlot=time;
 
 document.getElementById("selectedText").innerText =
-selectedDate+" • "+time
+selectedDate+" • "+time;
 
 }
 
-container.appendChild(div)
+container.appendChild(div);
 
 })
 
 }
 
-/* DATE SWITCH */
-
 function changeDate(btn,type){
 
-document.querySelectorAll(".dateBtn")
-.forEach(b=>b.classList.remove("activeDate"))
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
 
-btn.classList.add("activeDate")
+btn.classList.add("activeDate");
 
-selectedSlot=null
+selectedSlot=null;
 
 if(type==="today"){
-selectedDate="Today"
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"])
+selectedDate="Today";
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"]);
 }
 
 if(type==="tomorrow"){
-selectedDate="Tomorrow"
-renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM","05:30 PM"])
+selectedDate="Tomorrow";
+renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM","05:30 PM"]);
 }
 
-document.getElementById("selectedText").innerText="No slot selected"
+document.getElementById("selectedText").innerText="No slot selected";
 
 }
-
-/* CALENDAR BUTTON */
 
 function openCalendar(){
 document.getElementById("calendarInput").showPicker();
@@ -193,36 +184,38 @@ document.getElementById("calendarInput").showPicker();
 
 document.getElementById("calendarInput").addEventListener("change",function(){
 
-selectedDate=this.value
+selectedDate=this.value;
 
-document.querySelectorAll(".dateBtn")
-.forEach(b=>b.classList.remove("activeDate"))
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
 
-selectedSlot=null
+selectedSlot=null;
 
-renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM","05:00 PM"])
+renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM","05:00 PM"]);
 
 document.getElementById("selectedText").innerText =
-"Date: "+selectedDate
+"Date: "+selectedDate;
 
-})
+});
 
-/* BOOK */
-
-function bookSlot(){
+async function bookSlot(){
 
 if(!selectedSlot){
-alert("Please select slot")
-return
+alert("Please select slot");
+return;
 }
 
-alert("Appointment booked on "+selectedDate+" at "+selectedSlot)
+await addDoc(collection(db,"appointments"),{
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked"
+});
+
+alert("Appointment Saved Successfully");
 
 }
 
-/* INITIAL LOAD */
-
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"])
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"]);
 
 </script></body>
 </html>
