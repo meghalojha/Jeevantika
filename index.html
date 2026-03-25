@@ -1,93 +1,108 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeevantika</title><link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css"><style>
-body{
-font-family: Arial;
-margin:0;
-background:#f4f7f6;
-}
+<title>Jeevantika</title>
 
-.header{
-background:linear-gradient(45deg,#2e7d32,#43a047);
-padding:20px;
-color:white;
-font-size:24px;
-font-weight:bold;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
-}
+<link rel="stylesheet" href="style.css">
 
-.search{
-padding:15px;
-}
+</head>
 
-.search input{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:none;
-font-size:16px;
-}
+<body>
 
-.card{
-background:white;
-margin:15px;
-padding:15px;
-border-radius:16px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-.book{
-background:#2e7d32;
-color:white;
-padding:10px 18px;
-border-radius:10px;
-text-decoration:none;
-}
-
-.bottom{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px 0;
-box-shadow:0 -5px 20px rgba(0,0,0,0.08);
-}
-
-.bottom a{
-text-decoration:none;
-color:#555;
-font-size:14px;
-text-align:center;
-}
-</style></head><body><div class="header">
+<!-- HEADER -->
+<div class="header">
 🌿 Jeevantika
-</div><div class="search">
-<input placeholder="Search doctors, medicines">
-</div><div class="card">
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" placeholder="Search doctors, medicines..." style="width:100%;border:none;font-size:16px;outline:none;">
+</div>
+
+<!-- CATEGORY -->
+<div class="chips">
+<div class="chip">Cardio</div>
+<div class="chip">Dental</div>
+<div class="chip">Skin</div>
+<div class="chip">General</div>
+<div class="chip">Ortho</div>
+<div class="chip">Neuro</div>
+</div>
+
+<!-- TOP DOCTOR CARD -->
+<div class="card">
+<h3>⭐ Top Doctors Near You</h3>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:15px;">
 <div>
 <b>Dr. Mehta</b><br>
-Cardiologist • 12 yrs
+<small>Cardiologist • 12 yrs</small>
 </div>
-<a class="book" href="doctor.html">Book</a>
-</div><div class="card">
+
+<button class="btn" onclick="location.href='doctor-profile.html'">Book</button>
+</div>
+
+<hr style="margin:15px 0">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
 <div>
 <b>Dr. Shah</b><br>
-Dentist • 8 yrs
+<small>Dentist • 8 yrs</small>
 </div>
-<a class="book" href="doctor.html">Book</a>
-</div><div class="bottom">
-<a href="index.html">🏠<br>Home</a>
-<a href="doctors.html">👨‍⚕️<br>Doctors</a>
-<a href="medicine.html">💊<br>Medicine</a>
-<a href="history.html">📜<br>History</a>
-</div></body>
+
+<button class="btn" onclick="location.href='doctor-profile.html'">Book</button>
+</div>
+
+</div>
+
+<!-- AI CARD -->
+<div class="card" onclick="location.href='ai.html'">
+<h3>🤖 AI Symptom Checker</h3>
+<p>Check symptoms instantly and get doctor suggestion</p>
+</div>
+
+<!-- MEDICINE CARD -->
+<div class="card" onclick="location.href='medicine.html'">
+<h3>💊 Order Medicines</h3>
+<p>Upload prescription & order at best price</p>
+</div>
+
+<!-- HISTORY CARD -->
+<div class="card" onclick="location.href='history.html'">
+<h3>📅 My Appointments</h3>
+<p>See your booked consultations</p>
+</div>
+
+<!-- EMERGENCY BUTTON -->
+<div class="emergency" onclick="location.href='emergency.html'">
+🚑
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottomnav">
+
+<div onclick="location.href='index.html'">
+🏠<br>
+<small>Home</small>
+</div>
+
+<div onclick="location.href='doctors.html'">
+👨‍⚕️<br>
+<small>Doctors</small>
+</div>
+
+<div onclick="location.href='medicine.html'">
+💊<br>
+<small>Medicine</small>
+</div>
+
+<div onclick="location.href='profile.html'">
+👤<br>
+<small>Profile</small>
+</div>
+
+</div>
+
+</body>
 </html>
