@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Appointment</title>
+<title>My Appointments</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#f4f7f6}
-.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;text-align:center;font-size:22px}
-.card{background:white;margin:20px;padding:25px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+body{font-family:Segoe UI;background:#f4f7f6}
+.header{background:#2e7d32;color:white;padding:20px;text-align:center}
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">My Appointment</div>
+<div class="header">My Appointments</div>
 
-<div class="card" id="data"></div>
+<div id="data"></div>
 
 <script>
 
 let appt=JSON.parse(localStorage.getItem("appointment"));
 
 if(appt){
-data.innerHTML=
-"Doctor: "+appt.doctor+
-"<br>Date: "+appt.date+
-"<br>Time: "+appt.time;
-}
-else{
-data.innerHTML="No Appointment Booked";
+
+data.innerHTML=`
+<div class="card">
+Doctor: ${appt.doctor}<br>
+Time: ${appt.time}
+</div>
+`;
+
+}else{
+
+data.innerHTML="<div class='card'>No Appointments</div>";
+
 }
 
 </script>
