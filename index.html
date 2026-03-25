@@ -33,7 +33,7 @@
 <b>Dr. Mehta</b><br>
 Cardiologist • 12 yrs
 </div>
-<button class="bookBtn">Book</button>
+<button class="bookBtn" onclick="goDoctors()">Book</button>
 </div>
 
 <hr>
@@ -43,55 +43,63 @@ Cardiologist • 12 yrs
 <b>Dr. Shah</b><br>
 Dentist • 8 yrs
 </div>
-<button class="bookBtn">Book</button>
+<button class="bookBtn" onclick="goDoctors()">Book</button>
 </div>
 
 </div>
 
-<div class="card">
+<div class="card" onclick="goAI()">
 🤖 <b>AI Symptom Checker</b>
 <p>Check symptoms instantly and get doctor suggestion</p>
 </div>
 
-<div class="card">
+<div class="card" onclick="goMedicine()">
 💊 <b>Order Medicines</b>
 <p>Upload prescription & order at best price</p>
 </div>
 
-<div class="card">
+<div class="card" onclick="goHistory()">
 📅 <b>My Appointments</b>
 <p>See your booked consultations</p>
 </div>
 
-<div class="fab">🚑</div>
+<div class="fab" onclick="callAmbulance()">🚑</div>
 
 <div class="bottomNav">
-<div>🏠</div>
-<div>👨‍⚕️</div>
-<div>💊</div>
-<div>👤</div>
+<div onclick="goHome()">🏠</div>
+<div onclick="goDoctors()">👨‍⚕️</div>
+<div onclick="goMedicine()">💊</div>
+<div onclick="goProfile()">👤</div>
 </div>
 
-</body>
-</html>
+<script>
+
 function callAmbulance(){
-    window.location.href = "tel:108";
+window.location.href="tel:108";
 }
 
 function goDoctors(){
-    window.location.href = "doctors.html";
+window.location.href="doctors.html";
 }
 
 function goMedicine(){
-    window.location.href = "medicine.html";
+window.location.href="medicine.html";
 }
 
 function goProfile(){
-    window.location.href = "profile.html";
+window.location.href="profile.html";
+}
+
+function goHistory(){
+window.location.href="history.html";
+}
+
+function goAI(){
+window.location.href="ai.html";
 }
 
 function goHome(){
-    window.location.href = "index.html";
+window.location.href="index.html";
 }
 
 </script>
