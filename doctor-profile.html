@@ -1,50 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Doctor Profile</title>
 
 <style>
-
 body{
-font-family: Arial;
+font-family:Arial;
 margin:0;
 background:#f4f6f8;
-padding-bottom:120px;
 }
 
 .header{
 background:linear-gradient(135deg,#2e7d32,#66bb6a);
 color:white;
-padding:25px;
-font-size:22px;
+padding:15px;
 font-weight:bold;
 }
 
 .card{
 background:white;
 margin:15px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 6px 14px rgba(0,0,0,0.08);
-}
-
-.dateRow{
-display:flex;
-gap:10px;
-margin-top:15px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 .dateBtn{
-flex:1;
-padding:12px;
-border-radius:25px;
 border:2px solid #2e7d32;
+padding:12px;
+border-radius:30px;
 background:white;
-color:#2e7d32;
-font-weight:bold;
-text-align:center;
+margin:5px;
 }
 
 .activeDate{
@@ -52,18 +39,18 @@ background:#2e7d32;
 color:white;
 }
 
-.slotGrid{
+.slots{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:20px;
+gap:10px;
+margin-top:10px;
 }
 
 .slot{
-padding:15px;
-border-radius:15px;
 border:2px solid #2e7d32;
+padding:15px;
 text-align:center;
+border-radius:15px;
 font-weight:bold;
 }
 
@@ -72,26 +59,25 @@ background:#2e7d32;
 color:white;
 }
 
-.bookBar{
+.bottom{
 position:fixed;
 bottom:0;
 width:100%;
 background:white;
-padding:15px;
-box-shadow:0 -4px 12px rgba(0,0,0,0.1);
 display:flex;
 justify-content:space-between;
-align-items:center;
+padding:15px;
+box-shadow:0 -5px 15px rgba(0,0,0,0.1);
 }
 
 .bookBtn{
 background:#2e7d32;
 color:white;
-padding:15px 25px;
-border-radius:30px;
+padding:12px 20px;
+border-radius:25px;
+border:none;
 font-weight:bold;
 }
-
 </style>
 </head>
 
@@ -100,6 +86,136 @@ font-weight:bold;
 <div class="header">Dr Mehta</div>
 
 <div class="card">
+
+<h3>Select Appointment Date</h3>
+
+<button class="dateBtn activeDate" onclick="selectToday(this)">Today</button>
+<button class="dateBtn" onclick="selectTomorrow(this)">Tomorrow</button>
+<button class="dateBtn" onclick="openCalendar()">📅 Pick Date</button>
+
+<input type="date" id="datePicker" style="display:none">
+
+<h3>Available Time Slots</h3>
+
+<div id="slotsContainer" class="slots"></div>
+
+</div>
+
+<div class="bottom">
+<div id="selectedText">No slot selected</div>
+<button class="bookBtn" onclick="bookSlot()">Book Appointment</button>
+</div>
+
+<!-- ✅ Firebase FULL SCRIPT -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"PASTE",
+authDomain:"PASTE",
+projectId:"PASTE",
+storageBucket:"PASTE",
+messagingSenderId:"PASTE",
+appId:"PASTE"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectedSlot=null;
+let selectedDate="Today";
+
+function renderSlots(arr){
+let c=document.getElementById("slotsContainer");
+c.innerHTML="";
+arr.forEach(t=>{
+let d=document.createElement("div");
+d.className="slot";
+d.innerText=t;
+
+d.onclick=function(){
+document.querySelectorAll(".slot")
+.forEach(s=>s.classList.remove("slotSelected"));
+d.classList.add("slotSelected");
+selectedSlot=t;
+document.getElementById("selectedText").innerText=
+selectedDate+" • "+t;
+};
+
+c.appendChild(d);
+});
+}
+
+window.selectToday=function(btn){
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+
+selectedDate="Today";
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
+
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+}
+
+window.selectTomorrow=function(btn){
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+
+selectedDate="Tomorrow";
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
+
+renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
+}
+
+window.openCalendar=function(){
+document.getElementById("datePicker").click();
+}
+
+document.getElementById("datePicker")
+.addEventListener("change",function(){
+
+selectedDate=this.value;
+
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+
+renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
+
+document.getElementById("selectedText").innerText=
+"Date: "+selectedDate;
+});
+
+window.bookSlot=async function(){
+
+if(!selectedSlot){
+alert("Select slot first");
+return;
+}
+
+await addDoc(collection(db,"appointments"),{
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked"
+});
+
+alert("Appointment Booked Successfully");
+
+window.location.href="history.html";
+
+}
+
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+
+</script>
+
+</body>
+</html><div class="card">
 
 <h3>Select Appointment Date</h3>
 
