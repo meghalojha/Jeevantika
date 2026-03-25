@@ -3,6 +3,7 @@
 <head>
 <title>Doctors</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <script type="module" src="firebase.js"></script>
 
 <style>
@@ -15,30 +16,39 @@ padding:15px;
 border-radius:15px;
 box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
-button{
-background:#2e7d32;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:10px;
-float:right;
-}
 </style>
 </head>
 
 <body>
 
-<div class="header">Find Doctors</div>
+<div class="header">Doctors</div>
 
-<div class="card">
-Dr Mehta — Cardiologist ⭐4.5
-<button onclick="location.href='doctor-profile.html'">View</button>
-</div>
+<div id="list"></div>
 
+<script>
+
+async function loadDoctors(){
+
+let querySnapshot = await getDocs(collection(db,"doctors"));
+
+querySnapshot.forEach((doc)=>{
+
+let d=doc.data();
+
+list.innerHTML += `
 <div class="card">
-Dr Shah — Dentist ⭐4.8
-<button onclick="location.href='doctor-profile.html'">View</button>
+👨‍⚕ ${d.name} <br>
+${d.spec} ⭐${d.rating}
 </div>
+`;
+
+});
+
+}
+
+loadDoctors();
+
+</script>
 
 </body>
 </html>
