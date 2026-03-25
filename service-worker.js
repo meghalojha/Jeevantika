@@ -1,19 +1,39 @@
-const CACHE="jeevantika-v1";
+const CACHE_NAME = "jeevantika-v2";
 
-const ASSETS=[
-"/Jeevantika/",
-"/Jeevantika/index.html",
-"/Jeevantika/doctors.html",
-"/Jeevantika/pharmacy.html",
-"/Jeevantika/profile.html"
+const urlsToCache = [
+  "/Jeevantika/",
+  "/Jeevantika/index.html",
+  "/Jeevantika/doctors.html",
+  "/Jeevantika/doctor.html",
+  "/Jeevantika/history.html",
+  "/Jeevantika/medicine.html",
+  "/Jeevantika/style.css"
 ];
 
-self.addEventListener("install",e=>{
-e.waitUntil(
-caches.open(CACHE).then(cache=>cache.addAll(ASSETS))
-)
+self.addEventListener("install", event => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-self.addEventListener("fetch",e=>{
-e.respondWith(
-caches.match(e.request).then
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+      );
+    })
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(res => {
+      return res || fetch(event.request);
+    })
+  );
+});
