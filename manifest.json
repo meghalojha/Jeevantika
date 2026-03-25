@@ -1,7 +1,7 @@
 {
-"name": "Jeevantika Healthcare App",
+"name": "Jeevantika Healthcare",
 "short_name": "Jeevantika",
-"description": "Find doctors, emergency help, pharmacy and appointment booking.",
+"description": "Healthcare at your fingertips",
 "start_url": "/Jeevantika/index.html",
 "display": "standalone",
 "background_color": "#2e7d32",
