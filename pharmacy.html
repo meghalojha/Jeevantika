@@ -2,17 +2,16 @@
 <html>
 <head>
 <title>Medicine Store</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="module" src="firebase.js"></script>
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#eef3f2}
-.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;font-size:22px}
-.card{background:white;margin:15px;padding:18px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+body{font-family:Segoe UI;background:#f4f7f6;margin:0;text-align:center}
+.header{background:#2e7d32;color:white;padding:20px;font-size:22px}
+.card{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,.08)}
 button{background:#2e7d32;color:white;border:none;padding:10px 18px;border-radius:10px}
-.cartbtn{position:fixed;bottom:20px;right:20px;background:#e53935;color:white;padding:15px;border-radius:50%}
 </style>
-
 </head>
 
 <body>
@@ -20,36 +19,26 @@ button{background:#2e7d32;color:white;border:none;padding:10px 18px;border-radiu
 <div class="header">Medicine Store</div>
 
 <div class="card">
-Paracetamol ₹30
-<button onclick="addCart('Paracetamol')">Add</button>
+Paracetamol ₹30  
+<button onclick="order('Paracetamol')">Order</button>
 </div>
 
 <div class="card">
-Vitamin C ₹120
-<button onclick="addCart('Vitamin C')">Add</button>
+Vitamin C ₹120  
+<button onclick="order('Vitamin C')">Order</button>
 </div>
-
-<div class="card">
-Cough Syrup ₹90
-<button onclick="addCart('Cough Syrup')">Add</button>
-</div>
-
-<div class="cartbtn" onclick="location.href='cart.html'">🛒</div>
 
 <script>
+async function order(name){
 
-function addCart(name){
+await addDoc(collection(db,"orders"),{
+medicine:name,
+time:Date.now()
+});
 
-let cart=JSON.parse(localStorage.getItem("cart")||"[]");
-
-cart.push(name);
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-alert(name+" Added To Cart");
+alert("Medicine Ordered");
 
 }
-
 </script>
 
 </body>
