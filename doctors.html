@@ -1,22 +1,118 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <title>Doctors</title>
+
 <link rel="stylesheet" href="style.css">
-</head><body><h2 style="padding:15px">Doctors List</h2><div class="card">
+
+<style>
+body{
+font-family:Arial;
+background:#f4f7f6;
+margin:0;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.docinfo{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.docimg{
+width:60px;
+height:60px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.bookbtn{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:10px;
+font-size:15px;
+cursor:pointer;
+}
+
+.bookbtn:hover{
+background:#1b5e20;
+}
+</style>
+
+</head>
+<body>
+
+<div class="header">Doctors</div>
+
+<!-- Doctor 1 -->
+<div class="card">
+<div class="docinfo">
+<img class="docimg" src="https://randomuser.me/api/portraits/men/32.jpg">
 <div>
-<b>Dr. Mehta</b><br>
-Cardiologist
+<b>Dr Mehta</b><br>
+<small>Cardiologist • 12 yrs</small>
 </div>
-<a class="book" href="doctor.html">View</a>
-</div><div class="card">
+</div>
+
+<button class="bookbtn" onclick="selectDoctor('Dr Mehta')">Book</button>
+</div>
+
+<!-- Doctor 2 -->
+<div class="card">
+<div class="docinfo">
+<img class="docimg" src="https://randomuser.me/api/portraits/women/44.jpg">
 <div>
-<b>Dr. Shah</b><br>
-Dentist
+<b>Dr Shah</b><br>
+<small>Dentist • 8 yrs</small>
 </div>
-<a class="book" href="doctor.html">View</a>
-</div><div class="bottom">
-<a href="index.html">Home</a>
-<a href="medicine.html">Medicine</a>
-<a href="history.html">History</a>
-</div></body>
+</div>
+
+<button class="bookbtn" onclick="selectDoctor('Dr Shah')">Book</button>
+</div>
+
+<!-- Doctor 3 -->
+<div class="card">
+<div class="docinfo">
+<img class="docimg" src="https://randomuser.me/api/portraits/men/75.jpg">
+<div>
+<b>Dr Patel</b><br>
+<small>Orthopedic • 15 yrs</small>
+</div>
+</div>
+
+<button class="bookbtn" onclick="selectDoctor('Dr Patel')">Book</button>
+</div>
+
+<script>
+
+function selectDoctor(name){
+localStorage.setItem("selectedDoctor",name);
+window.location.href="appointment.html";
+}
+
+</script>
+
+</body>
 </html>
