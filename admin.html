@@ -1,50 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doctor Admin Panel</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Admin</title>
 
-<script type="module" src="firebase.js"></script>
+<link rel="stylesheet" href="style.css">
 
 <style>
 
-body{
-margin:0;
-font-family:Segoe UI;
-background:#f4f7f6;
-text-align:center;
-}
-
-.header{
-background:#2e7d32;
-color:white;
+.form{
+background:white;
+margin:20px;
 padding:20px;
-font-size:22px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
 input{
-padding:12px;
-margin:8px;
-width:80%;
-border-radius:10px;
-border:1px solid #ccc;
-}
-
-button{
-background:#2e7d32;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:12px;
+width:100%;
+padding:14px;
 margin-top:10px;
+border-radius:12px;
+border:1px solid #ddd;
 }
 
-.card{
+.list{
+margin:20px;
+}
+
+.doc{
 background:white;
-margin:15px;
 padding:15px;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+margin-bottom:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 </style>
@@ -55,51 +44,83 @@ box-shadow:0 5px 15px rgba(0,0,0,.08);
 
 <div class="header">Doctor Admin Panel</div>
 
+<div class="form">
+
 <input id="name" placeholder="Doctor Name">
 <input id="spec" placeholder="Specialization">
-<input id="rating" placeholder="Rating">
+<input id="exp" placeholder="Experience">
+<button class="btn" onclick="addDoctor()">Add Doctor</button>
 
-<br>
+</div>
 
-<button onclick="addDoctor()">Add Doctor</button>
+<div class="list" id="docList"></div>
 
-<h3>Doctor List</h3>
+<script type="module">
 
-<div id="list"></div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<script>
+const firebaseConfig = {
+apiKey:"AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain:"jeevantika-f6972.firebaseapp.com",
+projectId:"jeevantika-f6972",
+storageBucket:"jeevantika-f6972.firebasestorage.app",
+messagingSenderId:"61584268994",
+appId:"1:61584268994:web:faf80613e68b3c0acce55b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 async function addDoctor(){
 
-let n=name.value;
-let s=spec.value;
-let r=rating.value;
+let name=document.getElementById("name").value;
+let spec=document.getElementById("spec").value;
+let exp=document.getElementById("exp").value;
+
+if(!name||!spec||!exp){
+alert("Fill all fields");
+return;
+}
 
 await addDoc(collection(db,"doctors"),{
-name:n,
-spec:s,
-rating:r
+name,
+spec,
+exp
 });
 
 alert("Doctor Added");
-
 loadDoctors();
 
 }
 
 async function loadDoctors(){
 
-list.innerHTML="";
-
-let querySnapshot = await getDocs(collection(db,"doctors"));
+let html="";
+const querySnapshot = await getDocs(collection(db,"doctors"));
 
 querySnapshot.forEach((doc)=>{
-
 let d=doc.data();
 
-list.innerHTML += `
-<div class="card">
-👨‍⚕ ${d.name} <br>
+html+=`
+<div class="doc">
+<b>${d.name}</b><br>
+${d.spec} • ${d.exp} yrs
+</div>
+`;
+
+});
+
+document.getElementById("docList").innerHTML=html;
+
+}
+
+loadDoctors();
+
+</script>
+
+</body>
+</html>👨‍⚕ ${d.name} <br>
 ${d.spec} ⭐${d.rating}
 </div>
 `;
