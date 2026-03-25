@@ -5,55 +5,33 @@
 <title>Login</title>
 
 <style>
-
 body{
-margin:0;
-font-family:'Segoe UI';
-height:100vh;
+font-family:Arial;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#43a047,#2e7d32);
+height:100vh;
+background:#2e7d32;
 }
-
 .card{
 background:white;
 padding:30px;
+border-radius:20px;
 width:85%;
-border-radius:25px;
-box-shadow:0 15px 30px rgba(0,0,0,0.25);
 }
-
-h2{
-text-align:center;
-margin-top:0;
-}
-
 input{
 width:100%;
-padding:14px;
-margin-top:15px;
-border-radius:12px;
-border:1px solid #ddd;
-font-size:16px;
+padding:12px;
+margin-top:10px;
 }
-
-.btn{
+button{
 width:100%;
-padding:14px;
-margin-top:20px;
-border:none;
-border-radius:12px;
+padding:12px;
+margin-top:15px;
 background:#2e7d32;
 color:white;
-font-size:16px;
-font-weight:bold;
+border:none;
 }
-
-.otpbox{
-display:none;
-}
-
 </style>
 
 </head>
@@ -62,44 +40,67 @@ display:none;
 
 <div class="card">
 
-<h2>Login to Jeevantika</h2>
+<h2>Login</h2>
 
-<div id="phoneBox">
-<input id="phone" placeholder="Enter Phone Number">
-<button class="btn" onclick="sendOtp()">Send OTP</button>
-</div>
+<div id="recaptcha-container"></div>
 
-<div class="otpbox" id="otpBox">
+<input id="phone" placeholder="+91xxxxxxxxxx">
+<button onclick="sendOtp()">Send OTP</button>
+
 <input id="otp" placeholder="Enter OTP">
-<button class="btn" onclick="verifyOtp()">Verify & Login</button>
-</div>
+<button onclick="verifyOtp()">Verify</button>
 
 </div>
 
-<script>
+<script type="module">
 
-function sendOtp(){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-let phone=document.getElementById("phone").value;
+const firebaseConfig = {
+apiKey:"AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain:"jeevantika-f6972.firebaseapp.com",
+projectId:"jeevantika-f6972",
+storageBucket:"jeevantika-f6972.firebasestorage.app",
+messagingSenderId:"61584268994",
+appId:"1:61584268994:web:faf80613e68b3c0acce55b"
+};
 
-if(phone.length<8){
-alert("Enter valid number");
-return;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha-container',{});
+
+let confirmationResult;
+
+window.sendOtp = function(){
+
+let phone = document.getElementById("phone").value;
+
+signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+.then(result=>{
+confirmationResult = result;
+alert("OTP Sent");
+});
+
 }
 
-alert("OTP Sent (Demo: 1234)");
+window.verifyOtp = function(){
 
-document.getElementById("phoneBox").style.display="none";
-document.getElementById("otpBox").style.display="block";
+let code = document.getElementById("otp").value;
+
+confirmationResult.confirm(code)
+.then(()=>{
+alert("Login Success");
+location.href="index.html";
+});
 
 }
 
-function verifyOtp(){
+</script>
 
-let otp=document.getElementById("otp").value;
-
-if(otp=="1234"){
-
+</body>
+</html>
 localStorage.setItem("userLogged","yes");
 alert("Login Successful");
 
