@@ -1,102 +1,105 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-<title>Doctor Profile</title>
+<script>
 
-<style>
+var firebaseConfig = {
+apiKey: "PASTE",
+authDomain: "PASTE",
+projectId: "PASTE",
+storageBucket: "PASTE",
+messagingSenderId: "PASTE",
+appId: "PASTE"
+};
 
-body{
-margin:0;
-font-family:Arial;
-background:#f4f6f8;
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
+let selectedSlot = null;
+let selectedDate = "Today";
+
+function selectSlot(time){
+selectedSlot = time;
+
+document.querySelectorAll(".slot").forEach(s=>{
+s.classList.remove("activeSlot");
+});
+
+event.target.classList.add("activeSlot");
+
+document.getElementById("selectedText").innerText =
+selectedDate + " • " + time;
 }
 
-.header{
-background:linear-gradient(135deg,#2e7d32,#66bb6a);
-color:white;
-padding:20px;
-font-size:22px;
-font-weight:bold;
+function selectToday(btn){
+selectedDate="Today";
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+activateDate(btn);
 }
 
-.card{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 6px 14px rgba(0,0,0,0.08);
+function selectTomorrow(btn){
+selectedDate="Tomorrow";
+renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
+activateDate(btn);
 }
 
-.dateBtns{
-display:flex;
-gap:10px;
-margin-top:10px;
+function openCalendar(){
+document.getElementById("datePicker").click();
 }
 
-.dateBtn{
-padding:12px 20px;
-border:2px solid #2e7d32;
-border-radius:30px;
-background:white;
-font-weight:bold;
+document.getElementById("datePicker").addEventListener("change",function(){
+selectedDate=this.value;
+renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
+document.getElementById("selectedText").innerText="Date: "+selectedDate;
+});
+
+function activateDate(btn){
+document.querySelectorAll(".dateBtn").forEach(b=>{
+b.classList.remove("activeDate");
+});
+btn.classList.add("activeDate");
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
 }
 
-.activeDate{
-background:#2e7d32;
-color:white;
+function renderSlots(arr){
+let c=document.getElementById("slotsContainer");
+c.innerHTML="";
+arr.forEach(t=>{
+let d=document.createElement("div");
+d.className="slot";
+d.innerText=t;
+d.onclick=function(){selectSlot(t)};
+c.appendChild(d);
+});
 }
 
-.slots{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:15px;
+function bookNow(){
+
+if(!selectedSlot){
+alert("Please select time slot");
+return;
 }
 
-.slot{
-padding:14px;
-border:2px solid #2e7d32;
-border-radius:20px;
-text-align:center;
-font-weight:bold;
+db.collection("appointments").add({
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked"
+})
+.then(function(){
+alert("Appointment Booked Successfully ✅");
+window.location.href="history.html";
+})
+.catch(function(error){
+alert("Firebase Error → "+error.message);
+});
+
 }
 
-.slotSelected{
-background:#2e7d32;
-color:white;
-}
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
 
-.bottomBar{
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px;
-box-shadow:0 -4px 12px rgba(0,0,0,0.1);
-}
-
-.bookBtn{
-background:#2e7d32;
-color:white;
-padding:14px 25px;
-border:none;
-border-radius:30px;
-font-size:16px;
-font-weight:bold;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">Dr Mehta</div>
+</script><div class="header">Dr Mehta</div>
 
 <div class="card">
 
