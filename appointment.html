@@ -1,10 +1,41 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="css/style.css">
+<title>Book Appointment</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body><div class="header">Appointment</div><div class="container">
-<div class="card">10 AM</div>
-<div class="card">12 PM</div>
-<button>Confirm</button>
-</div></body>
+
+<body>
+
+<div class="header">Book Appointment</div>
+
+<div class="card">
+
+<input type="text" id="doctor" value="Dr. Mehta" readonly>
+
+<br><br>
+
+<label>Date</label><br>
+<input type="date" id="date">
+
+<br><br>
+
+<label>Time</label><br>
+<select id="time">
+<option value="10AM">10:00 AM</option>
+<option value="11AM">11:00 AM</option>
+<option value="12PM">12:00 PM</option>
+<option value="4PM">4:00 PM</option>
+<option value="6PM">6:00 PM</option>
+</select>
+
+<br><br>
+
+<button onclick="book()">Confirm Booking</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
 </html>
