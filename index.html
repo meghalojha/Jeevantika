@@ -1,201 +1,93 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-<title>Jeevantika</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeevantika</title><link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css"><style>
 body{
+font-family: Arial;
 margin:0;
-font-family:Segoe UI;
 background:#f4f7f6;
 }
 
-/* HEADER */
-
 .header{
-background:linear-gradient(135deg,#2e7d32,#66bb6a);
+background:linear-gradient(45deg,#2e7d32,#43a047);
+padding:20px;
 color:white;
-padding:18px;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
 }
-
-/* SEARCH */
 
 .search{
-margin:15px;
-background:white;
-padding:14px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-/* CATEGORY */
-
-.cat-wrap{
-display:flex;
-overflow:auto;
-padding-left:15px;
-}
-
-.cat{
-background:white;
-padding:10px 16px;
-border-radius:25px;
-margin-right:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
-font-size:14px;
-}
-
-/* DOCTOR CARD */
-
-.doc{
-background:white;
-margin:15px;
 padding:15px;
-border-radius:18px;
-display:flex;
-align-items:center;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.doc img{
-width:60px;
-height:60px;
-border-radius:50%;
-margin-right:15px;
-}
-
-.doc-name{
-font-weight:bold;
+.search input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
 font-size:16px;
 }
 
-.doc-spec{
-color:grey;
-font-size:13px;
-margin-top:4px;
-}
-
-.call-btn{
-margin-left:auto;
-background:#2e7d32;
-color:white;
-padding:10px 16px;
-border:none;
-border-radius:10px;
-}
-
-/* FLOATING EMERGENCY */
-
-.emergency{
-position:fixed;
-bottom:90px;
-right:20px;
-background:#e53935;
-width:60px;
-height:60px;
-border-radius:50%;
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:16px;
 display:flex;
 align-items:center;
-justify-content:center;
-color:white;
-font-size:26px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
+justify-content:space-between;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
-/* BOTTOM NAV */
+.book{
+background:#2e7d32;
+color:white;
+padding:10px 18px;
+border-radius:10px;
+text-decoration:none;
+}
 
-.nav{
+.bottom{
 position:fixed;
 bottom:0;
 width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-padding:12px 0;
-box-shadow:0 -5px 15px rgba(0,0,0,0.1);
+padding:10px 0;
+box-shadow:0 -5px 20px rgba(0,0,0,0.08);
 }
 
-.nav div{
+.bottom a{
+text-decoration:none;
+color:#555;
+font-size:14px;
 text-align:center;
-font-size:12px;
-color:grey;
 }
-
-.active{
-color:#2e7d32;
-font-weight:bold;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="header">
+</style></head><body><div class="header">
 🌿 Jeevantika
-</div>
-
-<div class="search">
-🔍 Search doctors, medicines
-</div>
-
-<div class="cat-wrap">
-<div class="cat">Cardio</div>
-<div class="cat">Dental</div>
-<div class="cat">Skin</div>
-<div class="cat">General</div>
-<div class="cat">Ortho</div>
-</div>
-
-<!-- DOCTOR -->
-
-<div class="doc">
-<img src="https://randomuser.me/api/portraits/men/32.jpg">
+</div><div class="search">
+<input placeholder="Search doctors, medicines">
+</div><div class="card">
 <div>
-<div class="doc-name">Dr. Mehta</div>
-<div class="doc-spec">Cardiologist • 12 yrs</div>
+<b>Dr. Mehta</b><br>
+Cardiologist • 12 yrs
 </div>
-<button class="call-btn"
-onclick="alert('Appointment Booked Successfully')">
-Book
-</button>
-</div>
-
-<div class="doc">
-<img src="https://randomuser.me/api/portraits/women/44.jpg">
+<a class="book" href="doctor.html">Book</a>
+</div><div class="card">
 <div>
-<div class="doc-name">Dr. Shah</div>
-<div class="doc-spec">Dentist • 8 yrs</div>
+<b>Dr. Shah</b><br>
+Dentist • 8 yrs
 </div>
-<button class="call-btn"
-onclick="alert('Appointment Booked Successfully')">
-Book
-</button>
-</div>
-
-<!-- FLOAT -->
-
-<div class="emergency"
-onclick="location.href='tel:108'">
-🚑
-</div>
-
-<!-- NAV -->
-
-<div class="nav">
-<div class="active">🏠<br>Home</div>
-<div>👨‍⚕️<br>Doctors</div>
-<div>💊<br>Medicine</div>
-<div>👤<br>Profile</div>
-</div>
-
-</body>
+<a class="book" href="doctor.html">Book</a>
+</div><div class="bottom">
+<a href="index.html">🏠<br>Home</a>
+<a href="doctors.html">👨‍⚕️<br>Doctors</a>
+<a href="medicine.html">💊<br>Medicine</a>
+<a href="history.html">📜<br>History</a>
+</div></body>
 </html>
