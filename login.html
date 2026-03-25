@@ -8,79 +8,50 @@
 
 body{
 margin:0;
-font-family: 'Segoe UI', sans-serif;
+font-family:'Segoe UI';
 height:100vh;
-background:linear-gradient(135deg,#43a047,#2e7d32);
 display:flex;
 justify-content:center;
 align-items:center;
+background:linear-gradient(135deg,#43a047,#2e7d32);
 }
 
 .card{
-width:85%;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(12px);
-border-radius:25px;
+background:white;
 padding:30px;
+width:85%;
+border-radius:25px;
 box-shadow:0 15px 30px rgba(0,0,0,0.25);
-color:white;
 }
 
 h2{
-margin-top:0;
 text-align:center;
+margin-top:0;
 }
 
-.input-group{
-margin-top:20px;
-}
-
-.input-group input{
+input{
 width:100%;
 padding:14px;
-border:none;
+margin-top:15px;
 border-radius:12px;
-outline:none;
+border:1px solid #ddd;
 font-size:16px;
 }
 
 .btn{
-margin-top:20px;
 width:100%;
 padding:14px;
+margin-top:20px;
 border:none;
 border-radius:12px;
-background:white;
-color:#2e7d32;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.or{
-text-align:center;
-margin:20px 0;
-}
-
-.social{
-display:flex;
-gap:10px;
-}
-
-.social div{
-flex:1;
-background:white;
-color:#2e7d32;
-padding:10px;
-border-radius:10px;
-text-align:center;
+background:#2e7d32;
+color:white;
+font-size:16px;
 font-weight:bold;
 }
 
-.footer{
-text-align:center;
-margin-top:20px;
-font-size:14px;
+.otpbox{
+display:none;
 }
 
 </style>
@@ -91,24 +62,59 @@ font-size:14px;
 
 <div class="card">
 
-<h2>Welcome to Jeevantika</h2>
+<h2>Login to Jeevantika</h2>
 
-<div class="input-group">
-<input type="text" placeholder="Enter Phone / Email">
+<div id="phoneBox">
+<input id="phone" placeholder="Enter Phone Number">
+<button class="btn" onclick="sendOtp()">Send OTP</button>
 </div>
 
-<button class="btn" onclick="login()">Get OTP</button>
-
-<div class="or">OR</div>
-
-<div class="social">
-<div>Google</div>
-<div>Facebook</div>
+<div class="otpbox" id="otpBox">
+<input id="otp" placeholder="Enter OTP">
+<button class="btn" onclick="verifyOtp()">Verify & Login</button>
 </div>
 
-<div class="footer">
-New user? Sign up automatically
 </div>
+
+<script>
+
+function sendOtp(){
+
+let phone=document.getElementById("phone").value;
+
+if(phone.length<8){
+alert("Enter valid number");
+return;
+}
+
+alert("OTP Sent (Demo: 1234)");
+
+document.getElementById("phoneBox").style.display="none";
+document.getElementById("otpBox").style.display="block";
+
+}
+
+function verifyOtp(){
+
+let otp=document.getElementById("otp").value;
+
+if(otp=="1234"){
+
+localStorage.setItem("userLogged","yes");
+alert("Login Successful");
+
+location.href="index.html";
+
+}else{
+alert("Wrong OTP");
+}
+
+}
+
+</script>
+
+</body>
+</html></div>
 
 </div>
 
