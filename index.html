@@ -2,128 +2,81 @@
 <html>
 <head>
 <title>Jeevantika</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1b5e20">
-
-<link rel="manifest" href="manifest.json">
+<script type="module" src="firebase.js"></script>
 
 <style>
-
 body{
 margin:0;
-font-family:'Segoe UI';
-background:#eef3f2;
+font-family:Segoe UI;
+background:#f4f7f6;
 }
-
-/* Splash */
-
-#splash{
-position:fixed;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:linear-gradient(135deg,#1b5e20,#66bb6a);
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-font-size:28px;
-z-index:999;
-}
-
-/* Main */
-
 .header{
-background:linear-gradient(135deg,#1b5e20,#66bb6a);
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
 color:white;
-padding:22px;
+padding:20px;
 font-size:24px;
+font-weight:bold;
 border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
 }
-
-.card{
-background:white;
+.search{
 margin:15px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-font-size:18px;
+padding:12px;
+background:white;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
-
-.nav{
+.card{
+margin:12px;
+padding:15px;
+background:white;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+.bottom{
 position:fixed;
-bottom:15px;
-left:10px;
-right:10px;
+bottom:0;
+width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-padding:14px;
-border-radius:30px;
-box-shadow:0 12px 25px rgba(0,0,0,0.2);
-font-size:22px;
+padding:10px;
+box-shadow:0 -5px 15px rgba(0,0,0,.1);
 }
-
-.emergency{
-position:fixed;
-bottom:90px;
-right:20px;
-background:#e53935;
+button{
+background:#2e7d32;
 color:white;
-padding:18px;
-border-radius:50%;
-font-size:22px;
+border:none;
+padding:10px 15px;
+border-radius:10px;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div id="splash">🌿 Jeevantika</div>
+<div class="header">🌿 Jeevantika</div>
 
-<div class="header">Jeevantika</div>
+<div class="search">
+🔎 Search doctors, medicines
+</div>
 
 <div class="card" onclick="location.href='doctors.html'">
-👨‍⚕ Find Doctors
+👨‍⚕️ Top Doctors
 </div>
 
-<div class="card" onclick="location.href='history.html'">
-📅 My Appointment
+<div class="card">
+💊 Medicine Offers 20% OFF
 </div>
 
-<div class="card" onclick="location.href='pharmacy.html'">
-💊 Medicine Store
+<div class="bottom">
+🏠
+👨‍⚕️
+💊
+👤
 </div>
-
-<div class="emergency" onclick="location.href='tel:108'">🚑</div>
-
-<div class="nav">
-<div>🏠</div>
-<div onclick="location.href='doctors.html'">👨‍⚕</div>
-<div onclick="location.href='pharmacy.html'">💊</div>
-<div onclick="location.href='history.html'">📅</div>
-</div>
-
-<script>
-
-/* Splash Delay */
-
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},1500);
-
-/* Service Worker */
-
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js");
-}
-
-</script>
 
 </body>
 </html>
