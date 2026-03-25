@@ -1,3 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Profile</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f7fb;
+padding:15px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.slot-wrapper{
+margin-top:20px;
+}
+
+.date-tabs{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.date-btn{
+padding:10px 16px;
+border-radius:30px;
+border:1px solid #2e7d32;
+background:white;
+color:#2e7d32;
+font-weight:600;
+}
+
+.date-btn.active{
+background:#2e7d32;
+color:white;
+}
+
+.slots-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.slot{
+padding:14px;
+border-radius:14px;
+border:2px solid #2e7d32;
+background:white;
+font-weight:600;
+}
+
+.slot.selected{
+background:#2e7d32;
+color:white;
+box-shadow:0 8px 20px rgba(46,125,50,0.3);
+}
+
+.slot.booked{
+background:#ddd;
+border:none;
+color:#777;
+pointer-events:none;
+}
+
+.sticky-book{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 -5px 20px rgba(0,0,0,0.1);
+}
+
+#bookBtn{
+background:#2e7d32;
+color:white;
+border:none;
+padding:14px 20px;
+border-radius:14px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Dr Mehta</h2>
+<p>Cardiologist • 12 Years Experience</p>
+
 <div class="slot-wrapper">
 
 <h3>Select Appointment Date</h3>
@@ -25,7 +133,27 @@
 
 </div>
 
+</div>
+
 <div class="sticky-book">
 <span id="selectedSlot">No slot selected</span>
 <button id="bookBtn">Book Appointment</button>
 </div>
+
+<script>
+
+let slots = document.querySelectorAll(".slot");
+let selectedText = document.getElementById("selectedSlot");
+
+slots.forEach(slot=>{
+slot.onclick = ()=>{
+document.querySelectorAll(".slot").forEach(s=>s.classList.remove("selected"));
+slot.classList.add("selected");
+selectedText.innerText = "Selected Slot: " + slot.innerText;
+}
+})
+
+</script>
+
+</body>
+</html>
