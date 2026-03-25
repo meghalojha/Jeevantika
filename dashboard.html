@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script type="module" src="firebase.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f7f6;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:20px;
+font-size:22px;
+text-align:center;
+}
+
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">My Appointments</div>
+
+<div id="list"></div>
+
+<script type="module">
+
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+async function load(){
+
+let querySnapshot = await getDocs(collection(db,"appointments"));
+
+querySnapshot.forEach((doc)=>{
+
+let data = doc.data();
+
+document.getElementById("list").innerHTML += `
+<div class="card">
+👤 ${data.name}<br>
+📅 ${data.date}
+</div>
+`;
+
+});
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
