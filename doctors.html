@@ -1,14 +1,42 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="css/style.css">
+<title>Doctors</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body><div class="header">Find Doctors</div><div class="card">
-Dr Mehta ⭐4.8  
-<br> Cardiologist • 12 yrs  
-<button>Book</button>
-</div><div class="card">
-Dr Shah ⭐4.6  
-<br> Dentist • 9 yrs  
-<button>Book</button>
-</div></body>
+
+<body>
+
+<div class="header">Find Doctors</div>
+
+<div class="card" onclick="openDoctor('Dr. Mehta','Cardiologist','12 Years','4.5','9876543210')">
+<h3>👨‍⚕ Dr. Mehta</h3>
+<p>Cardiologist • ⭐4.5</p>
+</div>
+
+<div class="card" onclick="openDoctor('Dr. Shah','Dentist','9 Years','4.3','9876501234')">
+<h3>👩‍⚕ Dr. Shah</h3>
+<p>Dentist • ⭐4.3</p>
+</div>
+
+<script>
+
+function openDoctor(name,spec,exp,rating,phone){
+
+let doctor={
+name:name,
+spec:spec,
+exp:exp,
+rating:rating,
+phone:phone
+};
+
+localStorage.setItem("selectedDoctor",JSON.stringify(doctor));
+
+window.location.href="doctor-profile.html";
+}
+
+</script>
+
+</body>
 </html>
