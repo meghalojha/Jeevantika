@@ -1,105 +1,66 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<meta charset="UTF-8">
-<title>Appointment History</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<style>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings</title><style>
 body{
-font-family:Poppins;
-background:#f4f7f6;
+font-family:Arial;
+background:#f4f6f8;
 margin:0;
-}
-
-.header{
-background:linear-gradient(135deg,#2e7d32,#4caf50);
-color:white;
 padding:20px;
-font-size:22px;
-font-weight:600;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.container{
-padding:15px;
 }
 
 .card{
 background:white;
-padding:15px;
-border-radius:15px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
 margin-bottom:15px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
 }
 
-.doctor{
+.title{
+font-weight:bold;
 font-size:18px;
-font-weight:600;
 }
 
-.info{
+.meta{
 color:gray;
 margin-top:5px;
 }
-
-.status{
-margin-top:10px;
-font-weight:600;
-color:#2e7d32;
-}
-
-.empty{
-text-align:center;
-margin-top:50px;
-color:gray;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="header">
-Appointment History
-</div>
-
-<div class="container" id="historyBox">
-
-<div class="empty">Loading appointments...</div>
-
-</div>
-
-<script type="module">
+</style></head><body><h2>My Appointments</h2><div id="list"></div><script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_DOMAIN",
-projectId: "YOUR_PROJECT_ID",
-storageBucket: "YOUR_BUCKET",
-messagingSenderId: "YOUR_MSG_ID",
-appId: "YOUR_APP_ID"
+apiKey: "PASTE",
+authDomain: "PASTE",
+projectId: "PASTE",
+storageBucket: "PASTE",
+messagingSenderId: "PASTE",
+appId: "PASTE"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const box = document.getElementById("historyBox");
-
-async function loadAppointments(){
-
-box.innerHTML="";
-
 const querySnapshot = await getDocs(collection(db,"appointments"));
 
-if(querySnapshot.empty){
+querySnapshot.forEach(doc=>{
+
+let data = doc.data();
+
+document.getElementById("list").innerHTML += `
+<div class="card">
+<div class="title">${data.doctor}</div>
+<div class="meta">Date: ${data.date}</div>
+<div class="meta">Time: ${data.time}</div>
+</div>
+`;
+
+});
+
+</script></body>
+</html>if(querySnapshot.empty){
 box.innerHTML="<div class='empty'>No appointments yet</div>";
 return;
 }
