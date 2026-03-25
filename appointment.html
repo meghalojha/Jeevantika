@@ -1,66 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Appointment</title>
+<title>Book Appointment</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script type="module" src="firebase.js"></script>
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#f4f7f6}
-.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;text-align:center;font-size:22px}
-.card{background:white;margin:20px;padding:25px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
-button{background:#2e7d32;color:white;border:none;padding:12px 20px;border-radius:10px;font-size:16px}
+body{font-family:Segoe UI;background:#f4f7f6;text-align:center}
+.header{background:#2e7d32;color:white;padding:20px;font-size:22px}
+input{
+padding:12px;
+margin:10px;
+width:80%;
+border-radius:10px;
+border:1px solid #ccc;
+}
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+}
 </style>
-
 </head>
 
 <body>
 
 <div class="header">Book Appointment</div>
 
-<div class="card">
+<input id="name" placeholder="Your Name">
+<input id="date" type="date">
 
-<label>Date</label><br>
-<input type="date" id="date">
+<br>
 
-<br><br>
-
-<label>Time</label><br>
-<select id="time">
-<option>10 AM</option>
-<option>12 PM</option>
-<option>4 PM</option>
-</select>
-
-<br><br>
-
-<button onclick="book()">Confirm</button>
-
-</div>
+<button onclick="book()">Confirm Booking</button>
 
 <script>
-
-function book(){
-
+async function book(){
+let name=document.getElementById("name").value;
 let date=document.getElementById("date").value;
-let time=document.getElementById("time").value;
 
-if(date==""){
-alert("Select date");
-return;
+await addDoc(collection(db,"appointments"),{
+name:name,
+date:date
+});
+
+alert("Appointment Booked Successfully");
 }
-
-let appt={
-doctor:JSON.parse(localStorage.getItem("selectedDoctor")).name,
-date:date,
-time:time
-};
-
-localStorage.setItem("appointment",JSON.stringify(appt));
-
-alert("Appointment Booked");
-
-window.location.href="index.html";
-}
-
 </script>
 
 </body>
