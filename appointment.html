@@ -1,42 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book Appointment</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+background:#f4f7f6;
+}
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+.slot{
+padding:10px;
+margin:8px;
+border-radius:10px;
+background:#e8f5e9;
+display:inline-block;
+cursor:pointer;
+}
+.slot.booked{
+background:#ccc;
+pointer-events:none;
+}
+button{
+width:100%;
+padding:12px;
+margin-top:20px;
+background:#2e7d32;
+color:white;
+border:none;
+border-radius:10px;
+}
+</style>
+
 </head>
+
 <body>
 
-<h2>Book Appointment</h2>
+<div class="card">
 
-<input id="patient" placeholder="Your Name">
-<input id="time" placeholder="Time (Example 10:30 AM)">
+<h2 id="doctorName"></h2>
+
+<input type="date" id="date">
+
+<h3>Select Slot</h3>
+
+<div id="slots"></div>
+
 <button onclick="book()">Confirm Booking</button>
 
+</div>
+
 <script type="module">
-import { db } from "./firebase.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-async function book(){
-    const doctor = localStorage.getItem("selectedDoctor");
-    const patient = document.getElementById("patient").value;
-    const time = document.getElementById("time").value;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    if(!patient || !time){
-        alert("Fill all fields");
-        return;
-    }
+const firebaseConfig = {
+apiKey:"AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain:"jeevantika-f6972.firebaseapp.com",
+projectId:"jeevantika-f6972",
+storageBucket:"jeevantika-f6972.firebasestorage.app",
+messagingSenderId:"61584268994",
+appId:"1:61584268994:web:faf80613e68b3c0acce55b"
+};
 
-    await addDoc(collection(db,"appointments"),{
-        doctor,
-        patient,
-        time
-    });
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    alert("Appointment Booked Successfully");
-    window.location.href="history.html";
+let doctor = localStorage.getItem("doctor");
+document.getElementById("doctorName").innerText = doctor;
+
+let selectedSlot="";
+
+let slotTimes=[
+"10:00 AM",
+"10:30 AM",
+"11:00 AM",
+"11:30 AM",
+"12:00 PM",
+"5:00 PM",
+"5:30 PM",
+"6:00 PM"
+];
+
+function renderSlots(booked){
+
+let container=document.getElementById("slots");
+container.innerHTML="";
+
+slotTimes.forEach(t=>{
+let div=document.createElement("div");
+div.className="slot";
+div.innerText=t;
+
+if(booked.includes(t)){
+div.classList.add("booked");
 }
 
-window.book = book;
+div.onclick=()=>{
+selectedSlot=t;
+alert("Selected "+t);
+}
+
+container.appendChild(div);
+})
+
+}
+
+async function loadSlots(){
+
+let date=document.getElementById("date").value;
+
+let snap=await getDocs(collection(db,"appointments"));
+
+let booked=[];
+
+snap.forEach(doc=>{
+let data=doc.data();
+if(data.doctor==doctor && data.date==date){
+booked.push(data.time);
+}
+});
+
+renderSlots(booked);
+
+}
+
+document.getElementById("date").onchange=loadSlots;
+
+window.book=async function(){
+
+let patient="Guest User";
+
+let date=document.getElementById("date").value;
+
+if(!selectedSlot){
+alert("Select Slot");
+return;
+}
+
+await addDoc(collection(db,"appointments"),{
+doctor:doctor,
+patient:patient,
+date:date,
+time:selectedSlot
+});
+
+alert("Appointment Booked");
+
+location.href="history.html";
+
+}
+
 </script>
 
 </body>
