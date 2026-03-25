@@ -1,12 +1,11 @@
 <!DOCTYPE html><html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doctor Profile</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Doctor Profile</title><style>
 
 body{
-font-family: Arial, sans-serif;
-background:#f4f6f8;
 margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f8;
 }
 
 .container{
@@ -15,13 +14,14 @@ padding:20px;
 
 .card{
 background:white;
+border-radius:25px;
 padding:20px;
-border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-h2{
-margin:0;
+.title{
+font-size:26px;
+font-weight:bold;
 }
 
 .sub{
@@ -35,26 +35,26 @@ margin-top:25px;
 
 .dateRow{
 display:flex;
-gap:10px;
-margin-top:10px;
-flex-wrap:wrap;
+gap:12px;
+margin-top:12px;
 }
 
 .dateBtn{
-padding:14px 20px;
-border-radius:30px;
+flex:1;
+padding:14px;
+border-radius:40px;
 border:2px solid #2e7d32;
-background:white;
-color:#2e7d32;
+text-align:center;
 font-weight:bold;
+color:#2e7d32;
 }
 
-.dateBtn.active{
+.activeDate{
 background:#2e7d32;
 color:white;
 }
 
-.slotGrid{
+.slots{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:12px;
@@ -62,176 +62,119 @@ margin-top:15px;
 }
 
 .slot{
-padding:16px;
-border-radius:14px;
+padding:14px;
+border-radius:18px;
 border:2px solid #2e7d32;
 text-align:center;
 font-weight:bold;
-background:white;
 }
 
-.slot.active{
+.selected{
 background:#2e7d32;
 color:white;
 }
 
-.slot.disabled{
-background:#ddd;
+.disabled{
+background:#e0e0e0;
 border:none;
 color:#888;
 }
 
-.bookBar{
+.bottomBar{
 position:fixed;
 bottom:0;
-left:0;
 width:100%;
 background:white;
-padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 -5px 20px rgba(0,0,0,0.08);
+padding:15px;
+box-shadow:0 -5px 15px rgba(0,0,0,0.08);
 }
 
 .bookBtn{
 background:#2e7d32;
 color:white;
-border:none;
-padding:16px 30px;
+padding:15px 25px;
 border-radius:30px;
 font-weight:bold;
-font-size:16px;
 }
 
-</style></head><body><div class="container"><div class="card"><h2 id="docName">Dr Mehta</h2>
+</style></head><body><div class="container"><div class="card"><div class="title">Dr Mehta</div>
 <div class="sub">Cardiologist • 12 Years Experience</div><div class="section">
-<h3>Select Appointment Date</h3><div class="dateRow"><button class="dateBtn active" onclick="selectDate(this,'today')">Today</button>
-<button class="dateBtn" onclick="selectDate(this,'tomorrow')">Tomorrow</button>
-<button class="dateBtn" onclick="showPicker()">📅 Pick Date</button>
-
-<input type="date" id="picker" style="display:none;margin-top:10px"></div></div><div class="section">
-<h3>Available Time Slots</h3><div class="slotGrid"><div class="slot" onclick="selectSlot(this)">10:00 AM</div>
-<div class="slot" onclick="selectSlot(this)">10:30 AM</div>
-<div class="slot disabled">11:00 AM</div><div class="slot" onclick="selectSlot(this)">11:30 AM</div>
-<div class="slot" onclick="selectSlot(this)">12:00 PM</div>
-<div class="slot" onclick="selectSlot(this)">02:00 PM</div><div class="slot" onclick="selectSlot(this)">04:30 PM</div>
-<div class="slot" onclick="selectSlot(this)">06:00 PM</div></div></div></div></div><div class="bookBar">
-<div id="statusText">No slot selected</div>
-<button class="bookBtn" onclick="bookNow()">Book Appointment</button>
+<b>Select Appointment Date</b><div class="dateRow">
+<div class="dateBtn activeDate" onclick="changeDate(this,'today')">Today</div>
+<div class="dateBtn" onclick="changeDate(this,'tomorrow')">Tomorrow</div>
+<div class="dateBtn" onclick="pickDate()">Pick</div>
+</div></div><div class="section">
+<b>Available Time Slots</b><div id="slots" class="slots"></div></div></div></div><div class="bottomBar">
+<div id="selectedText">No slot selected</div>
+<div class="bookBtn" onclick="book()">Book Appointment</div>
 </div><script>
 
-let selectedSlot = null
-let selectedDate = "today"
+let selectedSlot = null;
+let currentDate = "today";
 
-function selectSlot(el){
+const todaySlots = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"];
+const tomorrowSlots = ["09:30 AM","10:00 AM","01:00 PM","03:30 PM","05:00 PM"];
 
-if(el.classList.contains("disabled")) return
+function renderSlots(list){
+const box = document.getElementById("slots");
+box.innerHTML="";
+list.forEach(time=>{
+const div=document.createElement("div");
+div.className="slot";
+div.innerText=time;
+div.onclick=()=>{
+document.querySelectorAll(".slot").forEach(s=>s.classList.remove("selected"));
+div.classList.add("selected");
+selectedSlot=time;
+document.getElementById("selectedText").innerText="Selected: "+time;
+};
+box.appendChild(div);
+});
+}
 
-document.querySelectorAll(".slot").forEach(s=>{
-s.classList.remove("active")
-})
+renderSlots(todaySlots);
 
-el.classList.add("active")
+function changeDate(el,type){
 
-selectedSlot = el.innerText
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
+el.classList.add("activeDate");
 
-document.getElementById("statusText").innerText =
-selectedSlot + " selected"
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
+
+if(type=="today"){
+currentDate="today";
+renderSlots(todaySlots);
+}
+else{
+currentDate="tomorrow";
+renderSlots(tomorrowSlots);
+}
 
 }
 
-function selectDate(el,date){
+function pickDate(){
+let d = prompt("Enter date (example 25 April)");
+if(!d) return;
 
-document.querySelectorAll(".dateBtn").forEach(b=>{
-b.classList.remove("active")
-})
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
 
-el.classList.add("active")
+selectedSlot=null;
+document.getElementById("selectedText").innerText="Date: "+d;
 
-selectedDate = date
-
-document.getElementById("picker").style.display="none"
-
+renderSlots(["11:00 AM","01:30 PM","04:00 PM"]);
 }
 
-function showPicker(){
-
-document.querySelectorAll(".dateBtn").forEach(b=>{
-b.classList.remove("active")
-})
-
-document.getElementById("picker").style.display="block"
-
-}
-
-function bookNow(){
-
+function book(){
 if(!selectedSlot){
-alert("Please select slot")
-return
+alert("Please select slot");
+return;
 }
-
-alert("Appointment Booked on "+selectedDate+" at "+selectedSlot)
-
+alert("Appointment booked on "+currentDate+" at "+selectedSlot);
 }
 
 </script></body>
-</html><body>
-
-<div class="card">
-
-<h2>Dr Mehta</h2>
-<p>Cardiologist • 12 Years Experience</p>
-
-<div class="slot-wrapper">
-
-<h3>Select Appointment Date</h3>
-
-<div class="date-tabs">
-<button class="date-btn active">Today</button>
-<button class="date-btn">Tomorrow</button>
-<button class="date-btn">📅 Pick Date</button>
-</div>
-
-<h3>Available Time Slots</h3>
-
-<div class="slots-grid">
-
-<button class="slot">10:00 AM</button>
-<button class="slot">10:30 AM</button>
-<button class="slot booked">11:00 AM</button>
-<button class="slot">11:30 AM</button>
-<button class="slot">12:00 PM</button>
-<button class="slot">02:00 PM</button>
-<button class="slot">04:30 PM</button>
-<button class="slot">06:00 PM</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="sticky-book">
-<span id="selectedSlot">No slot selected</span>
-<button id="bookBtn">Book Appointment</button>
-</div>
-
-<script>
-
-let slots = document.querySelectorAll(".slot");
-let selectedText = document.getElementById("selectedSlot");
-
-slots.forEach(slot=>{
-slot.onclick = ()=>{
-document.querySelectorAll(".slot").forEach(s=>s.classList.remove("selected"));
-slot.classList.add("selected");
-selectedText.innerText = "Selected Slot: " + slot.innerText;
-}
-})
-
-</script>
-
-</body>
 </html>
