@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Medicine Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:Segoe UI;background:#f4f7f6;margin:0}
+.header{background:#2e7d32;color:white;padding:20px;text-align:center}
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.btn{
+background:#2e7d32;
+color:white;
+padding:8px 14px;
+border:none;
+border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Medicine Store</div>
+
+<div class="card">
+Paracetamol ₹30
+<button class="btn" onclick="order('Paracetamol')">
+Order
+</button>
+</div>
+
+<div class="card">
+Vitamin C ₹120
+<button class="btn" onclick="order('Vitamin C')">
+Order
+</button>
+</div>
+
+<script>
+
+function order(name){
+
+alert(name+" Ordered Successfully");
+
+}
+
+</script>
+
+</body>
+</html>
