@@ -1,235 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doctor Profile</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-body{
-font-family:Arial;
-background:#f2f2f2;
-margin:0;
-}
-
-.header{
-background:linear-gradient(90deg,#2e7d32,#43a047);
-color:white;
-padding:18px;
-font-size:22px;
-font-weight:bold;
-}
-
-.card{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.dateBtn{
-padding:10px 16px;
-border-radius:30px;
-border:2px solid #2e7d32;
-margin-right:8px;
-background:white;
-font-weight:bold;
-}
-
-.activeDate{
-background:#2e7d32;
-color:white;
-}
-
-.slots{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:15px;
-}
-
-.slot{
-padding:14px;
-border-radius:12px;
-border:2px solid #2e7d32;
-text-align:center;
-font-weight:bold;
-}
-
-.slotSelected{
-background:#2e7d32;
-color:white;
-}
-
-.bottomBar{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:white;
-padding:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 -5px 10px rgba(0,0,0,0.1);
-}
-
-.bookBtn{
-background:#2e7d32;
-color:white;
-padding:14px 25px;
-border:none;
-border-radius:30px;
-font-weight:bold;
-}
-
-</style>
+<title>Doctor Profile Debug</title>
 </head>
 
-<body>
+<body style="font-family:Arial;padding:20px">
 
-<div class="header">Dr Mehta</div>
+<h2>Dr Mehta</h2>
 
-<div class="card">
+<h3>Select Slot</h3>
 
-<h3>Select Appointment Date</h3>
+<button onclick="selectSlot('10:00 AM')">10:00 AM</button>
+<button onclick="selectSlot('10:30 AM')">10:30 AM</button>
+<button onclick="selectSlot('11:00 AM')">11:00 AM</button>
 
-<button class="dateBtn activeDate" onclick="selectToday(this)">Today</button>
-<button class="dateBtn" onclick="selectTomorrow(this)">Tomorrow</button>
-<button class="dateBtn" onclick="openCalendar()">📅 Pick Date</button>
+<br><br>
 
-<input type="date" id="datePicker" style="display:none">
+<button onclick="bookNow()">Book Appointment</button>
 
-<h3 style="margin-top:20px">Available Time Slots</h3>
-
-<div class="slots" id="slotsContainer"></div>
-
-</div>
-
-<div class="bottomBar">
-<div id="selectedText">No slot selected</div>
-<button class="bookBtn" onclick="bookNow()">Book Appointment</button>
-</div>
-
-
-<!-- FIREBASE CDN -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<p id="status"></p>
 
 <script>
 
-const firebaseConfig = {
-apiKey: "PASTE",
-authDomain: "PASTE",
-projectId: "PASTE",
-storageBucket: "PASTE",
-messagingSenderId: "PASTE",
-appId: "PASTE"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
 let selectedSlot = null;
-let selectedDate = "Today";
 
-function renderSlots(arr){
-
-let c = document.getElementById("slotsContainer");
-c.innerHTML="";
-
-arr.forEach(t=>{
-let d=document.createElement("div");
-d.className="slot";
-d.innerText=t;
-
-d.onclick=function(){
-
-document.querySelectorAll(".slot").forEach(s=>s.classList.remove("slotSelected"));
-
-d.classList.add("slotSelected");
-
-selectedSlot = t;
-
-document.getElementById("selectedText").innerText =
-selectedDate + " • " + selectedSlot;
-
+function selectSlot(time){
+selectedSlot = time;
+document.getElementById("status").innerText =
+"Selected Slot: " + time;
 }
-
-c.appendChild(d);
-
-})
-
-}
-
-function selectToday(btn){
-
-document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
-btn.classList.add("activeDate");
-
-selectedDate="Today";
-
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
-
-}
-
-function selectTomorrow(btn){
-
-document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
-btn.classList.add("activeDate");
-
-selectedDate="Tomorrow";
-
-renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
-
-}
-
-function openCalendar(){
-document.getElementById("datePicker").click();
-}
-
-document.getElementById("datePicker").addEventListener("change",function(){
-
-selectedDate = this.value;
-
-document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
-
-renderSlots(["09:00 AM","11:30 AM","03:30 PM"]);
-
-})
 
 function bookNow(){
 
+alert("Button Click Working ✅");
+
 if(!selectedSlot){
-alert("Please select slot");
+alert("Please select slot first");
 return;
 }
 
-db.collection("appointments").add({
-doctor:"Dr Mehta",
-date:selectedDate,
-time:selectedSlot,
-status:"booked",
-created:new Date()
-})
-.then(function(){
-
-alert("Appointment Booked Successfully ✅");
-
-window.location.href="history.html";
-
-})
-.catch(function(e){
-
-alert("Firebase Error → "+e.message);
-
-})
+alert("Booking Slot: " + selectedSlot);
 
 }
-
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
 
 </script>
 
