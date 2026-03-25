@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Appointments</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-body{font-family:Segoe UI;background:#f4f7f6}
-.header{background:#2e7d32;color:white;padding:20px;text-align:center}
-.card{background:white;margin:15px;padding:15px;border-radius:15px}
-</style>
+<title>Appointment History</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="header">My Appointments</div>
+<h2>Your Appointments</h2>
 
-<div id="box"></div>
+<div id="list"></div>
 
-<script>
+<script type="module">
+import { db } from "./firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-let ap=JSON.parse(localStorage.getItem("appointment"));
+async function load(){
+    const querySnapshot = await getDocs(collection(db,"appointments"));
+    let html = "";
 
-if(ap){
-box.innerHTML=`
-<div class="card">
-Doctor: ${ap.doctor}<br>
-Time: ${ap.time}
-</div>
-`;
-}else{
-box.innerHTML="<div class='card'>No Appointment</div>";
+    querySnapshot.forEach((doc)=>{
+        const d = doc.data();
+        html += `
+        <div style="background:white;padding:15px;margin:10px;border-radius:10px">
+            <b>${d.doctor}</b><br>
+            Patient: ${d.patient}<br>
+            Time: ${d.time}
+        </div>
+        `;
+    });
+
+    document.getElementById("list").innerHTML = html;
 }
 
+load();
 </script>
 
 </body>
