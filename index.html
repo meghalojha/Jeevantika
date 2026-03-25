@@ -1,105 +1,218 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <title>Jeevantika</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/style.css">
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 
-<body>
+body{
+margin:0;
+font-family:system-ui;
+background:#f2f4f7;
+}
 
-<div class="header">
-<div class="logo">🌿 Jeevantika</div>
+/* HEADER */
 
-<div class="searchBox">
-<input placeholder="Search doctors, medicines...">
-</div>
-</div>
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+padding:28px 18px 60px;
+color:white;
+border-bottom-left-radius:28px;
+border-bottom-right-radius:28px;
+}
 
-<div class="categories">
-<div class="cat">Cardio</div>
-<div class="cat">Dental</div>
-<div class="cat">Skin</div>
-<div class="cat">General</div>
-<div class="cat">Ortho</div>
-<div class="cat">Neuro</div>
-</div>
+.logo{
+font-size:24px;
+font-weight:700;
+display:flex;
+align-items:center;
+gap:8px;
+}
 
-<div class="card">
-⭐ <b>Top Doctors Near You</b>
+.search{
+margin-top:18px;
+background:white;
+border-radius:30px;
+padding:14px 18px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
 
-<div class="doctorRow">
+.search input{
+border:none;
+outline:none;
+width:100%;
+font-size:16px;
+}
+
+/* CATEGORIES */
+
+.categories{
+display:flex;
+gap:10px;
+padding:15px;
+overflow:auto;
+}
+
+.chip{
+background:white;
+padding:10px 18px;
+border-radius:25px;
+font-weight:600;
+white-space:nowrap;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+/* CARD */
+
+.card{
+background:white;
+margin:14px;
+padding:16px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:18px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+/* DOCTOR */
+
+.doc{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:12px;
+}
+
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#e8f5e9;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+}
+
+.info{
+flex:1;
+margin-left:10px;
+}
+
+.name{
+font-weight:700;
+}
+
+.meta{
+font-size:13px;
+color:#777;
+}
+
+.book{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 16px;
+border-radius:12px;
+font-weight:700;
+}
+
+/* FEATURE CARD */
+
+.feature{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.icon{
+font-size:26px;
+}
+
+/* FAB */
+
+.fab{
+position:fixed;
+bottom:90px;
+right:20px;
+background:#ff5252;
+color:white;
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+/* NAV */
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+box-shadow:0 -6px 20px rgba(0,0,0,.1);
+}
+
+</style></head><body><div class="header"><div class="logo">🌿 Jeevantika</div><div class="search">
+<input placeholder="Search doctors, medicines…">
+</div></div><div class="categories">
+<div class="chip">Cardio</div>
+<div class="chip">Dental</div>
+<div class="chip">Skin</div>
+<div class="chip">General</div>
+<div class="chip">Ortho</div>
+<div class="chip">Neuro</div>
+</div><div class="card"><div class="title">⭐ Top Doctors Near You</div><div class="doc">
+<div class="avatar">👨‍⚕️</div><div class="info">
+<div class="name">Dr. Mehta</div>
+<div class="meta">Cardiologist • ⭐ 4.7 • 12 yrs</div>
+</div><button class="book"
+onclick="location.href='doctor-profile.html'">
+Book
+</button>
+
+</div><hr><div class="doc">
+<div class="avatar">👩‍⚕️</div><div class="info">
+<div class="name">Dr. Shah</div>
+<div class="meta">Dentist • ⭐ 4.5 • 8 yrs</div>
+</div><button class="book">Book</button>
+
+</div></div><div class="card feature">
+<div class="icon">🤖</div>
 <div>
-<b>Dr. Mehta</b><br>
-Cardiologist • 12 yrs
+<div class="name">AI Symptom Checker</div>
+<div class="meta">Instant health guidance</div>
 </div>
-<button class="bookBtn" onclick="goDoctors()">Book</button>
-</div>
-
-<hr>
-
-<div class="doctorRow">
+</div><div class="card feature">
+<div class="icon">💊</div>
 <div>
-<b>Dr. Shah</b><br>
-Dentist • 8 yrs
+<div class="name">Order Medicines</div>
+<div class="meta">Upload prescription & save money</div>
 </div>
-<button class="bookBtn" onclick="goDoctors()">Book</button>
+</div><div class="card feature">
+<div class="icon">📅</div>
+<div>
+<div class="name">My Appointments</div>
+<div class="meta">Track all consultations</div>
 </div>
-
-</div>
-
-<div class="card" onclick="goAI()">
-🤖 <b>AI Symptom Checker</b>
-<p>Check symptoms instantly and get doctor suggestion</p>
-</div>
-
-<div class="card" onclick="goMedicine()">
-💊 <b>Order Medicines</b>
-<p>Upload prescription & order at best price</p>
-</div>
-
-<div class="card" onclick="goHistory()">
-📅 <b>My Appointments</b>
-<p>See your booked consultations</p>
-</div>
-
-<div class="fab" onclick="callAmbulance()">🚑</div>
-
-<div class="bottomNav">
-<div onclick="goHome()">🏠</div>
-<div onclick="goDoctors()">👨‍⚕️</div>
-<div onclick="goMedicine()">💊</div>
-<div onclick="goProfile()">👤</div>
-</div>
-
-<script>
-
-function callAmbulance(){
-window.location.href="tel:108";
-}
-
-function goDoctors(){
-window.location.href="doctors.html";
-}
-
-function goMedicine(){
-window.location.href="medicine.html";
-}
-
-function goProfile(){
-window.location.href="profile.html";
-}
-
-function goHistory(){
-window.location.href="history.html";
-}
-
-function goAI(){
-window.location.href="ai.html";
-}
-
-function goHome(){
-window.location.href="index.html";
+</div><div class="fab" onclick="location.href='tel:108'">
+🚑
+</div><div class="nav">
+<div onclick="location.href='index.html'">🏠</div>
+<div onclick="location.href='doctors.html'">👨‍⚕️</div>
+<div onclick="location.href='medicine.html'">💊</div>
+<div onclick="location.href='profile.html'">👤</div>
+</div></body>
+</html>window.location.href="index.html";
 }
 
 </script>
