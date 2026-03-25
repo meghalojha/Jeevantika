@@ -80,17 +80,21 @@ padding:14px 26px;
 border-radius:30px;
 font-weight:bold;
 }
+
+#datePicker{
+display:none;
+}
 </style></head><body><div class="container"><div class="card"><h2>Dr Mehta</h2>
-<p>Cardiologist • ⭐ 4.7 • 12 yrs</p><h3>Select Date</h3><div class="dateRow">
-<div class="dateBtn activeDate" onclick="changeDate(this,'Today')">Today</div>
-<div class="dateBtn" onclick="changeDate(this,'Tomorrow')">Tomorrow</div>
-</div><h3>Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
+<p>Cardiologist • ⭐ 4.7 • 12 yrs</p><h3>Select Date</h3><div class="dateRow"><div class="dateBtn activeDate" onclick="selectToday(this)">
+Today
+</div><div class="dateBtn" onclick="selectTomorrow(this)">
+Tomorrow
+</div><div class="dateBtn" onclick="openCalendar()">
+📅 Pick Date
+</div><input type="date" id="datePicker"></div><h3>Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
 <div id="selectedText">No slot selected</div>
 <div class="bookBtn" onclick="bookSlot()">Book</div>
-</div><script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+</div><!-- Firebase CDN --><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script>
 
 const firebaseConfig = {
 apiKey: "PASTE",
@@ -100,6 +104,101 @@ storageBucket: "PASTE",
 messagingSenderId: "PASTE",
 appId: "PASTE"
 };
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let selectedSlot=null;
+let selectedDate="Today";
+
+function renderSlots(arr){
+
+let c=document.getElementById("slotsContainer");
+c.innerHTML="";
+
+arr.forEach(t=>{
+let d=document.createElement("div");
+d.className="slot";
+d.innerText=t;
+
+d.onclick=function(){
+
+document.querySelectorAll(".slot")
+.forEach(s=>s.classList.remove("slotSelected"));
+
+d.classList.add("slotSelected");
+
+selectedSlot=t;
+
+document.getElementById("selectedText").innerText =
+selectedDate+" • "+t;
+
+}
+
+c.appendChild(d);
+});
+
+}
+
+function selectToday(btn){
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+selectedDate="Today";
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+}
+
+function selectTomorrow(btn){
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+selectedDate="Tomorrow";
+renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
+}
+
+function openCalendar(){
+document.getElementById("datePicker").click();
+}
+
+document.getElementById("datePicker").addEventListener("change",function(){
+
+selectedDate=this.value;
+
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+
+renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
+
+document.getElementById("selectedText").innerText =
+"Date: "+selectedDate;
+
+});
+
+function bookSlot(){
+
+if(!selectedSlot){
+alert("Select slot");
+return;
+}
+
+db.collection("appointments").add({
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked"
+}).then(()=>{
+
+alert("Appointment Booked");
+
+// redirect to booking history
+window.location.href="history.html";
+
+});
+
+}
+
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+
+</script></body>
+</html>};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
