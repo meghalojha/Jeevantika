@@ -5,11 +5,7 @@
 <title>Doctor Profile</title>
 
 <style>
-body{
-font-family:Arial;
-margin:0;
-background:#f4f6f8;
-}
+body{font-family:Arial;margin:0;background:#f4f6f8;}
 
 .header{
 background:linear-gradient(135deg,#2e7d32,#66bb6a);
@@ -28,16 +24,13 @@ box-shadow:0 5px 15px rgba(0,0,0,0.08);
 
 .dateBtn{
 border:2px solid #2e7d32;
-padding:12px;
+padding:12px 18px;
 border-radius:30px;
 background:white;
 margin:5px;
 }
 
-.activeDate{
-background:#2e7d32;
-color:white;
-}
+.activeDate{background:#2e7d32;color:white;}
 
 .slots{
 display:grid;
@@ -54,10 +47,7 @@ border-radius:15px;
 font-weight:bold;
 }
 
-.slotSelected{
-background:#2e7d32;
-color:white;
-}
+.slotSelected{background:#2e7d32;color:white;}
 
 .bottom{
 position:fixed;
@@ -100,6 +90,121 @@ font-weight:bold;
 <div id="slotsContainer" class="slots"></div>
 
 </div>
+
+<div class="bottom">
+<div id="selectedText">No slot selected</div>
+<button class="bookBtn" onclick="bookSlot()">Book Appointment</button>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"PASTE",
+authDomain:"PASTE",
+projectId:"PASTE",
+storageBucket:"PASTE",
+messagingSenderId:"PASTE",
+appId:"PASTE"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectedSlot=null;
+let selectedDate="Today";
+
+function renderSlots(arr){
+let c=document.getElementById("slotsContainer");
+c.innerHTML="";
+arr.forEach(t=>{
+let d=document.createElement("div");
+d.className="slot";
+d.innerText=t;
+
+d.onclick=function(){
+document.querySelectorAll(".slot")
+.forEach(s=>s.classList.remove("slotSelected"));
+d.classList.add("slotSelected");
+selectedSlot=t;
+document.getElementById("selectedText").innerText=
+selectedDate+" • "+t;
+};
+
+c.appendChild(d);
+});
+}
+
+window.selectToday=function(btn){
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+
+selectedDate="Today";
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
+
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+}
+
+window.selectTomorrow=function(btn){
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+btn.classList.add("activeDate");
+
+selectedDate="Tomorrow";
+selectedSlot=null;
+document.getElementById("selectedText").innerText="No slot selected";
+
+renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
+}
+
+window.openCalendar=function(){
+document.getElementById("datePicker").click();
+}
+
+document.getElementById("datePicker")
+.addEventListener("change",function(){
+
+selectedDate=this.value;
+
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"));
+
+renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
+
+document.getElementById("selectedText").innerText=
+"Date: "+selectedDate;
+});
+
+window.bookSlot=async function(){
+
+if(!selectedSlot){
+alert("Select slot first");
+return;
+}
+
+await addDoc(collection(db,"appointments"),{
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked"
+});
+
+alert("Appointment Booked Successfully");
+
+window.location.href="history.html";
+
+}
+
+renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+
+</script>
+
+</body>
+</html></div>
 
 <div class="bottom">
 <div id="selectedText">No slot selected</div>
