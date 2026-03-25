@@ -1,10 +1,63 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="css/style.css">
+<title>My Cart</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Segoe UI;background:#eef3f2}
+.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;font-size:22px}
+.card{background:white;margin:15px;padding:18px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+button{background:#e53935;color:white;border:none;padding:8px 15px;border-radius:8px}
+</style>
+
 </head>
-<body><div class="header">Cart</div>
-<div class="container" id="cart"></div><script>
-let i=JSON.parse(localStorage.getItem("cart")||"[]")
-cart.innerHTML=i.map(x=>"<div class='card'>"+x+"</div>").join("")
-</script></body>
+
+<body>
+
+<div class="header">My Cart</div>
+
+<div id="items"></div>
+
+<script>
+
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+
+function render(){
+
+items.innerHTML="";
+
+cart.forEach((item,index)=>{
+
+items.innerHTML+=`
+<div class="card">
+${item}
+<button onclick="removeItem(${index})">Remove</button>
+</div>
+`;
+
+});
+
+if(cart.length==0){
+items.innerHTML="<div class='card'>Cart Empty</div>";
+}
+
+}
+
+function removeItem(i){
+
+cart.splice(i,1);
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+render();
+
+}
+
+render();
+
+</script>
+
+</body>
 </html>
