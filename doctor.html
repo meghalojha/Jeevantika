@@ -1,11 +1,99 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="css/style.css">
+<title>Doctor Profile</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#f4f7f6;
+}
+
+.header{
+background:linear-gradient(135deg,#1b5e20,#66bb6a);
+color:white;
+padding:22px;
+font-size:24px;
+text-align:center;
+}
+
+.card{
+background:white;
+margin:20px;
+padding:25px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+font-size:16px;
+margin-top:12px;
+}
+
+.call{
+background:#1565c0;
+}
+
+.book{
+background:#e53935;
+}
+
+</style>
+
 </head>
-<body><div class="header">Doctor Profile</div><div class="container">
-<div class="card">Cardiologist • 12 yrs</div>
-<button onclick="window.location.href='appointment.html'">
+
+<body>
+
+<div class="header">Doctor Profile</div>
+
+<div class="card">
+
+<h2 id="name">Doctor Name</h2>
+
+<p><b>Specialization:</b> <span id="spec"></span></p>
+
+<p><b>Experience:</b> <span id="exp"></span></p>
+
+<p><b>Rating:</b> ⭐<span id="rating"></span></p>
+
+<button class="call" id="callBtn">📞 Call Doctor</button>
+
+<br>
+
+<button class="book" onclick="window.location.href='appointment.html'">
 📅 Book Appointment
 </button>
-</div></body>
+
+</div>
+
+<script>
+
+let doc = JSON.parse(localStorage.getItem("selectedDoctor"));
+
+if(doc){
+
+document.getElementById("name").innerText = doc.name;
+document.getElementById("spec").innerText = doc.spec;
+document.getElementById("exp").innerText = doc.exp;
+document.getElementById("rating").innerText = doc.rating;
+
+document.getElementById("callBtn").onclick = function(){
+window.location.href="tel:"+doc.phone;
+}
+
+}
+
+</script>
+
+</body>
 </html>
