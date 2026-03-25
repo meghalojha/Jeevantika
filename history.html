@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Appointments</title>
+<title>Appointments</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{font-family:Segoe UI;background:#f4f7f6}
 .header{background:#2e7d32;color:white;padding:20px;text-align:center}
-.card{
-background:white;
-margin:15px;
-padding:15px;
-border-radius:15px;
-}
+.card{background:white;margin:15px;padding:15px;border-radius:15px}
 </style>
 </head>
 
@@ -20,25 +15,21 @@ border-radius:15px;
 
 <div class="header">My Appointments</div>
 
-<div id="data"></div>
+<div id="box"></div>
 
 <script>
 
-let appt=JSON.parse(localStorage.getItem("appointment"));
+let ap=JSON.parse(localStorage.getItem("appointment"));
 
-if(appt){
-
-data.innerHTML=`
+if(ap){
+box.innerHTML=`
 <div class="card">
-Doctor: ${appt.doctor}<br>
-Time: ${appt.time}
+Doctor: ${ap.doctor}<br>
+Time: ${ap.time}
 </div>
 `;
-
 }else{
-
-data.innerHTML="<div class='card'>No Appointments</div>";
-
+box.innerHTML="<div class='card'>No Appointment</div>";
 }
 
 </script>
