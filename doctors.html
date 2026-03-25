@@ -2,45 +2,43 @@
 <html>
 <head>
 <title>Doctors</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script type="module" src="firebase.js"></script>
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#f4f7f6}
-.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;text-align:center;font-size:22px}
-.card{background:white;margin:15px;padding:18px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+body{font-family:Segoe UI;background:#f4f7f6;margin:0}
+.header{background:#2e7d32;color:white;padding:20px;font-size:22px}
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:10px;
+float:right;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">Doctors</div>
+<div class="header">Find Doctors</div>
 
-<div class="card" onclick="selectDoctor('Dr Mehta','Cardiologist','12 Years','4.5','9876543210')">
-👨‍⚕ Dr Mehta ⭐4.5
+<div class="card">
+Dr Mehta — Cardiologist ⭐4.5
+<button onclick="location.href='doctor-profile.html'">View</button>
 </div>
 
-<div class="card" onclick="selectDoctor('Dr Shah','Dentist','9 Years','4.3','9876501234')">
-👩‍⚕ Dr Shah ⭐4.3
+<div class="card">
+Dr Shah — Dentist ⭐4.8
+<button onclick="location.href='doctor-profile.html'">View</button>
 </div>
-
-<script>
-
-function selectDoctor(name,spec,exp,rating,phone){
-
-let doc={
-name:name,
-spec:spec,
-exp:exp,
-rating:rating,
-phone:phone
-};
-
-localStorage.setItem("selectedDoctor",JSON.stringify(doc));
-
-window.location.href="doctor.html";
-}
-
-</script>
 
 </body>
 </html>
