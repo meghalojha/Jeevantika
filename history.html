@@ -1,38 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Appointment History</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointments</title>
+
 <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-<h2>Your Appointments</h2>
+<style>
 
-<div id="list"></div>
-
-<script type="module">
-import { db } from "./firebase.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-async function load(){
-    const querySnapshot = await getDocs(collection(db,"appointments"));
-    let html = "";
-
-    querySnapshot.forEach((doc)=>{
-        const d = doc.data();
-        html += `
-        <div style="background:white;padding:15px;margin:10px;border-radius:10px">
-            <b>${d.doctor}</b><br>
-            Patient: ${d.patient}<br>
-            Time: ${d.time}
-        </div>
-        `;
-    });
-
-    document.getElementById("list").innerHTML = html;
+.timeline{
+margin:20px;
+position:relative;
 }
 
-load();
+.timeline::before{
+content:"";
+position:absolute;
+left:18px;
+top:0;
+bottom:0;
+width:3px;
+background:#2e7d32;
+}
+
+.app-card{
+background:white;
+margin-left:40px;
+margin-bottom:20px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+position:relative;
+}
+
+.dot{
+width:14px;
+height:14px;
+background:#2e7d32;
+border-radius:50%;
+position:absolute;
+left:-27px;
+top:25px;
+}
+
+.status{
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+}
+
+.confirmed{
+background:#e8f5e9;
+color:#2e7d32;
+}
+
+.completed{
+background:#e3f2fd;
+color:#1976d2;
+}
+
+.cancel{
+background:#ffebee;
+color:#c62828;
+}
+
+.empty{
+text-align:center;
+margin-top:100px;
+color:grey;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+📅 My Appointments
+</div>
+
+<div id="historyBox"></div>
+
+<script>
+
+let time = localStorage.getItem("appointmentTime");
+
+if(time){
+
+document.getElementById("historyBox").innerHTML = `
+
+<div class="timeline">
+
+<div class="app-card">
+<div class="dot"></div>
+
+<div style="display:flex;justify-content:space-between">
+<div>
+<b>Dr. Mehta</b><br>
+Cardiologist
+</div>
+
+<div class="status confirmed">
+Confirmed
+</div>
+</div>
+
+<p style="margin-top:10px">
+🕒 ${time}
+</p>
+
+<button class="btn" style="background:#e53935;margin-top:10px" onclick="cancel()">
+Cancel Appointment
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}else{
+
+document.getElementById("historyBox").innerHTML = `
+<div class="empty">
+<h3>No Appointments Yet</h3>
+<p>Book your first consultation</p>
+</div>
+`;
+
+}
+
+function cancel(){
+localStorage.removeItem("appointmentTime");
+alert("Appointment Cancelled");
+location.reload();
+}
+
 </script>
 
 </body>
