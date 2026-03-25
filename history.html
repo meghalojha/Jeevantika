@@ -2,74 +2,62 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appointments</title>
-
-<link rel="stylesheet" href="style.css">
+<title>Appointment History</title>
 
 <style>
-
-.timeline{
-margin:20px;
-position:relative;
+body{
+font-family: Arial;
+background:#f4f7f6;
+margin:0;
 }
 
-.timeline::before{
-content:"";
-position:absolute;
-left:18px;
-top:0;
-bottom:0;
-width:3px;
+.header{
 background:#2e7d32;
+color:white;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
-.app-card{
+.container{
+padding:20px;
+}
+
+.card{
 background:white;
-margin-left:40px;
-margin-bottom:20px;
-padding:18px;
-border-radius:18px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-position:relative;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-.dot{
-width:14px;
-height:14px;
-background:#2e7d32;
-border-radius:50%;
-position:absolute;
-left:-27px;
-top:25px;
+.doc{
+font-size:18px;
+font-weight:bold;
+}
+
+.time{
+color:gray;
+margin-top:5px;
 }
 
 .status{
+margin-top:8px;
+display:inline-block;
 padding:5px 12px;
 border-radius:20px;
-font-size:12px;
-}
-
-.confirmed{
 background:#e8f5e9;
 color:#2e7d32;
-}
-
-.completed{
-background:#e3f2fd;
-color:#1976d2;
-}
-
-.cancel{
-background:#ffebee;
-color:#c62828;
+font-size:12px;
 }
 
 .empty{
 text-align:center;
 margin-top:100px;
-color:grey;
+color:gray;
 }
-
 </style>
 
 </head>
@@ -80,26 +68,63 @@ color:grey;
 📅 My Appointments
 </div>
 
-<div id="historyBox"></div>
-
-<script>
-
-let time = localStorage.getItem("appointmentTime");
-
-if(time){
-
-document.getElementById("historyBox").innerHTML = `
-
-<div class="timeline">
-
-<div class="app-card">
-<div class="dot"></div>
-
-<div style="display:flex;justify-content:space-between">
-<div>
-<b>Dr. Mehta</b><br>
-Cardiologist
+<div class="container" id="list">
+<div class="empty">Loading...</div>
 </div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain: "jeevantika-f6972.firebaseapp.com",
+projectId: "jeevantika-f6972",
+storageBucket: "jeevantika-f6972.firebasestorage.app",
+messagingSenderId: "61584268994",
+appId: "1:61584268994:web:faf80613e68b3c0acce55b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+async function loadAppointments(){
+
+const querySnapshot = await getDocs(collection(db, "appointments"));
+let html = "";
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+html += `
+<div class="card">
+<div class="doc">👨‍⚕️ ${data.doctor}</div>
+<div class="time">📅 ${data.date} • ⏰ ${data.time}</div>
+<div class="status">✅ ${data.status}</div>
+</div>
+`;
+
+});
+
+if(html === ""){
+document.getElementById("list").innerHTML =
+'<div class="empty">No appointments yet</div>';
+}else{
+document.getElementById("list").innerHTML = html;
+}
+
+}
+
+loadAppointments();
+
+</script>
+
+</body>
+</html></div>
 
 <div class="status confirmed">
 Confirmed
