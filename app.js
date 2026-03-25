@@ -27,3 +27,17 @@ else{
 alert("Invalid Login");
 }
 }
+function book(){
+
+let appointment={
+doctor:document.getElementById("doctor").value,
+date:document.getElementById("date").value,
+time:document.getElementById("time").value
+};
+
+localStorage.setItem("appointment",JSON.stringify(appointment));
+
+alert("Appointment Booked Successfully ✅");
+
+window.location="home.html";
+}
