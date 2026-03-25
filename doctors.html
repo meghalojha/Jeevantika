@@ -1,105 +1,155 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doctors</title>
 
 <link rel="stylesheet" href="style.css">
 
 <style>
-body{
-font-family:Arial;
-background:#f4f7f6;
-margin:0;
+
+.searchbox{
+margin:15px;
+background:white;
+padding:14px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-.header{
-background:#2e7d32;
-color:white;
-padding:20px;
-font-size:22px;
-font-weight:bold;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
+.filter{
+display:flex;
+gap:10px;
+overflow:auto;
+padding:0 15px 10px 15px;
 }
 
-.card{
+.filter div{
+background:white;
+padding:10px 16px;
+border-radius:25px;
+white-space:nowrap;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.doc-card{
 background:white;
 margin:15px;
-padding:15px;
-border-radius:15px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 display:flex;
-align-items:center;
-justify-content:space-between;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+gap:15px;
 }
 
-.docinfo{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.docimg{
-width:60px;
-height:60px;
+.doc-img{
+width:75px;
+height:75px;
 border-radius:50%;
 object-fit:cover;
 }
 
-.bookbtn{
-background:#2e7d32;
-color:white;
-border:none;
-padding:10px 18px;
-border-radius:10px;
-font-size:15px;
-cursor:pointer;
+.rating{
+color:#ff9800;
+font-weight:bold;
 }
 
-.bookbtn:hover{
-background:#1b5e20;
+.distance{
+color:grey;
+font-size:13px;
 }
+
 </style>
 
 </head>
+
 <body>
 
-<div class="header">Doctors</div>
-
-<!-- Doctor 1 -->
-<div class="card">
-<div class="docinfo">
-<img class="docimg" src="https://randomuser.me/api/portraits/men/32.jpg">
-<div>
-<b>Dr Mehta</b><br>
-<small>Cardiologist • 12 yrs</small>
-</div>
+<div class="header">
+👨‍⚕️ Find Doctors
 </div>
 
-<button class="bookbtn" onclick="selectDoctor('Dr Mehta')">Book</button>
+<div class="searchbox">
+<input placeholder="Search specialization..." style="width:100%;border:none;font-size:16px;outline:none;">
 </div>
 
-<!-- Doctor 2 -->
-<div class="card">
-<div class="docinfo">
-<img class="docimg" src="https://randomuser.me/api/portraits/women/44.jpg">
-<div>
-<b>Dr Shah</b><br>
-<small>Dentist • 8 yrs</small>
-</div>
+<div class="filter">
+<div>Cardio</div>
+<div>Dental</div>
+<div>Skin</div>
+<div>Ortho</div>
+<div>General</div>
 </div>
 
-<button class="bookbtn" onclick="selectDoctor('Dr Shah')">Book</button>
+<!-- DOCTOR -->
+
+<div class="doc-card">
+
+<img class="doc-img" src="https://randomuser.me/api/portraits/men/32.jpg">
+
+<div style="flex:1">
+
+<b>Dr. Mehta</b><br>
+Cardiologist<br>
+
+<span class="rating">⭐ 4.7</span><br>
+<span class="distance">📍 1.2 km away</span>
+
+<br><br>
+
+<button class="btn" onclick="location.href='doctor-profile.html'">
+Book Appointment
+</button>
+
 </div>
 
-<!-- Doctor 3 -->
-<div class="card">
-<div class="docinfo">
-<img class="docimg" src="https://randomuser.me/api/portraits/men/75.jpg">
-<div>
-<b>Dr Patel</b><br>
-<small>Orthopedic • 15 yrs</small>
 </div>
+
+<div class="doc-card">
+
+<img class="doc-img" src="https://randomuser.me/api/portraits/women/44.jpg">
+
+<div style="flex:1">
+
+<b>Dr. Shah</b><br>
+Dentist<br>
+
+<span class="rating">⭐ 4.5</span><br>
+<span class="distance">📍 2 km away</span>
+
+<br><br>
+
+<button class="btn" onclick="location.href='doctor-profile.html'">
+Book Appointment
+</button>
+
+</div>
+
+</div>
+
+<div class="doc-card">
+
+<img class="doc-img" src="https://randomuser.me/api/portraits/men/75.jpg">
+
+<div style="flex:1">
+
+<b>Dr. Patel</b><br>
+Orthopedic<br>
+
+<span class="rating">⭐ 4.8</span><br>
+<span class="distance">📍 800 m away</span>
+
+<br><br>
+
+<button class="btn" onclick="location.href='doctor-profile.html'">
+Book Appointment
+</button>
+
+</div>
+
+</div>
+
+</body>
+</html></div>
 </div>
 
 <button class="bookbtn" onclick="selectDoctor('Dr Patel')">Book</button>
