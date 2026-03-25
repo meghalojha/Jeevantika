@@ -1,105 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Jeevantika</title>
-
-<link rel="stylesheet" href="css/style.css">s">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <div class="logo">🌿 Jeevantika</div>
+<div class="logo">🌿 Jeevantika</div>
 
-    <input type="text" class="search" placeholder="Search doctors, medicines...">
+<div class="searchBox">
+<input placeholder="Search doctors, medicines...">
+</div>
 </div>
 
-<!-- CATEGORY -->
-<div class="category-scroll">
-
-    <div class="cat">Cardio</div>
-    <div class="cat">Dental</div>
-    <div class="cat">Skin</div>
-    <div class="cat">General</div>
-    <div class="cat">Ortho</div>
-    <div class="cat">Neuro</div>
-
+<div class="categories">
+<div class="cat">Cardio</div>
+<div class="cat">Dental</div>
+<div class="cat">Skin</div>
+<div class="cat">General</div>
+<div class="cat">Ortho</div>
+<div class="cat">Neuro</div>
 </div>
 
-<!-- TOP DOCTORS -->
 <div class="card">
+⭐ <b>Top Doctors Near You</b>
 
-    <div class="card-title">⭐ Top Doctors Near You</div>
+<div class="doctorRow">
+<div>
+<b>Dr. Mehta</b><br>
+Cardiologist • 12 yrs
+</div>
+<button class="bookBtn">Book</button>
+</div>
 
-    <div class="doctor-row">
-        <div>
-            <div class="doc-name">Dr. Mehta</div>
-            <div class="doc-sub">Cardiologist • 12 yrs</div>
-        </div>
+<hr>
 
-        <button class="book-btn" onclick="openDoctor()">Book</button>
-    </div>
-
-    <hr>
-
-    <div class="doctor-row">
-        <div>
-            <div class="doc-name">Dr. Shah</div>
-            <div class="doc-sub">Dentist • 8 yrs</div>
-        </div>
-
-        <button class="book-btn" onclick="openDoctor()">Book</button>
-    </div>
+<div class="doctorRow">
+<div>
+<b>Dr. Shah</b><br>
+Dentist • 8 yrs
+</div>
+<button class="bookBtn">Book</button>
+</div>
 
 </div>
 
-<!-- AI -->
-<div class="card ai">
-    <div class="card-title">🤖 AI Symptom Checker</div>
-    <div class="card-sub">Check symptoms instantly and get doctor suggestion</div>
-</div>
-
-<!-- MEDICINE -->
-<div class="card med">
-    <div class="card-title">💊 Order Medicines</div>
-    <div class="card-sub">Upload prescription & order at best price</div>
-</div>
-
-<!-- APPOINTMENT -->
 <div class="card">
-    <div class="card-title">📅 My Appointments</div>
-    <div class="card-sub">See your booked consultations</div>
+🤖 <b>AI Symptom Checker</b>
+<p>Check symptoms instantly and get doctor suggestion</p>
 </div>
 
-<!-- EMERGENCY FLOAT -->
-<div class="emergency" onclick="callAmbulance()">🚑</div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-
-    <div onclick="goHome()">🏠<span>Home</span></div>
-
-    <div onclick="goDoctors()">👨‍⚕️<span>Doctors</span></div>
-
-    <div onclick="goMedicine()">💊<span>Medicine</span></div>
-
-    <div onclick="goProfile()">👤<span>Profile</span></div>
-
+<div class="card">
+💊 <b>Order Medicines</b>
+<p>Upload prescription & order at best price</p>
 </div>
 
-<script>
+<div class="card">
+📅 <b>My Appointments</b>
+<p>See your booked consultations</p>
+</div>
 
-function openDoctor(){
-    window.location.href = "doctor-profile.html";
-}
+<div class="fab">🚑</div>
 
+<div class="bottomNav">
+<div>🏠</div>
+<div>👨‍⚕️</div>
+<div>💊</div>
+<div>👤</div>
+</div>
+
+</body>
+</html>
 function callAmbulance(){
     window.location.href = "tel:108";
 }
