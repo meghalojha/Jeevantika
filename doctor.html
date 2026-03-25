@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doctor Profile</title>
+<title>Doctor Detail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
-body{
-margin:0;
-font-family:Segoe UI;
-background:#f4f7f6;
-}
+body{font-family:Segoe UI;background:#f4f7f6;margin:0}
 
 .header{
-background:linear-gradient(135deg,#2e7d32,#66bb6a);
+background:#2e7d32;
 color:white;
 padding:20px;
 text-align:center;
@@ -25,25 +20,16 @@ background:white;
 margin:20px;
 padding:20px;
 border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
 text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.doc-img{
-width:90px;
-height:90px;
-border-radius:50%;
-margin-top:-60px;
-border:5px solid white;
-}
-
-.book{
+button{
 background:#2e7d32;
 color:white;
 padding:12px 20px;
 border:none;
 border-radius:12px;
-margin-top:15px;
 }
 
 </style>
@@ -53,33 +39,42 @@ margin-top:15px;
 
 <div class="header">Doctor Profile</div>
 
-<div class="card">
-
-<img class="doc-img"
-src="https://randomuser.me/api/portraits/men/32.jpg">
-
-<h3>Dr. Mehta</h3>
-<p>Cardiologist • 12 Years Experience</p>
-<p>⭐ 4.5 Rating</p>
-
-<button class="book" onclick="book()">
-Book Appointment
-</button>
-
-</div>
+<div class="card" id="doc"></div>
 
 <script>
 
-function book(){
+let name=localStorage.getItem("doctor");
 
-let appt={
-doctor:"Dr. Mehta",
+let html="";
+
+if(name=="mehta"){
+html=`
+<h2>Dr. Mehta</h2>
+<p>Cardiologist • 12 yrs</p>
+<button onclick="book('Dr. Mehta')">Book Appointment</button>
+`;
+}
+
+if(name=="shah"){
+html=`
+<h2>Dr. Shah</h2>
+<p>Dentist • 8 yrs</p>
+<button onclick="book('Dr. Shah')">Book Appointment</button>
+`;
+}
+
+doc.innerHTML=html;
+
+function book(d){
+
+let data={
+doctor:d,
 time:new Date().toLocaleString()
 };
 
-localStorage.setItem("appointment",JSON.stringify(appt));
+localStorage.setItem("appointment",JSON.stringify(data));
 
-alert("Appointment Booked Successfully");
+alert("Appointment Booked");
 
 }
 
