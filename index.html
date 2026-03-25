@@ -2,7 +2,11 @@
 <html>
 <head>
 <title>Jeevantika</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1b5e20">
+
+<link rel="manifest" href="manifest.json">
 
 <style>
 
@@ -12,6 +16,25 @@ font-family:'Segoe UI';
 background:#eef3f2;
 }
 
+/* Splash */
+
+#splash{
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:linear-gradient(135deg,#1b5e20,#66bb6a);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-size:28px;
+z-index:999;
+}
+
+/* Main */
+
 .header{
 background:linear-gradient(135deg,#1b5e20,#66bb6a);
 color:white;
@@ -19,29 +42,6 @@ padding:22px;
 font-size:24px;
 border-bottom-left-radius:25px;
 border-bottom-right-radius:25px;
-}
-
-.search{
-background:white;
-margin:15px;
-padding:14px;
-border-radius:14px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-.chips{
-display:flex;
-overflow:auto;
-padding:10px;
-gap:10px;
-}
-
-.chip{
-background:white;
-padding:10px 16px;
-border-radius:20px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-white-space:nowrap;
 }
 
 .card{
@@ -76,38 +76,17 @@ color:white;
 padding:18px;
 border-radius:50%;
 font-size:22px;
-box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
 
 </style>
-
-<script>
-function googleTranslateElementInit(){
-new google.translate.TranslateElement({pageLanguage:'en'},'lang');
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </head>
 
 <body>
 
-<div class="header">
-🌿 Jeevantika
-<div id="lang"></div>
-</div>
+<div id="splash">🌿 Jeevantika</div>
 
-<div class="search">
-🔍 Search doctors or medicines
-</div>
-
-<div class="chips">
-<div class="chip">Cardiologist</div>
-<div class="chip">Dentist</div>
-<div class="chip">Skin</div>
-<div class="chip">General</div>
-<div class="chip">Ortho</div>
-</div>
+<div class="header">Jeevantika</div>
 
 <div class="card" onclick="location.href='doctors.html'">
 👨‍⚕ Find Doctors
@@ -118,7 +97,7 @@ new google.translate.TranslateElement({pageLanguage:'en'},'lang');
 </div>
 
 <div class="card" onclick="location.href='pharmacy.html'">
-💊 Order Medicines
+💊 Medicine Store
 </div>
 
 <div class="emergency" onclick="location.href='tel:108'">🚑</div>
@@ -129,6 +108,22 @@ new google.translate.TranslateElement({pageLanguage:'en'},'lang');
 <div onclick="location.href='pharmacy.html'">💊</div>
 <div onclick="location.href='history.html'">📅</div>
 </div>
+
+<script>
+
+/* Splash Delay */
+
+setTimeout(()=>{
+document.getElementById("splash").style.display="none";
+},1500);
+
+/* Service Worker */
+
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("sw.js");
+}
+
+</script>
 
 </body>
 </html>
