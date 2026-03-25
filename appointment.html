@@ -2,53 +2,65 @@
 <html>
 <head>
 <title>Book Appointment</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<script type="module" src="firebase.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-body{font-family:Segoe UI;background:#f4f7f6;text-align:center}
-.header{background:#2e7d32;color:white;padding:20px;font-size:22px}
-input{
-padding:12px;
-margin:10px;
-width:80%;
-border-radius:10px;
-border:1px solid #ccc;
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain: "jeevantika-f6972.firebaseapp.com",
+projectId: "jeevantika-f6972",
+storageBucket: "jeevantika-f6972.firebasestorage.app",
+messagingSenderId: "61584268994",
+appId: "1:61584268994:web:faf80613e68b3c0acce55b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.bookNow = async function(){
+
+let doctor = document.getElementById("doctor").value;
+let patient = document.getElementById("patient").value;
+let time = document.getElementById("time").value;
+
+if(!doctor || !patient || !time){
+alert("Fill all fields");
+return;
 }
-button{
-background:#2e7d32;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:12px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="header">Book Appointment</div>
-
-<input id="name" placeholder="Your Name">
-<input id="date" type="date">
-
-<br>
-
-<button onclick="book()">Confirm Booking</button>
-
-<script>
-async function book(){
-let name=document.getElementById("name").value;
-let date=document.getElementById("date").value;
 
 await addDoc(collection(db,"appointments"),{
-name:name,
-date:date
+doctor: doctor,
+patient: patient,
+time: time,
+date: new Date().toLocaleDateString()
 });
 
-alert("Appointment Booked Successfully");
+alert("✅ Appointment Booked Successfully");
+
+window.location.href="history.html";
 }
+
 </script>
+
+</head>
+
+<body style="font-family:sans-serif;padding:20px">
+
+<h2>Book Appointment</h2>
+
+<input id="doctor" placeholder="Doctor Name"><br><br>
+<input id="patient" placeholder="Patient Name"><br><br>
+<input id="time" placeholder="Time"><br><br>
+
+<button onclick="bookNow()">Book Now</button>
 
 </body>
 </html>
