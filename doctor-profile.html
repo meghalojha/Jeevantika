@@ -1,130 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Profile</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
+<div class="slot-wrapper">
 
-body{
-font-family:Arial;
-background:#f4f7f6;
-}
+<h3>Select Appointment Date</h3>
 
-.header{
-background:#2e7d32;
-color:white;
-padding:25px;
-font-size:22px;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.card{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 5px 20px rgba(0,0,0,0.08);
-}
-
-.logout{
-background:#ff5252;
-color:white;
-padding:12px;
-text-align:center;
-border-radius:12px;
-margin:20px;
-}
-
-</style>
-</head>
-
-<body onload="checkUser()">
-
-<div class="header">
-My Profile
+<div class="date-tabs">
+<button class="date-btn active">Today</button>
+<button class="date-btn">Tomorrow</button>
+<button class="date-btn">📅 Pick Date</button>
 </div>
 
-<div class="card">
-<h3>Email</h3>
-<p id="userEmail"></p>
-</div>
+<h3>Available Time Slots</h3>
 
-<div class="logout" onclick="logout()">
-Logout
-</div>
+<div class="slots-grid">
 
-<script type="module" src="firebase.js"></script>
-<script type="module" src="auth.js"></script>
-
-</body>
-</html>Years Exp
-</div>
-
-<div class="stat">
-<b>4.7 ⭐</b><br>
-Rating
-</div>
-
-<div class="stat">
-<b>2000+</b><br>
-Patients
-</div>
-
-</div>
-
-<div class="about">
-<h3>About Doctor</h3>
-<p>Experienced cardiologist specialized in heart diseases, preventive cardiology and patient wellness. Provides compassionate care and advanced treatment plans.</p>
-</div>
-
-<div class="about">
-<h3>Select Slot</h3>
-
-<div class="slots">
-
-<div class="slot" onclick="selectSlot(this)">10:00 AM</div>
-<div class="slot" onclick="selectSlot(this)">11:30 AM</div>
-<div class="slot" onclick="selectSlot(this)">02:00 PM</div>
-<div class="slot" onclick="selectSlot(this)">04:30 PM</div>
-<div class="slot" onclick="selectSlot(this)">06:00 PM</div>
+<button class="slot">10:00 AM</button>
+<button class="slot">10:30 AM</button>
+<button class="slot booked">11:00 AM</button>
+<button class="slot">11:30 AM</button>
+<button class="slot">12:00 PM</button>
+<button class="slot">02:00 PM</button>
+<button class="slot">04:30 PM</button>
+<button class="slot">06:00 PM</button>
 
 </div>
 
 </div>
 
-<div class="bookbar">
-<button class="btn" style="width:100%" onclick="book()">Book Appointment</button>
+<div class="sticky-book">
+<span id="selectedSlot">No slot selected</span>
+<button id="bookBtn">Book Appointment</button>
 </div>
-
-<script>
-
-let selectedTime="";
-
-function selectSlot(el){
-
-document.querySelectorAll(".slot").forEach(s=>s.classList.remove("active"));
-el.classList.add("active");
-
-selectedTime=el.innerText;
-
-}
-
-function book(){
-
-if(selectedTime==""){
-alert("Please select time slot");
-return;
-}
-
-localStorage.setItem("appointmentTime",selectedTime);
-alert("Appointment Booked Successfully");
-
-location.href="history.html";
-
-}
-
-</script>
-
-</body>
-</html>
