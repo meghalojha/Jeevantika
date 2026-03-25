@@ -1,11 +1,12 @@
 <!DOCTYPE html><html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>Doctor Profile</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Profile</title><style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#f4f6f8;
+font-family:system-ui;
+background:#f2f4f7;
 }
 
 .container{
@@ -15,15 +16,21 @@ padding-bottom:120px;
 
 .card{
 background:white;
-border-radius:20px;
+border-radius:22px;
 padding:20px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-margin-bottom:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
 h2{
 margin-top:0;
 }
+
+.sub{
+color:#777;
+margin-bottom:10px;
+}
+
+/* DATE ROW */
 
 .dateRow{
 display:flex;
@@ -37,8 +44,9 @@ padding:14px;
 border-radius:40px;
 border:2px solid #2e7d32;
 text-align:center;
-font-weight:bold;
+font-weight:700;
 color:#2e7d32;
+background:white;
 }
 
 .activeDate{
@@ -46,14 +54,14 @@ background:#2e7d32;
 color:white;
 }
 
-#calendar{
-flex:1;
-padding:14px;
-border-radius:40px;
-border:2px solid #2e7d32;
-font-weight:bold;
-color:#2e7d32;
+.calendarBtn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
 }
+
+/* SLOT GRID */
 
 .slots{
 display:grid;
@@ -64,16 +72,19 @@ margin-top:20px;
 
 .slot{
 padding:16px;
-border-radius:18px;
+border-radius:16px;
 border:2px solid #2e7d32;
 text-align:center;
-font-weight:bold;
+font-weight:700;
+background:white;
 }
 
 .slotSelected{
 background:#2e7d32;
 color:white;
 }
+
+/* BOTTOM BAR */
 
 .bottomBar{
 position:fixed;
@@ -84,23 +95,31 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 -5px 20px rgba(0,0,0,0.1);
+box-shadow:0 -8px 20px rgba(0,0,0,.1);
 }
 
 .bookBtn{
 background:#2e7d32;
 color:white;
-padding:14px 25px;
+padding:14px 26px;
 border-radius:30px;
-font-weight:bold;
+font-weight:700;
+}
+
+#calendarInput{
+position:absolute;
+opacity:0;
+pointer-events:none;
 }
 
 </style></head><body><div class="container"><div class="card"><h2>Dr Mehta</h2>
-<p>Cardiologist • 12 Years Experience</p><h3>Select Appointment Date</h3><div class="dateRow">
-<div class="dateBtn activeDate" onclick="changeDate(this,'today')">Today</div>
-<div class="dateBtn" onclick="changeDate(this,'tomorrow')">Tomorrow</div>
-<input type="date" id="calendar">
-</div><h3>Available Time Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
+<div class="sub">Cardiologist • ⭐ 4.7 • 12 yrs</div><h3>Select Appointment Date</h3><div class="dateRow"><div class="dateBtn activeDate" onclick="changeDate(this,'today')">
+Today
+</div><div class="dateBtn" onclick="changeDate(this,'tomorrow')">
+Tomorrow
+</div><div class="dateBtn calendarBtn" onclick="openCalendar()">
+📅 Pick Date
+</div><input type="date" id="calendarInput"></div><h3>Available Time Slots</h3><div id="slotsContainer" class="slots"></div></div></div><div class="bottomBar">
 <div id="selectedText">No slot selected</div>
 <div class="bookBtn" onclick="bookSlot()">Book Appointment</div>
 </div><script>
@@ -108,25 +127,30 @@ font-weight:bold;
 let selectedSlot = null
 let selectedDate = "Today"
 
+/* SLOT RENDER */
+
 function renderSlots(arr){
 
 let container = document.getElementById("slotsContainer")
-container.innerHTML = ""
+container.innerHTML=""
 
 arr.forEach(time=>{
-let div = document.createElement("div")
-div.className = "slot"
-div.innerText = time
 
-div.onclick = function(){
+let div=document.createElement("div")
+div.className="slot"
+div.innerText=time
 
-document.querySelectorAll(".slot").forEach(s=>s.classList.remove("slotSelected"))
+div.onclick=function(){
+
+document.querySelectorAll(".slot")
+.forEach(s=>s.classList.remove("slotSelected"))
+
 div.classList.add("slotSelected")
 
-selectedSlot = time
+selectedSlot=time
 
 document.getElementById("selectedText").innerText =
-selectedDate + " • " + time
+selectedDate+" • "+time
 
 }
 
@@ -136,41 +160,54 @@ container.appendChild(div)
 
 }
 
+/* DATE SWITCH */
+
 function changeDate(btn,type){
 
-document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"))
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"))
+
 btn.classList.add("activeDate")
 
-selectedSlot = null
+selectedSlot=null
 
 if(type==="today"){
-selectedDate = "Today"
+selectedDate="Today"
 renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"])
 }
 
 if(type==="tomorrow"){
-selectedDate = "Tomorrow"
+selectedDate="Tomorrow"
 renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM","05:30 PM"])
 }
 
-document.getElementById("selectedText").innerText = "No slot selected"
+document.getElementById("selectedText").innerText="No slot selected"
 
 }
 
-document.getElementById("calendar").addEventListener("change", function(){
+/* CALENDAR BUTTON */
 
-selectedDate = this.value
+function openCalendar(){
+document.getElementById("calendarInput").showPicker();
+}
 
-document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"))
+document.getElementById("calendarInput").addEventListener("change",function(){
 
-selectedSlot = null
+selectedDate=this.value
+
+document.querySelectorAll(".dateBtn")
+.forEach(b=>b.classList.remove("activeDate"))
+
+selectedSlot=null
 
 renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM","05:00 PM"])
 
 document.getElementById("selectedText").innerText =
-"Date: " + selectedDate
+"Date: "+selectedDate
 
 })
+
+/* BOOK */
 
 function bookSlot(){
 
@@ -179,9 +216,11 @@ alert("Please select slot")
 return
 }
 
-alert("Appointment Booked on " + selectedDate + " at " + selectedSlot)
+alert("Appointment booked on "+selectedDate+" at "+selectedSlot)
 
 }
+
+/* INITIAL LOAD */
 
 renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM","04:30 PM","06:00 PM"])
 
