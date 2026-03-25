@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Admin Panel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script type="module" src="firebase.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f7f6;
+text-align:center;
+}
+
+.header{
+background:#2e7d32;
+color:white;
+padding:20px;
+font-size:22px;
+}
+
+input{
+padding:12px;
+margin:8px;
+width:80%;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+margin-top:10px;
+}
+
+.card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">Doctor Admin Panel</div>
+
+<input id="name" placeholder="Doctor Name">
+<input id="spec" placeholder="Specialization">
+<input id="rating" placeholder="Rating">
+
+<br>
+
+<button onclick="addDoctor()">Add Doctor</button>
+
+<h3>Doctor List</h3>
+
+<div id="list"></div>
+
+<script>
+
+async function addDoctor(){
+
+let n=name.value;
+let s=spec.value;
+let r=rating.value;
+
+await addDoc(collection(db,"doctors"),{
+name:n,
+spec:s,
+rating:r
+});
+
+alert("Doctor Added");
+
+loadDoctors();
+
+}
+
+async function loadDoctors(){
+
+list.innerHTML="";
+
+let querySnapshot = await getDocs(collection(db,"doctors"));
+
+querySnapshot.forEach((doc)=>{
+
+let d=doc.data();
+
+list.innerHTML += `
+<div class="card">
+👨‍⚕ ${d.name} <br>
+${d.spec} ⭐${d.rating}
+</div>
+`;
+
+});
+
+}
+
+loadDoctors();
+
+</script>
+
+</body>
+</html>
