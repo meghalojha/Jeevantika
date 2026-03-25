@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile • Jeevantika</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f4f7f6;
+margin:0;
+padding-bottom:80px;
+}
+
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+color:white;
+padding:30px 20px;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px;
+}
+
+.profile-card{
+background:white;
+margin:-40px 20px 20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.profile-card img{
+width:90px;
+height:90px;
+border-radius:50%;
+border:4px solid #2e7d32;
+}
+
+.profile-card h2{
+margin:10px 0 5px;
+}
+
+.profile-card p{
+color:gray;
+margin:0;
+}
+
+.menu{
+background:white;
+margin:10px 20px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+overflow:hidden;
+}
+
+.menu a{
+display:block;
+padding:16px;
+border-bottom:1px solid #eee;
+text-decoration:none;
+color:#333;
+font-weight:600;
+}
+
+.menu a:last-child{
+border:none;
+}
+
+.logout{
+margin:20px;
+background:#e53935;
+color:white;
+text-align:center;
+padding:15px;
+border-radius:14px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -4px 15px rgba(0,0,0,0.08);
+}
+
+.bottom-nav a{
+text-align:center;
+text-decoration:none;
+color:#666;
+font-size:14px;
+}
+
+.active{
+color:#2e7d32;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>My Profile</h1>
+</div>
+
+<div class="profile-card">
+
+<img src="https://i.pravatar.cc/150?img=12">
+
+<h2 id="userName">Guest User</h2>
+<p id="userEmail">Not Logged In</p>
+
+</div>
+
+<div class="menu">
+
+<a href="history.html">📅 Appointment History</a>
+
+<a href="dashboard.html">📊 Health Dashboard</a>
+
+<a href="pharmacy.html">💊 My Orders</a>
+
+<a href="ai.html">🤖 AI Symptom Checker</a>
+
+<a href="settings.html">⚙ Settings</a>
+
+</div>
+
+<div class="logout" onclick="logoutUser()">
+Logout
+</div>
+
+
+<!-- Bottom Navigation -->
+
+<div class="bottom-nav">
+
+<a href="index.html">🏠<br>Home</a>
+
+<a href="doctors.html">👨‍⚕️<br>Doctors</a>
+
+<a href="medicine.html">💊<br>Medicine</a>
+
+<a class="active" href="profile.html">👤<br>Profile</a>
+
+</div>
+
+
+<!-- Firebase Auth Logic -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain: "jeevantika-f6972.firebaseapp.com",
+projectId: "jeevantika-f6972",
+storageBucket: "jeevantika-f6972.firebasestorage.app",
+messagingSenderId: "61584268994",
+appId: "1:61584268994:web:faf80613e68b3c0acce55b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+document.getElementById("userName").innerText = user.displayName || "Jeevantika User";
+
+document.getElementById("userEmail").innerText = user.email;
+
+}else{
+
+document.getElementById("userName").innerText="Guest User";
+document.getElementById("userEmail").innerText="Please Login";
+
+}
+
+});
+
+window.logoutUser = function(){
+
+signOut(auth).then(()=>{
+alert("Logged Out");
+location.href="login.html";
+});
+
+}
+
+</script>
+
+</body>
+</html>
