@@ -2,16 +2,51 @@
 <html>
 <head>
 <title>Doctor Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Segoe UI;background:#f4f7f6}
-.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;text-align:center;font-size:22px}
-.card{background:white;margin:20px;padding:25px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08);text-align:center}
-button{padding:12px 20px;border:none;border-radius:10px;color:white;font-size:16px;margin-top:10px}
-.call{background:#1565c0}
-.book{background:#e53935}
-</style>
 
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f7f6;
+}
+
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+}
+
+.card{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.doc-img{
+width:90px;
+height:90px;
+border-radius:50%;
+margin-top:-60px;
+border:5px solid white;
+}
+
+.book{
+background:#2e7d32;
+color:white;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+margin-top:15px;
+}
+
+</style>
 </head>
 
 <body>
@@ -20,33 +55,32 @@ button{padding:12px 20px;border:none;border-radius:10px;color:white;font-size:16
 
 <div class="card">
 
-<h2 id="name"></h2>
+<img class="doc-img"
+src="https://randomuser.me/api/portraits/men/32.jpg">
 
-<p>Specialization: <span id="spec"></span></p>
+<h3>Dr. Mehta</h3>
+<p>Cardiologist • 12 Years Experience</p>
+<p>⭐ 4.5 Rating</p>
 
-<p>Experience: <span id="exp"></span></p>
-
-<p>Rating: ⭐<span id="rating"></span></p>
-
-<button class="call" id="callBtn">📞 Call</button>
-<br>
-<button class="book" onclick="window.location.href='appointment.html'">📅 Book</button>
+<button class="book" onclick="book()">
+Book Appointment
+</button>
 
 </div>
 
 <script>
 
-let d=JSON.parse(localStorage.getItem("selectedDoctor"));
+function book(){
 
-if(d){
-name.innerText=d.name;
-spec.innerText=d.spec;
-exp.innerText=d.exp;
-rating.innerText=d.rating;
+let appt={
+doctor:"Dr. Mehta",
+time:new Date().toLocaleString()
+};
 
-callBtn.onclick=function(){
-window.location.href="tel:"+d.phone;
-}
+localStorage.setItem("appointment",JSON.stringify(appt));
+
+alert("Appointment Booked Successfully");
+
 }
 
 </script>
