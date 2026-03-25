@@ -1,10 +1,13 @@
 {
-"name": "Jeevantika",
+"name": "Jeevantika Healthcare App",
 "short_name": "Jeevantika",
-"start_url": "index.html",
+"description": "Find doctors, emergency help, pharmacy and appointment booking.",
+"start_url": "/Jeevantika/index.html",
 "display": "standalone",
-"background_color": "#1b5e20",
-"theme_color": "#1b5e20",
+"background_color": "#2e7d32",
+"theme_color": "#2e7d32",
+"orientation": "portrait",
+"scope": "/Jeevantika/",
 "icons": [
 {
 "src": "icon.png",
