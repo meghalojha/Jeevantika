@@ -1,54 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Medicine Store</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="style.css">
 
 <style>
-body{font-family:Segoe UI;background:#f4f7f6;margin:0}
-.header{background:#2e7d32;color:white;padding:20px;text-align:center}
-.card{
+
+.searchbox{
+margin:15px;
+background:white;
+padding:14px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.med-card{
 background:white;
 margin:15px;
-padding:15px;
-border-radius:15px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
-.btn{
+
+.price{
+color:#2e7d32;
+font-weight:bold;
+}
+
+.old{
+text-decoration:line-through;
+color:grey;
+font-size:13px;
+}
+
+.cart-float{
+position:fixed;
+bottom:90px;
+right:20px;
 background:#2e7d32;
 color:white;
-padding:8px 14px;
-border:none;
-border-radius:8px;
+width:65px;
+height:65px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:26px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
+
+.cart-count{
+position:absolute;
+top:8px;
+right:8px;
+background:#e53935;
+color:white;
+font-size:12px;
+padding:3px 7px;
+border-radius:50%;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="header">Medicine Store</div>
-
-<div class="card">
-Paracetamol ₹30
-<button class="btn" onclick="order('Paracetamol')">
-Order
-</button>
+<div class="header">
+💊 Medicine Store
 </div>
 
-<div class="card">
-Vitamin C ₹120
-<button class="btn" onclick="order('Vitamin C')">
-Order
-</button>
+<div class="searchbox">
+<input placeholder="Search medicines..." style="width:100%;border:none;font-size:16px;outline:none;">
+</div>
+
+<!-- MEDICINES -->
+
+<div class="med-card">
+<div>
+<b>Paracetamol</b><br>
+<span class="old">₹40</span>
+<span class="price">₹30</span>
+</div>
+<button class="btn" onclick="add()">Add</button>
+</div>
+
+<div class="med-card">
+<div>
+<b>Vitamin C</b><br>
+<span class="old">₹150</span>
+<span class="price">₹120</span>
+</div>
+<button class="btn" onclick="add()">Add</button>
+</div>
+
+<div class="med-card">
+<div>
+<b>Cough Syrup</b><br>
+<span class="old">₹110</span>
+<span class="price">₹85</span>
+</div>
+<button class="btn" onclick="add()">Add</button>
+</div>
+
+<!-- FLOAT CART -->
+
+<div class="cart-float" onclick="checkout()">
+🛒
+<div class="cart-count" id="count">0</div>
 </div>
 
 <script>
 
-function order(name){
+let cart = 0;
 
-alert(name+" Ordered Successfully");
+function add(){
+cart++;
+document.getElementById("count").innerText = cart;
+alert("Added to cart");
+}
+
+function checkout(){
+
+if(cart==0){
+alert("Cart is empty");
+return;
+}
+
+alert("Order Placed Successfully");
+cart=0;
+document.getElementById("count").innerText = cart;
 
 }
 
