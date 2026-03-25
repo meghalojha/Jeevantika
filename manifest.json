@@ -1,13 +1,10 @@
 {
 "name": "Jeevantika Healthcare",
 "short_name": "Jeevantika",
-"description": "Healthcare at your fingertips",
-"start_url": "/Jeevantika/index.html",
+"start_url": "/Jeevantika/",
 "display": "standalone",
 "background_color": "#2e7d32",
 "theme_color": "#2e7d32",
-"orientation": "portrait",
-"scope": "/Jeevantika/",
 "icons": [
 {
 "src": "icon.png",
