@@ -3,51 +3,13 @@
 <head>
 <title>Doctor Profile</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#f4f7f6;
-}
-
-.header{
-background:linear-gradient(135deg,#1b5e20,#66bb6a);
-color:white;
-padding:22px;
-font-size:24px;
-text-align:center;
-}
-
-.card{
-background:white;
-margin:20px;
-padding:25px;
-border-radius:18px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-button{
-background:#2e7d32;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:12px;
-font-size:16px;
-margin-top:12px;
-}
-
-.call{
-background:#1565c0;
-}
-
-.book{
-background:#e53935;
-}
-
+body{margin:0;font-family:Segoe UI;background:#f4f7f6}
+.header{background:linear-gradient(135deg,#1b5e20,#66bb6a);color:white;padding:20px;text-align:center;font-size:22px}
+.card{background:white;margin:20px;padding:25px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08);text-align:center}
+button{padding:12px 20px;border:none;border-radius:10px;color:white;font-size:16px;margin-top:10px}
+.call{background:#1565c0}
+.book{background:#e53935}
 </style>
 
 </head>
@@ -58,39 +20,33 @@ background:#e53935;
 
 <div class="card">
 
-<h2 id="name">Doctor Name</h2>
+<h2 id="name"></h2>
 
-<p><b>Specialization:</b> <span id="spec"></span></p>
+<p>Specialization: <span id="spec"></span></p>
 
-<p><b>Experience:</b> <span id="exp"></span></p>
+<p>Experience: <span id="exp"></span></p>
 
-<p><b>Rating:</b> ⭐<span id="rating"></span></p>
+<p>Rating: ⭐<span id="rating"></span></p>
 
-<button class="call" id="callBtn">📞 Call Doctor</button>
-
+<button class="call" id="callBtn">📞 Call</button>
 <br>
-
-<button class="book" onclick="window.location.href='appointment.html'">
-📅 Book Appointment
-</button>
+<button class="book" onclick="window.location.href='appointment.html'">📅 Book</button>
 
 </div>
 
 <script>
 
-let doc = JSON.parse(localStorage.getItem("selectedDoctor"));
+let d=JSON.parse(localStorage.getItem("selectedDoctor"));
 
-if(doc){
+if(d){
+name.innerText=d.name;
+spec.innerText=d.spec;
+exp.innerText=d.exp;
+rating.innerText=d.rating;
 
-document.getElementById("name").innerText = doc.name;
-document.getElementById("spec").innerText = doc.spec;
-document.getElementById("exp").innerText = doc.exp;
-document.getElementById("rating").innerText = doc.rating;
-
-document.getElementById("callBtn").onclick = function(){
-window.location.href="tel:"+doc.phone;
+callBtn.onclick=function(){
+window.location.href="tel:"+d.phone;
 }
-
 }
 
 </script>
