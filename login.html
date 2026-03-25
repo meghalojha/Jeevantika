@@ -32,3 +32,99 @@ text-align:center;
 }
 
 .input-group{
+margin-top:20px;
+}
+
+.input-group input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+font-size:16px;
+}
+
+.btn{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:white;
+color:#2e7d32;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.or{
+text-align:center;
+margin:20px 0;
+}
+
+.social{
+display:flex;
+gap:10px;
+}
+
+.social div{
+flex:1;
+background:white;
+color:#2e7d32;
+padding:10px;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Welcome to Jeevantika</h2>
+
+<div class="input-group">
+<input type="text" placeholder="Enter Phone / Email">
+</div>
+
+<button class="btn" onclick="login()">Get OTP</button>
+
+<div class="or">OR</div>
+
+<div class="social">
+<div>Google</div>
+<div>Facebook</div>
+</div>
+
+<div class="footer">
+New user? Sign up automatically
+</div>
+
+</div>
+
+<script>
+
+function login(){
+
+alert("Login Success (Demo)");
+
+localStorage.setItem("user","logged");
+
+location.href="index.html";
+
+}
+
+</script>
+
+</body>
+</html>
