@@ -1,15 +1,76 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Jeevantika</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<script type="module" src="firebase.js"></script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2e7d32">
 
 <style>
-body{font-family:Segoe UI;background:#f4f7f6;margin:0}
-.header{background:#2e7d32;color:white;padding:20px;font-size:24px}
-.card{background:white;margin:15px;padding:15px;border-radius:15px}
-button{background:red;color:white;border:none;padding:12px;border-radius:12px}
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f7f6;
+}
+
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+color:white;
+padding:18px;
+font-size:22px;
+font-weight:bold;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
+}
+
+.search{
+padding:15px;
+}
+
+.search input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card{
+background:white;
+margin:15px;
+padding:18px;
+border-radius:18px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+font-size:18px;
+}
+
+.fab{
+position:fixed;
+bottom:90px;
+right:20px;
+background:#e53935;
+color:white;
+padding:18px;
+border-radius:50%;
+font-size:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px;
+box-shadow:0 -5px 15px rgba(0,0,0,0.1);
+}
+
 </style>
 </head>
 
@@ -17,42 +78,34 @@ button{background:red;color:white;border:none;padding:12px;border-radius:12px}
 
 <div class="header">🌿 Jeevantika</div>
 
-<div class="card" onclick="location.href='doctors.html'">
-Find Doctors
+<div class="search">
+<input placeholder="Search doctors, medicines">
 </div>
 
-<div class="card" onclick="location.href='dashboard.html'">
-My Dashboard
+<div class="card" onclick="location.href='doctors.html'">
+👨‍⚕️ Top Doctors
 </div>
 
 <div class="card" onclick="location.href='pharmacy.html'">
-Medicine Store
+💊 Medicine Offers 20% OFF
 </div>
 
-<div class="card">
-<button onclick="emergency()">Emergency Nearby</button>
+<div class="fab" onclick="alert('Emergency Calling Soon')">
+🚑
+</div>
+
+<div class="nav">
+<div onclick="location.href='index.html'">🏠</div>
+<div onclick="location.href='doctors.html'">👨‍⚕️</div>
+<div onclick="location.href='pharmacy.html'">💊</div>
+<div onclick="location.href='profile.html'">👤</div>
 </div>
 
 <script>
-function emergency(){
-
-navigator.geolocation.getCurrentPosition(pos=>{
-
-let lat=pos.coords.latitude;
-let lon=pos.coords.longitude;
-
-window.open(
-`https://www.google.com/maps/search/hospital/@${lat},${lon},15z`
-);
-
-});
-
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("service-worker.js")
 }
 </script>
 
 </body>
 </html>
-<script src="notify.js"></script>
-<script>
-notify("Welcome to Jeevantika");
-</script>
