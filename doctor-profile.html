@@ -1,123 +1,103 @@
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Profile</title>
 
-<script>
-
-var firebaseConfig = {
-apiKey: "PASTE",
-authDomain: "PASTE",
-projectId: "PASTE",
-storageBucket: "PASTE",
-messagingSenderId: "PASTE",
-appId: "PASTE"
-};
-
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-
-let selectedSlot = null;
-let selectedDate = "Today";
-
-function selectSlot(time){
-selectedSlot = time;
-
-document.querySelectorAll(".slot").forEach(s=>{
-s.classList.remove("activeSlot");
-});
-
-event.target.classList.add("activeSlot");
-
-document.getElementById("selectedText").innerText =
-selectedDate + " • " + time;
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6f8;
 }
 
-function selectToday(btn){
-selectedDate="Today";
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
-activateDate(btn);
+.header{
+background:linear-gradient(135deg,#2e7d32,#66bb6a);
+padding:20px;
+color:white;
+font-size:22px;
+font-weight:bold;
 }
 
-function selectTomorrow(btn){
-selectedDate="Tomorrow";
-renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
-activateDate(btn);
+.card{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-function openCalendar(){
-document.getElementById("datePicker").click();
+.dateBtn{
+padding:12px 18px;
+border-radius:25px;
+border:2px solid #2e7d32;
+background:white;
+margin-right:10px;
+font-weight:bold;
 }
 
-document.getElementById("datePicker").addEventListener("change",function(){
-selectedDate=this.value;
-renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
-document.getElementById("selectedText").innerText="Date: "+selectedDate;
-});
-
-function activateDate(btn){
-document.querySelectorAll(".dateBtn").forEach(b=>{
-b.classList.remove("activeDate");
-});
-btn.classList.add("activeDate");
-selectedSlot=null;
-document.getElementById("selectedText").innerText="No slot selected";
+.activeDate{
+background:#2e7d32;
+color:white;
 }
 
-function renderSlots(arr){
-let c=document.getElementById("slotsContainer");
-c.innerHTML="";
-arr.forEach(t=>{
-let d=document.createElement("div");
-d.className="slot";
-d.innerText=t;
-d.onclick=function(){selectSlot(t)};
-c.appendChild(d);
-});
+.slots{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px;
 }
 
-function bookNow(){
-
-if(!selectedSlot){
-alert("Please select time slot");
-return;
+.slot{
+padding:14px;
+text-align:center;
+border:2px solid #2e7d32;
+border-radius:15px;
+font-weight:bold;
 }
 
-db.collection("appointments").add({
-doctor:"Dr Mehta",
-date:selectedDate,
-time:selectedSlot,
-status:"booked"
-})
-.then(function(){
-alert("Appointment Booked Successfully ✅");
-window.location.href="history.html";
-})
-.catch(function(error){
-alert("Firebase Error → "+error.message);
-});
-
+.slotSelected{
+background:#2e7d32;
+color:white;
 }
 
-renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
+.bottomBar{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+box-shadow:0 -4px 10px rgba(0,0,0,0.1);
+}
 
-</script><div class="header">Dr Mehta</div>
+.bookBtn{
+background:#2e7d32;
+color:white;
+padding:14px 22px;
+border-radius:25px;
+font-weight:bold;
+border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Dr Mehta</div>
 
 <div class="card">
 
 <h3>Select Appointment Date</h3>
 
-<div class="dateBtns">
-
 <button class="dateBtn activeDate" onclick="selectToday(this)">Today</button>
-
 <button class="dateBtn" onclick="selectTomorrow(this)">Tomorrow</button>
-
 <button class="dateBtn" onclick="openCalendar()">📅 Pick Date</button>
 
 <input type="date" id="datePicker" style="display:none">
 
-</div>
-
-<h3>Available Time Slots</h3>
+<h3 style="margin-top:20px;">Available Time Slots</h3>
 
 <div class="slots" id="slotsContainer"></div>
 
@@ -129,13 +109,13 @@ renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
 </div>
 
 
-<!-- Firebase -->
+<!-- FIREBASE V8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
 
-var firebaseConfig = {
+const firebaseConfig = {
 apiKey: "PASTE",
 authDomain: "PASTE",
 projectId: "PASTE",
@@ -145,73 +125,42 @@ appId: "PASTE"
 };
 
 firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
+const db = firebase.firestore();
 
-
-let selectedSlot = null;
-let selectedDate = "Today";
+let selectedSlot=null;
+let selectedDate="Today";
 
 function renderSlots(arr){
-
-let c = document.getElementById("slotsContainer");
-c.innerHTML = "";
-
-arr.forEach(function(t){
-
-let d = document.createElement("div");
+let c=document.getElementById("slotsContainer");
+c.innerHTML="";
+arr.forEach(t=>{
+let d=document.createElement("div");
 d.className="slot";
-d.innerText = t;
+d.innerText=t;
 
 d.onclick=function(){
-
-document.querySelectorAll(".slot")
-.forEach(function(s){s.classList.remove("slotSelected")});
-
+document.querySelectorAll(".slot").forEach(s=>s.classList.remove("slotSelected"));
 d.classList.add("slotSelected");
-
-selectedSlot = t;
-
-document.getElementById("selectedText").innerText =
-selectedDate + " • " + t;
-
+selectedSlot=t;
+document.getElementById("selectedText").innerText=selectedDate+" • "+t;
 }
 
 c.appendChild(d);
-
 });
-
 }
 
 function selectToday(btn){
-
-document.querySelectorAll(".dateBtn")
-.forEach(function(b){b.classList.remove("activeDate")});
-
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
 btn.classList.add("activeDate");
-
 selectedDate="Today";
-selectedSlot=null;
-
-document.getElementById("selectedText").innerText="No slot selected";
-
 renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
-
 }
 
 function selectTomorrow(btn){
-
-document.querySelectorAll(".dateBtn")
-.forEach(function(b){b.classList.remove("activeDate")});
-
+document.querySelectorAll(".dateBtn").forEach(b=>b.classList.remove("activeDate"));
 btn.classList.add("activeDate");
-
 selectedDate="Tomorrow";
-selectedSlot=null;
-
-document.getElementById("selectedText").innerText="No slot selected";
-
 renderSlots(["09:30 AM","11:00 AM","01:30 PM","03:00 PM"]);
-
 }
 
 function openCalendar(){
@@ -219,24 +168,15 @@ document.getElementById("datePicker").click();
 }
 
 document.getElementById("datePicker").addEventListener("change",function(){
-
 selectedDate=this.value;
-selectedSlot=null;
-
-document.querySelectorAll(".dateBtn")
-.forEach(function(b){b.classList.remove("activeDate")});
-
-document.getElementById("selectedText").innerText="Date: "+selectedDate;
-
 renderSlots(["09:00 AM","11:00 AM","01:00 PM","03:30 PM"]);
-
+document.getElementById("selectedText").innerText="Date: "+selectedDate;
 });
-
 
 function bookNow(){
 
 if(!selectedSlot){
-alert("Please select time slot");
+alert("Please select slot");
 return;
 }
 
@@ -249,20 +189,14 @@ time:selectedSlot,
 status:"booked"
 })
 .then(function(){
-
 alert("Appointment Saved In Firebase ✅");
-
 window.location.href="history.html";
-
 })
 .catch(function(error){
-
 alert("Firebase Error → "+error.message);
-
 });
 
 }
-
 
 renderSlots(["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"]);
 
