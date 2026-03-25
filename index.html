@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Jeevantika</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/Jeevantika/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -12,97 +16,111 @@
 
 <!-- HEADER -->
 <div class="header">
-🌿 Jeevantika
-</div>
+    <div class="logo">🌿 Jeevantika</div>
 
-<!-- SEARCH -->
-<div class="search">
-<input type="text" placeholder="Search doctors, medicines..." style="width:100%;border:none;font-size:16px;outline:none;">
+    <input type="text" class="search" placeholder="Search doctors, medicines...">
 </div>
 
 <!-- CATEGORY -->
-<div class="chips">
-<div class="chip">Cardio</div>
-<div class="chip">Dental</div>
-<div class="chip">Skin</div>
-<div class="chip">General</div>
-<div class="chip">Ortho</div>
-<div class="chip">Neuro</div>
+<div class="category-scroll">
+
+    <div class="cat">Cardio</div>
+    <div class="cat">Dental</div>
+    <div class="cat">Skin</div>
+    <div class="cat">General</div>
+    <div class="cat">Ortho</div>
+    <div class="cat">Neuro</div>
+
 </div>
 
-<!-- TOP DOCTOR CARD -->
+<!-- TOP DOCTORS -->
 <div class="card">
-<h3>⭐ Top Doctors Near You</h3>
 
-<div style="display:flex;justify-content:space-between;align-items:center;margin-top:15px;">
-<div>
-<b>Dr. Mehta</b><br>
-<small>Cardiologist • 12 yrs</small>
+    <div class="card-title">⭐ Top Doctors Near You</div>
+
+    <div class="doctor-row">
+        <div>
+            <div class="doc-name">Dr. Mehta</div>
+            <div class="doc-sub">Cardiologist • 12 yrs</div>
+        </div>
+
+        <button class="book-btn" onclick="openDoctor()">Book</button>
+    </div>
+
+    <hr>
+
+    <div class="doctor-row">
+        <div>
+            <div class="doc-name">Dr. Shah</div>
+            <div class="doc-sub">Dentist • 8 yrs</div>
+        </div>
+
+        <button class="book-btn" onclick="openDoctor()">Book</button>
+    </div>
+
 </div>
 
-<button class="btn" onclick="location.href='doctor-profile.html'">Book</button>
+<!-- AI -->
+<div class="card ai">
+    <div class="card-title">🤖 AI Symptom Checker</div>
+    <div class="card-sub">Check symptoms instantly and get doctor suggestion</div>
 </div>
 
-<hr style="margin:15px 0">
-
-<div style="display:flex;justify-content:space-between;align-items:center;">
-<div>
-<b>Dr. Shah</b><br>
-<small>Dentist • 8 yrs</small>
+<!-- MEDICINE -->
+<div class="card med">
+    <div class="card-title">💊 Order Medicines</div>
+    <div class="card-sub">Upload prescription & order at best price</div>
 </div>
 
-<button class="btn" onclick="location.href='doctor-profile.html'">Book</button>
+<!-- APPOINTMENT -->
+<div class="card">
+    <div class="card-title">📅 My Appointments</div>
+    <div class="card-sub">See your booked consultations</div>
 </div>
 
-</div>
-
-<!-- AI CARD -->
-<div class="card" onclick="location.href='ai.html'">
-<h3>🤖 AI Symptom Checker</h3>
-<p>Check symptoms instantly and get doctor suggestion</p>
-</div>
-
-<!-- MEDICINE CARD -->
-<div class="card" onclick="location.href='medicine.html'">
-<h3>💊 Order Medicines</h3>
-<p>Upload prescription & order at best price</p>
-</div>
-
-<!-- HISTORY CARD -->
-<div class="card" onclick="location.href='history.html'">
-<h3>📅 My Appointments</h3>
-<p>See your booked consultations</p>
-</div>
-
-<!-- EMERGENCY BUTTON -->
-<div class="emergency" onclick="location.href='emergency.html'">
-🚑
-</div>
+<!-- EMERGENCY FLOAT -->
+<div class="emergency" onclick="callAmbulance()">🚑</div>
 
 <!-- BOTTOM NAV -->
-<div class="bottomnav">
+<div class="bottom-nav">
 
-<div onclick="location.href='index.html'">
-🏠<br>
-<small>Home</small>
-</div>
+    <div onclick="goHome()">🏠<span>Home</span></div>
 
-<div onclick="location.href='doctors.html'">
-👨‍⚕️<br>
-<small>Doctors</small>
-</div>
+    <div onclick="goDoctors()">👨‍⚕️<span>Doctors</span></div>
 
-<div onclick="location.href='medicine.html'">
-💊<br>
-<small>Medicine</small>
-</div>
+    <div onclick="goMedicine()">💊<span>Medicine</span></div>
 
-<div onclick="location.href='profile.html'">
-👤<br>
-<small>Profile</small>
-</div>
+    <div onclick="goProfile()">👤<span>Profile</span></div>
 
 </div>
+
+<script>
+
+function openDoctor(){
+    window.location.href = "doctor-profile.html";
+}
+
+function callAmbulance(){
+    window.location.href = "tel:108";
+}
+
+function goDoctors(){
+    window.location.href = "doctors.html";
+}
+
+function goMedicine(){
+    window.location.href = "medicine.html";
+}
+
+function goProfile(){
+    window.location.href = "profile.html";
+}
+
+function goHome(){
+    window.location.href = "index.html";
+}
+
+</script>
 
 </body>
 </html>
