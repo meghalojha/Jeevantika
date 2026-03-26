@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Doctor Profile</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Doctor Profile</title>
 
 <style>
 body{
-font-family: Arial;
-background:#f3f4f6;
+font-family:Arial;
 margin:0;
+background:#f2f2f2;
 }
 
 .header{
-background:linear-gradient(90deg,#2e7d32,#4caf50);
+background:linear-gradient(90deg,#1b5e20,#43a047);
 color:white;
-padding:18px;
+padding:20px;
 font-size:22px;
-font-weight:bold;
 }
 
 .card{
@@ -25,24 +24,23 @@ background:white;
 margin:20px;
 padding:20px;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .slot{
-border:2px solid #2e7d32;
 padding:12px;
+border:2px solid #2e7d32;
 border-radius:12px;
-margin:6px;
 display:inline-block;
+margin:6px;
 cursor:pointer;
 }
 
-.slot.active{
+.active{
 background:#2e7d32;
 color:white;
 }
 
-.bookBar{
+.bookbar{
 position:fixed;
 bottom:0;
 left:0;
@@ -52,34 +50,35 @@ padding:12px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 -3px 10px rgba(0,0,0,0.1);
+box-shadow:0 -2px 8px rgba(0,0,0,0.2);
 }
 
-.bookBtn{
+.btn{
 background:#2e7d32;
 color:white;
+padding:12px 20px;
 border:none;
-padding:14px 20px;
 border-radius:25px;
 font-size:16px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="header">Dr Mehta</div>
 
 <div class="card">
-<h3>Select Slot</h3>
+
+<h2>Select Slot</h2>
 
 <div id="slots"></div>
 
 </div>
 
-<div class="bookBar">
-<div id="selectedText">No slot selected</div>
-<button class="bookBtn" onclick="bookNow()">Book Appointment</button>
+<div class="bookbar">
+<div id="info">No slot selected</div>
+<button class="btn" onclick="bookNow()">Book Appointment</button>
 </div>
 
 <!-- Firebase CDN -->
@@ -89,44 +88,42 @@ font-size:16px;
 <script>
 
 var firebaseConfig = {
-apiKey: "PUT YOUR KEY",
-authDomain: "PUT",
-projectId: "PUT",
-storageBucket: "PUT",
-messagingSenderId: "PUT",
-appId: "PUT"
+apiKey: "PASTE YOUR API KEY",
+authDomain: "jeevantika-6972.firebaseapp.com",
+projectId: "jeevantika-6972",
+storageBucket: "jeevantika-6972.appspot.com",
+messagingSenderId: "61584268994",
+appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
 };
 
 firebase.initializeApp(firebaseConfig);
+
 var db = firebase.firestore();
 
-let selectedSlot = null;
-let selectedDate = "Today";
+var selectedSlot = null;
 
-function renderSlots(){
+var slotList = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"];
 
-let arr = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"];
+var container = document.getElementById("slots");
 
-let container = document.getElementById("slots");
-container.innerHTML="";
+slotList.forEach(function(time){
 
-arr.forEach(function(time){
+var div = document.createElement("div");
+div.innerHTML = time;
+div.className = "slot";
 
-let div = document.createElement("div");
-div.className="slot";
-div.innerText=time;
+div.onclick = function(){
 
-div.onclick=function(){
-
-document.querySelectorAll(".slot")
-.forEach(function(s){ s.classList.remove("active") });
+document.querySelectorAll(".slot").forEach(function(s){
+s.classList.remove("active");
+});
 
 div.classList.add("active");
 
 selectedSlot = time;
 
-document.getElementById("selectedText")
-.innerText = selectedDate + " • " + time;
+document.getElementById("info").innerHTML =
+"Today • " + selectedSlot;
 
 };
 
@@ -134,35 +131,31 @@ container.appendChild(div);
 
 });
 
-}
-
-renderSlots();
-
 function bookNow(){
 
 if(!selectedSlot){
-alert("Please select slot");
+alert("Select slot first");
 return;
 }
 
-alert("Booking Click Working ✅");
+alert("Booking Started");
 
 db.collection("appointments").add({
 doctor:"Dr Mehta",
-date:selectedDate,
+date:"Today",
 time:selectedSlot,
 status:"booked"
 })
-.then(function(){
+.then(function(doc){
 
-alert("Appointment Saved ✅");
+alert("Booking Success ID: " + doc.id);
 
 window.location.href="history.html";
 
 })
 .catch(function(error){
 
-alert("Firebase Error → " + error.message);
+alert("Firestore Error: " + error);
 
 });
 
