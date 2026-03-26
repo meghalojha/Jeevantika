@@ -1,97 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book Appointment</title>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <style>
-body{
-font-family:Arial;
-background:#f4f7f6;
-margin:0;
-}
-
-.header{
-background:#2e7d32;
-color:white;
-padding:20px;
-font-size:22px;
-font-weight:bold;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
-
-.container{
-padding:20px;
-}
-
-input,select{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-margin-bottom:15px;
-}
-
-.slot{
+button{
 padding:10px;
-background:white;
-border-radius:10px;
-margin-bottom:10px;
-cursor:pointer;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
-}
-
-.slot.selected{
-background:#2e7d32;
-color:white;
-}
-
-.btn{
-background:#2e7d32;
-color:white;
-padding:14px;
-border:none;
-width:100%;
-border-radius:12px;
-font-size:16px;
-font-weight:bold;
+margin:5px;
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="header">
-📅 Book Appointment
-</div>
+<h2>Dr Mehta</h2>
 
-<div class="container">
+<h3>Select Slot</h3>
 
-<input type="text" id="doctor" placeholder="Doctor Name">
+<button onclick="selectSlot('10:00 AM')">10:00 AM</button>
+<button onclick="selectSlot('10:30 AM')">10:30 AM</button>
+<button onclick="selectSlot('11:30 AM')">11:30 AM</button>
 
-<input type="date" id="date">
+<br><br>
 
-<div id="slots"></div>
+<button onclick="bookNow()">Book Appointment</button>
 
-<button class="btn" onclick="book()">Confirm Booking</button>
+<script>
 
-</div>
-
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayRemove, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
-authDomain: "jeevantika-f6972.firebaseapp.com",
-projectId: "jeevantika-f6972",
-storageBucket: "jeevantika-f6972.firebasestorage.app",
-messagingSenderId: "61584268994",
-appId: "1:61584268994:web:faf80613e68b3c0acce55b"
+var firebaseConfig = {
+apiKey: "PASTE YOUR API KEY",
+authDomain: "PASTE",
+projectId: "PASTE",
+storageBucket: "PASTE",
+messagingSenderId: "PASTE",
+appId: "PASTE"
 };
 
-const app = initializeApp(firebaseConfig);
-const db
+firebase.initializeApp(firebaseConfig);
+
+var db = firebase.firestore();
+
+var selectedSlot = "";
+
+function selectSlot(time){
+selectedSlot = time;
+alert("Selected " + time);
+}
+
+function bookNow(){
+
+if(selectedSlot == ""){
+alert("Select slot first");
+return;
+}
+
+alert("Booking Started");
+
+db.collection("appointments").add({
+doctor:"Dr Mehta",
+date:"Today",
+time:selectedSlot,
+status:"booked"
+})
+.then(function(){
+alert("Booking Success");
+})
+.catch(function(error){
+alert("Error → " + error.message);
+});
+
+}
+
+</script>
+
+</body>
+</html>
