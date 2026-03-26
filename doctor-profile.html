@@ -1,124 +1,175 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Doctor Profile</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body { font-family: Arial; margin: 0; background: #f2f2f2; }
-.header { background: linear-gradient(90deg, #1b5e20, #43a047); color: white; padding: 20px; font-size: 22px; }
-.card { background: white; margin: 20px; padding: 20px; border-radius: 15px; }
-.slot { padding: 12px; border: 2px solid #2e7d32; border-radius: 12px; display: inline-block; margin: 6px; cursor: pointer; }
-.active { background: #2e7d32; color: white; }
-.bookbar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); }
-.btn { background: #2e7d32; color: white; padding: 12px 20px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; }
+
+body{
+font-family:Arial;
+margin:0;
+background:#0f0f0f;
+color:white;
+}
+
+.header{
+background:linear-gradient(90deg,#0f9d58,#0b7a43);
+padding:25px;
+font-size:26px;
+font-weight:bold;
+}
+
+.card{
+background:#1c1c1c;
+margin:20px;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+.slot{
+border:2px solid #0f9d58;
+padding:14px;
+border-radius:14px;
+display:inline-block;
+margin:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.activeSlot{
+background:#0f9d58;
+color:white;
+}
+
+.bottomBar{
+position:fixed;
+bottom:0;
+width:100%;
+background:#1c1c1c;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 -5px 20px rgba(0,0,0,0.6);
+}
+
+.bookBtn{
+background:#0f9d58;
+border:none;
+padding:15px 25px;
+border-radius:30px;
+color:white;
+font-size:16px;
+font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">Dr Mehta</div>
+<div class="header">
+Dr Mehta
+</div>
 
 <div class="card">
-  <h2>Select Slot</h2>
-  <div id="slots"></div>
+
+<h2>Select Slot</h2>
+
+<div class="slot" onclick="selectSlot(this,'10:00 AM')">10:00 AM</div>
+<div class="slot" onclick="selectSlot(this,'10:30 AM')">10:30 AM</div>
+<div class="slot" onclick="selectSlot(this,'11:30 AM')">11:30 AM</div>
+<div class="slot" onclick="selectSlot(this,'12:00 PM')">12:00 PM</div>
+<div class="slot" onclick="selectSlot(this,'02:00 PM')">02:00 PM</div>
+
 </div>
 
-<div class="bookbar">
-  <div id="info">No slot selected</div>
-  <button class="btn" onclick="bookNow()">Book Appointment</button>
+<div class="bottomBar">
+<div id="summary">No slot selected</div>
+<button id="bookBtn" class="bookBtn" onclick="bookNow()">Book Appointment</button>
 </div>
+
+
+<!-- FIREBASE CDN -->
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-// 1. DRAW THE UI FIRST (So the screen is never blank)
-var selectedSlot = null;
-var slotList = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"];
-var container = document.getElementById("slots");
-var infoBar = document.getElementById("info");
 
-slotList.forEach(function(time){
-  var div = document.createElement("div");
-  div.innerHTML = time;
-  div.className = "slot";
-
-  div.onclick = function(){
-    document.querySelectorAll(".slot").forEach(function(s){
-      s.classList.remove("active");
-    });
-    
-    div.classList.add("active");
-    selectedSlot = time;
-    infoBar.innerHTML = "Today • " + selectedSlot;
-    infoBar.style.color = "black";
-  };
-  container.appendChild(div);
-});
-
-// 2. SAFELY INITIALIZE FIREBASE
-var db;
-try {
-  var firebaseConfig = {
-    apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+var firebaseConfig = {
+apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
     authDomain: "jeevantika-6972.firebaseapp.com",
     projectId: "jeevantika-6972",
     storageBucket: "jeevantika-6972.appspot.com",
     messagingSenderId: "61584268994",
-    appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
-  };
+    appId: "1:61584268994:web:7c1dc303f82eeca9cce55b
+};
 
-  // Prevent double-initialization errors
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  db = firebase.firestore();
-  
-} catch(error) {
-  // If Firebase fails, print it to the screen!
-  infoBar.innerHTML = "App Error: " + error.message;
-  infoBar.style.color = "red";
-  infoBar.style.fontSize = "12px";
+firebase.initializeApp(firebaseConfig);
+
+var db = firebase.firestore();
+
+var selectedSlot = "";
+var selectedDate = "Today";
+
+function selectSlot(el,time){
+
+selectedSlot = time;
+
+document.querySelectorAll(".slot").forEach(function(btn){
+btn.classList.remove("activeSlot");
+});
+
+el.classList.add("activeSlot");
+
+document.getElementById("summary").innerHTML =
+selectedDate + " • " + selectedSlot;
+
 }
 
-// 3. HANDLE BOOKING
 function bookNow(){
-  if(!selectedSlot){
-    infoBar.innerHTML = "Please select a time first.";
-    infoBar.style.color = "red";
-    return;
-  }
 
-  if(!db) {
-    infoBar.innerHTML = "Database disconnected. Please refresh.";
-    infoBar.style.color = "red";
-    return;
-  }
-
-  var bookBtn = document.querySelector(".btn");
-  bookBtn.innerHTML = "Booking...";
-  bookBtn.disabled = true;
-  bookBtn.style.opacity = "0.7";
-
-  db.collection("appointments").add({
-    doctor: "Dr Mehta",
-    date: "Today",
-    time: selectedSlot,
-    status: "booked"
-  })
-  .then(function(doc){
-    bookBtn.innerHTML = "Success!";
-    window.location.href = "history.html";
-  })
-  .catch(function(error){
-    bookBtn.innerHTML = "Book Appointment";
-    bookBtn.disabled = false;
-    bookBtn.style.opacity = "1";
-    infoBar.innerHTML = "Error: " + error.message;
-    infoBar.style.color = "red";
-  });
+if(selectedSlot == ""){
+alert("Please select slot");
+return;
 }
+
+document.getElementById("bookBtn").innerHTML = "Booking...";
+document.getElementById("bookBtn").disabled = true;
+
+db.collection("appointments").add({
+doctor:"Dr Mehta",
+date:selectedDate,
+time:selectedSlot,
+status:"booked",
+createdAt: new Date()
+})
+.then(function(){
+
+alert("✅ Appointment Booked");
+
+document.getElementById("bookBtn").innerHTML = "Booked";
+
+setTimeout(function(){
+window.location.href = "history.html";
+},1000);
+
+})
+.catch(function(error){
+
+alert("❌ Firebase Error → " + error.message);
+
+document.getElementById("bookBtn").innerHTML = "Book Appointment";
+document.getElementById("bookBtn").disabled = false;
+
+});
+
+}
+
 </script>
 
 </body>
