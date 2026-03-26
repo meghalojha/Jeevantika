@@ -7,10 +7,22 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
-button{
-padding:10px;
-margin:5px;
-}
+  button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    cursor: pointer;
+  }
+  .selected {
+    background-color: #198754;
+    color: white;
+  }
+  #statusMessage {
+    margin-top: 15px;
+    font-weight: bold;
+  }
 </style>
 
 </head>
@@ -21,60 +33,85 @@ margin:5px;
 
 <h3>Select Slot</h3>
 
-<button onclick="selectSlot('10:00 AM')">10:00 AM</button>
-<button onclick="selectSlot('10:30 AM')">10:30 AM</button>
-<button onclick="selectSlot('11:30 AM')">11:30 AM</button>
+<button id="btn1" onclick="selectSlot('10:00 AM', 'btn1')">10:00 AM</button>
+<button id="btn2" onclick="selectSlot('10:30 AM', 'btn2')">10:30 AM</button>
+<button id="btn3" onclick="selectSlot('11:30 AM', 'btn3')">11:30 AM</button>
 
 <br><br>
 
-<button onclick="bookNow()">Book Appointment</button>
+<button id="bookBtn" onclick="bookNow()" style="background-color: #0d6efd; color: white;">Book Appointment</button>
+
+<p id="statusMessage"></p>
 
 <script>
-
+// IMPORTANT: Make sure you replace "PASTE" with your actual Firebase project details!
 var firebaseConfig = {
-apiKey: "PASTE YOUR API KEY",
-authDomain: "PASTE",
-projectId: "PASTE",
-storageBucket: "PASTE",
-messagingSenderId: "PASTE",
-appId: "PASTE"
+  apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+  authDomain: "jeevantika-f6972.firebaseapp.com",
+  projectId: "jeevantika-f6972",
+  storageBucket: "jeevantika-f6972.firebasestorage.app",
+  messagingSenderId: "61584268994",
+  appId: "1:61584268994:web:71cdc303f82eeca9cce55b",
+  measurementId: "G-Z2KG2VXHYD"
 };
 
 firebase.initializeApp(firebaseConfig);
-
 var db = firebase.firestore();
 
 var selectedSlot = "";
+var statusText = document.getElementById("statusMessage");
+var bookButton = document.getElementById("bookBtn");
 
-function selectSlot(time){
-selectedSlot = time;
-alert("Selected " + time);
+function selectSlot(time, btnId) {
+  selectedSlot = time;
+  
+  // Reset all button colors
+  document.getElementById("btn1").classList.remove("selected");
+  document.getElementById("btn2").classList.remove("selected");
+  document.getElementById("btn3").classList.remove("selected");
+  
+  // Highlight the clicked button
+  document.getElementById(btnId).classList.add("selected");
+  
+  // Update status message instead of alerting
+  statusText.innerText = "Selected " + time;
+  statusText.style.color = "black";
 }
 
-function bookNow(){
+function bookNow() {
+  if(selectedSlot == "") {
+    statusText.innerText = "Please select a time slot first.";
+    statusText.style.color = "red";
+    return;
+  }
 
-if(selectedSlot == ""){
-alert("Select slot first");
-return;
+  // 1. Update UI to show it's loading (Replaces alert("Booking Started"))
+  bookButton.innerText = "Booking...";
+  bookButton.disabled = true;
+  statusText.innerText = "Saving your appointment...";
+  statusText.style.color = "orange";
+
+  // 2. Send to Firebase
+  db.collection("appointments").add({
+    doctor: "Dr Mehta",
+    date: "Today",
+    time: selectedSlot,
+    status: "booked"
+  })
+  .then(function() {
+    // 3. Success UI (Replaces alert("Booking Success"))
+    bookButton.innerText = "Booked!";
+    statusText.innerText = "Success! Your appointment is confirmed.";
+    statusText.style.color = "green";
+  })
+  .catch(function(error) {
+    // 4. Error UI (Replaces alert("Error"))
+    bookButton.innerText = "Book Appointment";
+    bookButton.disabled = false;
+    statusText.innerText = "Error: " + error.message;
+    statusText.style.color = "red";
+  });
 }
-
-alert("Booking Started");
-
-db.collection("appointments").add({
-doctor:"Dr Mehta",
-date:"Today",
-time:selectedSlot,
-status:"booked"
-})
-.then(function(){
-alert("Booking Success");
-})
-.catch(function(error){
-alert("Error → " + error.message);
-});
-
-}
-
 </script>
 
 </body>
