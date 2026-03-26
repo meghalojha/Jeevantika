@@ -91,10 +91,11 @@ try {
     appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
   };
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  db = firebase.firestore();
+   if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+}
+
+var db = firebase.firestore();
   
   // FIX: Force Long Polling to bypass aggressive mobile network blockers!
   db.settings({ experimentalForceLongPolling: true });
