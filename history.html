@@ -1,88 +1,70 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Bookings</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Bookings</title>
+
+<style>
 body{
 font-family:Arial;
-background:#f4f6f8;
-margin:0;
+background:#111;
+color:white;
 padding:20px;
 }
 
 .card{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-margin-bottom:15px;
+background:#1e1e1e;
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
 }
+</style>
 
-.title{
-font-weight:bold;
-font-size:18px;
-}
+</head>
+<body>
 
-.meta{
-color:gray;
-margin-top:5px;
-}
-</style></head><body><h2>My Appointments</h2><div id="list"></div><script type="module">
+<h2>My Appointments</h2>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<div id="list">Loading...</div>
 
-const firebaseConfig = {
-apiKey: "PASTE",
-authDomain: "PASTE",
-projectId: "PASTE",
-storageBucket: "PASTE",
-messagingSenderId: "PASTE",
-appId: "PASTE"
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+
+var firebaseConfig = {
+apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+authDomain: "jeevantika-6972.firebaseapp.com",
+projectId: "jeevantika-6972"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
-const querySnapshot = await getDocs(collection(db,"appointments"));
+db.collection("appointments")
+.get()
+.then(function(snapshot){
 
-querySnapshot.forEach(doc=>{
+var html="";
 
-let data = doc.data();
+snapshot.forEach(function(doc){
 
-document.getElementById("list").innerHTML += `
+var d=doc.data();
+
+html+=`
 <div class="card">
-<div class="title">${data.doctor}</div>
-<div class="meta">Date: ${data.date}</div>
-<div class="meta">Time: ${data.time}</div>
+Doctor: ${d.doctor}<br>
+Date: ${d.date}<br>
+Time: ${d.time}<br>
+Status: ${d.status}
 </div>
 `;
 
 });
 
-</script></body>
-</html>if(querySnapshot.empty){
-box.innerHTML="<div class='empty'>No appointments yet</div>";
-return;
-}
-
-querySnapshot.forEach(doc=>{
-
-const data = doc.data();
-
-box.innerHTML += `
-<div class="card">
-<div class="doctor">${data.doctor}</div>
-<div class="info">📅 ${data.date}</div>
-<div class="info">⏰ ${data.time}</div>
-<div class="status">✅ ${data.status}</div>
-</div>
-`;
+document.getElementById("list").innerHTML=html || "No bookings";
 
 });
-
-}
-
-loadAppointments();
 
 </script>
 
