@@ -1,176 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Doctor Profile</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
+body { font-family: Arial; margin: 0; background: #f2f2f2; padding-bottom: 100px; }
+.header { background: linear-gradient(90deg, #1b5e20, #43a047); color: white; padding: 20px; font-size: 22px; }
+.card { background: white; margin: 20px; padding: 20px; border-radius: 15px; }
+.slot { padding: 12px; border: 2px solid #2e7d32; border-radius: 12px; display: inline-block; margin: 6px; cursor: pointer; }
+.active { background: #2e7d32; color: white; }
+.bookbar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); z-index: 10;}
+.btn { background: #2e7d32; color: white; padding: 12px 20px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; }
 
-body{
-font-family:Arial;
-margin:0;
-background:#0f0f0f;
-color:white;
+/* The X-Ray Debugger Screen */
+#debug-screen {
+  background: black; color: #00ff00; padding: 15px; margin: 20px; 
+  font-family: monospace; font-size: 10px; border-radius: 8px; 
+  overflow-wrap: break-word; max-height: 200px; overflow-y: scroll;
 }
-
-.header{
-background:linear-gradient(90deg,#0f9d58,#0b7a43);
-padding:25px;
-font-size:26px;
-font-weight:bold;
-}
-
-.card{
-background:#1c1c1c;
-margin:20px;
-padding:25px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
-
-.slot{
-border:2px solid #0f9d58;
-padding:14px;
-border-radius:14px;
-display:inline-block;
-margin:8px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.activeSlot{
-background:#0f9d58;
-color:white;
-}
-
-.bottomBar{
-position:fixed;
-bottom:0;
-width:100%;
-background:#1c1c1c;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 -5px 20px rgba(0,0,0,0.6);
-}
-
-.bookBtn{
-background:#0f9d58;
-border:none;
-padding:15px 25px;
-border-radius:30px;
-color:white;
-font-size:16px;
-font-weight:bold;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="header">
-Dr Mehta
-</div>
+<div class="header">Dr Mehta</div>
 
 <div class="card">
-
-<h2>Select Slot</h2>
-
-<div class="slot" onclick="selectSlot(this,'10:00 AM')">10:00 AM</div>
-<div class="slot" onclick="selectSlot(this,'10:30 AM')">10:30 AM</div>
-<div class="slot" onclick="selectSlot(this,'11:30 AM')">11:30 AM</div>
-<div class="slot" onclick="selectSlot(this,'12:00 PM')">12:00 PM</div>
-<div class="slot" onclick="selectSlot(this,'02:00 PM')">02:00 PM</div>
-
+  <h2>Select Slot</h2>
+  <div id="slots"></div>
 </div>
 
-<div class="bottomBar">
-<div id="summary">No slot selected</div>
-<button id="bookBtn" class="bookBtn" onclick="bookNow()">Book Appointment</button>
+<div id="debug-screen">System Logs Starting...<br></div>
+
+<div class="bookbar">
+  <div id="info" style="font-size: 14px;">No slot selected</div>
+  <button class="btn" onclick="bookNow()">Book Appointment</button>
 </div>
-
-
-<!-- FIREBASE CDN -->
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
+// 1. CATCH ALL MOBILE ERRORS AND PRINT THEM TO THE SCREEN
+var debugScreen = document.getElementById("debug-screen");
+window.onerror = function(message) {
+  debugScreen.innerHTML += "<br><span style='color:red'>JS Error: " + message + "</span>";
+};
+var oldConsoleError = console.error;
+console.error = function(message) {
+  debugScreen.innerHTML += "<br><span style='color:red'>System Error: " + message + "</span>";
+  oldConsoleError.apply(console, arguments);
+};
 
-var firebaseConfig = {
-apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+// Force Firebase to print its hidden internal connection logs
+firebase.firestore.setLogLevel('debug');
+debugScreen.innerHTML += "<br>Firebase SDK Loaded.";
+
+// 2. UI SETUP
+var selectedSlot = null;
+var slotList = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"];
+var container = document.getElementById("slots");
+var infoBar = document.getElementById("info");
+
+slotList.forEach(function(time){
+  var div = document.createElement("div");
+  div.innerHTML = time;
+  div.className = "slot";
+
+  div.onclick = function(){
+    document.querySelectorAll(".slot").forEach(function(s){
+      s.classList.remove("active");
+    });
+    div.classList.add("active");
+    selectedSlot = time;
+    infoBar.innerHTML = "Today • " + selectedSlot;
+  };
+  container.appendChild(div);
+});
+
+// 3. FIREBASE SETUP
+var db;
+try {
+  var firebaseConfig = {
+    apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
     authDomain: "jeevantika-6972.firebaseapp.com",
     projectId: "jeevantika-6972",
     storageBucket: "jeevantika-6972.appspot.com",
     messagingSenderId: "61584268994",
-    appId: "1:61584268994:web:7c1dc303f82eeca9cce55b
-};
+    appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
+  };
 
-firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  db = firebase.firestore();
+  
+  // FIX: Force Long Polling to bypass aggressive mobile network blockers!
+  db.settings({ experimentalForceLongPolling: true });
+  debugScreen.innerHTML += "<br>Database Initialized. Long Polling Active.";
 
-var db = firebase.firestore();
-
-var selectedSlot = "";
-var selectedDate = "Today";
-
-function selectSlot(el,time){
-
-selectedSlot = time;
-
-document.querySelectorAll(".slot").forEach(function(btn){
-btn.classList.remove("activeSlot");
-});
-
-el.classList.add("activeSlot");
-
-document.getElementById("summary").innerHTML =
-selectedDate + " • " + selectedSlot;
-
+} catch(error) {
+  debugScreen.innerHTML += "<br><span style='color:red'>Init Error: " + error.message + "</span>";
 }
 
+// 4. BOOKING FUNCTION
 function bookNow(){
 
-if(selectedSlot == ""){
-alert("Please select slot");
+if(!selectedSlot){
+infoBar.innerHTML="Please select time";
+infoBar.style.color="red";
 return;
 }
 
-document.getElementById("bookBtn").innerHTML = "Booking...";
-document.getElementById("bookBtn").disabled = true;
+var bookBtn=document.querySelector(".btn");
+bookBtn.innerHTML="Booking...";
+bookBtn.disabled=true;
 
+debugScreen.innerHTML+="<br>Sending booking request...";
+
+// 🔥 SAFETY TIMEOUT (Very Important)
+var safetyTimer=setTimeout(function(){
+debugScreen.innerHTML+="<br><span style='color:red'>Timeout — Firebase Not Responding</span>";
+bookBtn.innerHTML="Retry";
+bookBtn.disabled=false;
+},8000);
+
+// 🔥 REAL WRITE
 db.collection("appointments").add({
 doctor:"Dr Mehta",
-date:selectedDate,
+date:"Today",
 time:selectedSlot,
-status:"booked",
-createdAt: new Date()
+status:"booked"
 })
-.then(function(){
+.then(function(doc){
 
-alert("✅ Appointment Booked");
+clearTimeout(safetyTimer);
 
-document.getElementById("bookBtn").innerHTML = "Booked";
+debugScreen.innerHTML+="<br><span style='color:yellow'>Booked ID: "+doc.id+"</span>";
+
+bookBtn.innerHTML="Success";
 
 setTimeout(function(){
-window.location.href = "history.html";
-},1000);
+window.location.href="history.html";
+},1200);
 
 })
 .catch(function(error){
 
-alert("❌ Firebase Error → " + error.message);
+clearTimeout(safetyTimer);
 
-document.getElementById("bookBtn").innerHTML = "Book Appointment";
-document.getElementById("bookBtn").disabled = false;
+debugScreen.innerHTML+="<br><span style='color:red'>Error: "+error.message+"</span>";
+
+bookBtn.innerHTML="Retry";
+bookBtn.disabled=false;
 
 });
 
 }
-
-</script>
-
-</body>
-</html>
