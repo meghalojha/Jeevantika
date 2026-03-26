@@ -1,19 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doctor Profile</title>
+
+<style>
+body { font-family: Arial; margin: 0; background: #f2f2f2; }
+.header { background: linear-gradient(90deg, #1b5e20, #43a047); color: white; padding: 20px; font-size: 22px; }
+.card { background: white; margin: 20px; padding: 20px; border-radius: 15px; }
+.slot { padding: 12px; border: 2px solid #2e7d32; border-radius: 12px; display: inline-block; margin: 6px; cursor: pointer; }
+.active { background: #2e7d32; color: white; }
+.bookbar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -2px 8px rgba(0,0,0,0.2); }
+.btn { background: #2e7d32; color: white; padding: 12px 20px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; }
+</style>
+</head>
+
+<body>
+
+<div class="header">Dr Mehta</div>
+
+<div class="card">
+  <h2>Select Slot</h2>
+  <div id="slots"></div>
+</div>
+
+<div class="bookbar">
+  <div id="info">No slot selected</div>
+  <button class="btn" onclick="bookNow()">Book Appointment</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script>
-var firebaseConfig = {
-  apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
-  authDomain: "jeevantika-6972.firebaseapp.com",
-  projectId: "jeevantika-6972",
-  storageBucket: "jeevantika-6972.appspot.com",
-  messagingSenderId: "61584268994",
-  appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
-};
-
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-
+// 1. DRAW THE UI FIRST (So the screen is never blank)
 var selectedSlot = null;
 var slotList = ["10:00 AM","10:30 AM","11:30 AM","12:00 PM","02:00 PM"];
 var container = document.getElementById("slots");
+var infoBar = document.getElementById("info");
 
 slotList.forEach(function(time){
   var div = document.createElement("div");
@@ -27,18 +51,51 @@ slotList.forEach(function(time){
     
     div.classList.add("active");
     selectedSlot = time;
-    document.getElementById("info").innerHTML = "Today • " + selectedSlot;
+    infoBar.innerHTML = "Today • " + selectedSlot;
+    infoBar.style.color = "black";
   };
   container.appendChild(div);
 });
 
+// 2. SAFELY INITIALIZE FIREBASE
+var db;
+try {
+  var firebaseConfig = {
+    apiKey: "AIzaSyBIEXLovtA6p7n0Qev6i4t7pnrGm1C9dsA",
+    authDomain: "jeevantika-6972.firebaseapp.com",
+    projectId: "jeevantika-6972",
+    storageBucket: "jeevantika-6972.appspot.com",
+    messagingSenderId: "61584268994",
+    appId: "1:61584268994:web:7c1dc303f82eeca9cce55b"
+  };
+
+  // Prevent double-initialization errors
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  db = firebase.firestore();
+  
+} catch(error) {
+  // If Firebase fails, print it to the screen!
+  infoBar.innerHTML = "App Error: " + error.message;
+  infoBar.style.color = "red";
+  infoBar.style.fontSize = "12px";
+}
+
+// 3. HANDLE BOOKING
 function bookNow(){
   if(!selectedSlot){
-    alert("Select slot first");
+    infoBar.innerHTML = "Please select a time first.";
+    infoBar.style.color = "red";
     return;
   }
 
-  // Visual feedback INSTEAD of alert()
+  if(!db) {
+    infoBar.innerHTML = "Database disconnected. Please refresh.";
+    infoBar.style.color = "red";
+    return;
+  }
+
   var bookBtn = document.querySelector(".btn");
   bookBtn.innerHTML = "Booking...";
   bookBtn.disabled = true;
@@ -52,15 +109,17 @@ function bookNow(){
   })
   .then(function(doc){
     bookBtn.innerHTML = "Success!";
-    // It will instantly redirect to history.html
     window.location.href = "history.html";
   })
   .catch(function(error){
     bookBtn.innerHTML = "Book Appointment";
     bookBtn.disabled = false;
     bookBtn.style.opacity = "1";
-    alert("Firestore Error: " + error.message);
+    infoBar.innerHTML = "Error: " + error.message;
+    infoBar.style.color = "red";
   });
 }
 </script>
 
+</body>
+</html>
